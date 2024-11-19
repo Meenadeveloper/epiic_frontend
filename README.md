@@ -19,6 +19,10 @@ Add a homepage Field to package.json: In your package.json file, add a homepage 
   "eject": "react-scripts eject"
 }
 
+<!-- install bootstrap -->
+npm install bootstrap
+
+
 
 # Getting Started with Create React App
 

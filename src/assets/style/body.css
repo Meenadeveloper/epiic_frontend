@@ -1,0 +1,120 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+
+:root {
+    --purple :#9F5D98 ;
+    --yellow: #F49546;
+    --blue: #5D79EF  ;
+  
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6, p, li, span, a , div{
+    color: white !important; /* Applies white color to specific elements */
+  }
+  
+  .body-bg{
+    width: 100%;
+    height: 100%;
+    background: #0F0F0F;
+    overflow: hidden;
+  }
+  
+  .bg-box{
+    max-width: 1140px;
+    /* height: 100%; */
+    margin: 0 auto;
+    position: relative;
+   }
+   .color-blue{
+    display: block;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+    background: #5D79EF;
+    filter: blur(200px);
+  
+    /* Vector */
+  
+  position: absolute;
+  width: 576.02px;
+  height: 1019.92px;
+  left: 188px;
+  top: -53.07px;
+  border-radius: 79% 21% 63% 37% / 29% 63% 37% 71% ;
+  background: #5D79EF;
+  opacity: 0.8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transform: matrix(0.83, -0.56, 0.15, 0.99, 0, 0);
+  
+  
+  }
+  .color-purple{
+    display: block;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-90%, -100%);
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+    background: #9F5D98;
+    filter: blur(200px);
+  
+  
+    /* Vector */
+  
+  position: absolute;
+  width: 577.61px;
+  height: 1189.82px;
+  left: 309px;
+  top: 323.39px;
+  border-radius: 53% 47% 81% 19% / 29% 84% 16% 71% ;
+  background: #9F5D98;
+  opacity: 0.8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transform: matrix(0.83, -0.56, 0.15, 0.99, 0, 0);
+  
+  }
+  .color-yellow{
+    display: block;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(50%, -50%);
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    background: #F49546;
+   filter: blur(200px);
+  /* Vector */
+  
+  position: absolute;
+  width: 659.83px;
+  height: 900.14px;
+  left: 664.43px;
+  top: 29.82px;
+  border-radius: 51% 49% 70% 30% / 30% 36% 64% 70% ;
+  background: #F49546;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transform: matrix(0.83, -0.56, 0.15, 0.99, 0, 0);
+  
+  
+  }
+
+  .page-wrapper{
+    position: relative;
+  }
