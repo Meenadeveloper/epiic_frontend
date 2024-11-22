@@ -23,6 +23,10 @@ Add a homepage Field to package.json: In your package.json file, add a homepage 
 npm install bootstrap
 
 
+<!-- swiper slider install -->
+ npm install swiper
+
+
 
 # Getting Started with Create React App
 

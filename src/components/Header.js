@@ -14,9 +14,9 @@ function Header() {
          
             <div className='custom-container'>
             <div className="inner-nav">
-            <a className="navbar-brand" href="#">
+            <Link className="navbar-brand" to="#">
             <Logo   className='logo-img' />
-            </a>
+            </Link>
             
             <div className="menu-box">
               <ul className="menu-list-box ">

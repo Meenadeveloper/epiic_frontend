@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import Header from "../components/Header";
 import Banner from "../components/Banner";
+import EpiicUsers from "../components/EpiicUsers";
 function Home() {
   
 
@@ -18,6 +18,8 @@ function Home() {
         <Header/>
         
         <Banner/>
+
+        <EpiicUsers/>
   </div>
 
 </div>

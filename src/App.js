@@ -4,6 +4,7 @@ import './assets/style/components.css';
 import './assets/style/body.css';
 import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
 import Home from './page/Home';
+import CorporateLogin from './page/CorporateLogin';
 function App() {
   return (
     <>
@@ -11,7 +12,9 @@ function App() {
    <Router> 
      
         <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/corporate-login" element={<CorporateLogin />} />
+
           
         </Routes>
      

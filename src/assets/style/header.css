@@ -52,7 +52,6 @@
 .custom-container{
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0px 10px;
 }
 
 .menu-list-box {
@@ -75,6 +74,10 @@
 .menu-link{
     text-decoration: none;
 }
+.mobile-menu-box{
+    display: none;
+
+}
 .mobile-menu-open-btn{
 border: none;
 background: #fff;
@@ -85,7 +88,6 @@ height: 30px;
 display: flex !important;
 justify-content: center !important;
 align-items: center !important;
-display: none;
 }
 .mobile-menu-open-btn span{
     color: #000000 !important;
@@ -106,7 +108,7 @@ display: none;
     .menu-box{
         display: none;
     }
-    .mobile-menu-open-btn{
+    .mobile-menu-box{
         display: block;
     }
     .desktop-nav {
