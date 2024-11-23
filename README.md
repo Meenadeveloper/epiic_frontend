@@ -26,7 +26,12 @@ npm install bootstrap
 <!-- swiper slider install -->
  npm install swiper
 
-
+<!-- Install react-helmet -->
+npm install react-helmet
+<!-- a link package Link -->
+npm install react-router-dom
+<!-- mpbile -->
+  npm install react-phone-number-input@latest
 
 # Getting Started with Create React App
 

@@ -170,3 +170,429 @@ text-align: center;
     min-width: 197px;
     min-height: 218px;
   }
+
+  /* login form */
+  .back-btn-box{
+    width: 100%;
+   padding: 10px 20px;
+  }
+  .back-btn{
+    border: none;
+    outline: none;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+
+  }
+  .login-container , .register-container{
+    padding: 30px 0px;
+  }
+  .login-grid-box{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+    gap: 20px; /* Space between columns */
+    padding: 20px;
+    max-height: 100vh;
+  }
+  @media (max-width: 768px) {
+    .login-grid-box {
+      grid-template-columns: 1fr; /* 1 column */
+      padding: 10px;
+    }
+  }
+  .login-tittle-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .login-head{
+    font-size: clamp(20px, 4vw, 45px);
+    font-weight: 800;
+    padding-bottom: 10px;
+    list-style: 65px;
+  }
+  .login-text{
+    font-size: clamp(16px, 4vw, 30px);
+    font-weight: 700;
+    padding-top: 15px;
+  }
+  .login-form-box{
+    max-width: 450px;
+    min-width: 280px;
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.25);
+   padding: 25px 20px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   border-radius: 20px;
+  }
+  .login-form-heading{
+    color: rgba(0, 0, 0, 1) !important;
+   font-size: 24px;
+    font-weight: 700 !important;
+   line-height: 26px;
+text-align: center;
+  }
+  .login-form{
+    margin-top: 40px;
+
+   
+  }
+  .form-control{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+   margin-bottom: 20px;
+   width: 100%;
+   align-items: center;
+    justify-content: center;
+    
+  }
+  .input-label{
+    color: rgba(0, 0, 0, 1);
+    font-size: 18px;
+    font-weight: 700;
+    padding-left: 10px;
+    width: 100%;
+    max-width: 352px;
+
+  }
+  .input-text{
+    border: 1.03px solid rgba(120, 120, 120, 1);
+    outline: none;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+   border-radius: 18px;
+   width: 100%;
+   height: 44px;
+   background: transparent;
+   padding-left: 20px;
+   max-width: 352px;
+
+  }
+
+  input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: rgb(65, 64, 64);
+  font-size: 12px;
+  font-weight: 600;
+}
+.form-link-box{
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 0px 10px;
+}
+.forgot-link{
+  float: right;
+font-size: 14px;
+font-weight: 700;
+line-height: 26px;
+text-decoration: none;
+color: rgba(0, 0, 0, 1) !important;
+}
+.login-btn , .submit-btn{
+font-size: 18px;
+font-weight: 700;
+line-height: 26px;
+color: rgba(0, 0, 0, 1);
+padding: 6px 30px;
+border: none;
+border-radius: 20px;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+background: rgba(255, 255, 255, 1);
+margin-top: 15px;
+cursor: pointer;
+
+}
+.form-multi-link{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: rgba(0, 0, 0, 1) !important;
+
+}
+.form-link ,.sign-link{
+font-size: 14px;
+font-weight: 600;
+line-height: 26px;
+text-decoration: none;
+color: rgba(0, 0, 0, 1) !important;
+}
+.error-input label{
+color: rgba(255, 0, 0, 1) !important;
+}
+.error-input input{
+  border: 1px solid rgba(255, 0, 0, 1);
+  }
+
+  .error-input  input::placeholder,
+  .error-input textarea::placeholder,
+  .error-input select::placeholder{
+    color: rgba(255, 0, 0, 1) !important;
+    font-weight: 400;
+
+  }
+  .error-input .error{
+    color: rgba(196, 0, 0, 1) !important;
+    font-size: 12px;
+    font-weight: 600;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+    position: relative;
+  }
+  .error-input .error::after{
+    content: '';
+    background-image: url('../images/Error.svg');
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 3px;
+    right: 5px;
+  }
+
+  /* register form */
+  .register-form-container{
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    width: 100%;
+  
+  }
+  .register-form-box{
+    max-width: 960px;
+    min-width: 300px;
+    margin: 0 auto;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.589);
+    box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    color: rgba(0, 0, 0, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  .register-heading h2{
+font-size: 24px;
+font-weight: 700;
+line-height: 26px;
+color: rgba(0, 0, 0, 1) !important;
+padding: 40px 10px;
+text-align: center;
+  }
+  .register-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+    gap: 10px; /* Space between columns */
+    justify-items: center; /* Center grid items horizontally */
+    align-items: center; /* Center grid items vertically */
+    padding: 5px;
+    padding-bottom: 20px;
+  }
+  
+  .register-col {
+    width: 100%; /* Ensure columns take full width */
+    height: 100%;
+  }
+  
+  .register-form-control {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-width: 350px;
+    height: 100%;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  
+  .register-label {
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    padding-left: 10px;
+    color: rgba(0, 0, 0, 1) !important;
+  }
+  
+  .register-input {
+    padding: 10px 20px;
+    width: 100%; /* Ensure the input takes the full width of the column */
+    max-width: 350px; /* Optionally limit the input width */
+    border-radius: 20px;
+    outline: none;
+    background-color: transparent;
+    border: 1.03px solid rgba(120, 120, 120, 1);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    height: 45px;
+    font-size: 12px;
+
+  }
+  .otp-btn
+  {
+    width: fit-content;
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: 2.03px solid rgba(120, 120, 120, 1);
+    outline: none;
+    background: #ffff;
+    color: rgba(0, 0, 0, 1);
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 25px;
+    cursor: pointer;
+  }
+  .register-input::placeholder{
+    color: rgb(65, 64, 64);
+    font-weight: 500;
+  }
+  .register-terms{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+  }
+  .checkbox-box
+  {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .checkbox-box p{
+    color: #000 !important;
+    font-weight: 700;
+    font-size: 16px;
+
+  }
+  .term-checkbox{
+    width: 20px;
+    height: 20px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+ background: #fff;
+  }
+  .PhoneInputInput {
+    flex: 1 1;
+    min-width: 0;
+    height: 35px;
+    background: transparent;
+    outline: none;
+    border: none;
+}
+.PhoneInputCountrySelectArrow {
+  color: #000000 !important;
+  padding-left: 5px;
+
+}
+.mobile-input{
+  padding: 0px 10px;
+}
+.PhoneInputCountryIcon {
+ 
+  width: 30px;
+  height: 30px;
+}
+.PhoneInputCountrySelectArrow {
+  width: 15px !important;
+  height: 15px !important;
+  background-image: url('../images/spin.png') !important; /* Replace with your image URL */
+  background-size: cover !important; /* Ensure the image covers the entire area */
+  background-repeat: no-repeat !important; /* Prevent the image from repeating */
+  background-position: center !important; /* Center the image inside the element */
+  margin: 0px 5px;
+  border: none;
+  transform: rotate(0deg) !important;
+  border: 0px !important;
+}
+
+.verify-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  align-items: end;
+}
+.resent-otp{
+  color: #000000 !important;
+  text-decoration: none;
+  font-size: 12px;
+}
+.otp-box{
+  flex-direction: row;
+    gap: 15px;
+}
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Space between the input boxes */
+}
+
+.otp-input {
+  width: 40px; /* Set the width of the input boxes */
+  height: 40px; /* Set the height of the input boxes */
+  text-align: center; /* Center the number inside the input */
+  font-size: 24px; /* Increase the font size */
+  border: 1px solid #ccc; /* Border around the input */
+  border-radius: 5px; /* Rounded corners for the input */
+  outline: none;
+  transition: border-color 0.3s ease; /* Smooth border color transition */
+  -webkit-appearance: none; /* Hide spinner in webkit browsers */
+  appearance: none; /* Hide spinner in non-webkit browsers */
+}
+
+.otp-input:focus {
+  border-color: #009fe3; /* Change border color when focused */
+}
+
+.resent-otp {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #009fe3;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.resent-otp:hover {
+  color: #006fa2; /* Darker color on hover */
+}
+.otp-btn{
+  height: 40px;
+  width: fit-content;
+}
+
+  @media (max-width: 768px) {
+    .register-row {
+      grid-template-columns: 1fr; /* Switch to single column on smaller screens */
+      gap: 10px;
+      padding: 0px;
+      margin-bottom: 10px;
+    }
+    .register-form-box {
+      padding: 10px;
+    }
+    .register-heading h2 {
+      font-size: 20px;
+      padding: 30px ;
+    }
+    .otp-btn
+    {
+      margin-top: 0px;
+    }
+    .verify-box {
+      margin-top: 0px;
+    }
+  }
+  

@@ -5,6 +5,8 @@ import './assets/style/body.css';
 import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
 import Home from './page/Home';
 import CorporateLogin from './page/CorporateLogin';
+import CorporateRegistrationPage from './page/CorporateRegistrationPage';
+import CorporateBasicRegistrationPage from './page/CorporateBasicRegistrationPage';
 function App() {
   return (
     <>
@@ -14,8 +16,8 @@ function App() {
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/corporate-login" element={<CorporateLogin />} />
-
-          
+        <Route path="/corporate-register" element={<CorporateBasicRegistrationPage />} />
+        <Route path="/corporate-registration" element={<CorporateRegistrationPage />} />        
         </Routes>
      
     </Router>
