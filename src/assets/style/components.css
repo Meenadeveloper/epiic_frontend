@@ -327,17 +327,22 @@ color: rgba(0, 0, 0, 1) !important;
 .error-input label{
 color: rgba(255, 0, 0, 1) !important;
 }
-.error-input input{
+.error-input .err-input-field{
   border: 1px solid rgba(255, 0, 0, 1);
   }
 
-  .error-input  input::placeholder,
+  /* .error-input  input::placeholder,
   .error-input textarea::placeholder,
   .error-input select::placeholder{
     color: rgba(255, 0, 0, 1) !important;
     font-weight: 400;
 
-  }
+  } */
+  .error-input .err-input-field::placeholder{
+    color: rgba(255, 0, 0, 1) !important;
+    font-weight: 400;
+    }
+  
   .error-input .error{
     color: rgba(196, 0, 0, 1) !important;
     font-size: 12px;
@@ -348,6 +353,26 @@ color: rgba(255, 0, 0, 1) !important;
     justify-content: end;
     padding-right: 20px;
     position: relative;
+  }
+  .error{
+    color: rgba(196, 0, 0, 1) !important;
+    font-size: 12px;
+    font-weight: 600;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+    position: relative;
+  }
+  .error::after{
+    content: '';
+    background-image: url('../images/Error.svg');
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 3px;
+    right: 5px;
   }
   .error-input .error::after{
     content: '';
@@ -416,7 +441,7 @@ text-align: center;
     max-width: 350px;
     height: 100%;
     margin: 0 auto;
-    justify-content: center;
+    justify-content: flex-start;
   }
   
   .register-label {
@@ -435,7 +460,7 @@ text-align: center;
     outline: none;
     background-color: transparent;
     border: 1.03px solid rgba(120, 120, 120, 1);
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
     height: 45px;
     font-size: 12px;
 
@@ -463,6 +488,8 @@ text-align: center;
     justify-content: center;
     align-items: center;
     padding: 20px 10px;
+    flex-direction: column;
+    gap: 10px;
   }
   .checkbox-box
   {
@@ -551,11 +578,18 @@ text-align: center;
   -webkit-appearance: none; /* Hide spinner in webkit browsers */
   appearance: none; /* Hide spinner in non-webkit browsers */
 }
-
+.otp-input.not-empty {
+  background: #e2e2e2;
+}
 .otp-input:focus {
   border-color: #009fe3; /* Change border color when focused */
 }
-
+.register-input.success-input-field {
+  border: 2px solid green;
+}
+.success{
+  color:green
+}
 .resent-otp {
   margin-top: 10px;
   font-size: 14px;

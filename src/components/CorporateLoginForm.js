@@ -44,7 +44,7 @@ function CorporateLoginForm() {
                             </div>
 
                             <div className='form-multi-link'>
-                           <Link to="#" className='form-link'> Corporate  /</Link> 
+                           <Link to="/corporate-register" className='form-link'> Corporate  /</Link> 
                            <Link to="#" className='form-link'> College  /</Link>
 
                            <Link to="#" className='form-link'>  Candidater /</Link>
