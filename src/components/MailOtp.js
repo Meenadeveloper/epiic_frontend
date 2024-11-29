@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-function MailOtp({ email, setIsOtpValid, resetVerification }) {
+function MailOtp({ email, setIsOtpValid, resetVerification, setVerifySuccessMessage, setVerifySuccessMail, onOtpInput  }) {
   const [otp, setOtp] = useState(['', '', '', '']);
   const [timer, setTimer] = useState(5); // Timer in seconds
   const [canResend, setCanResend] = useState(false); // To control Resend button
   const [isVerified, setIsVerified] = useState(false); // Verification status
-  const DUMMY_OTP = '1234'; // Predefined dummy OTP
+  const [errorMessage, setErrorMessage] = useState(''); // Error message state
+  const [successMessage, setSuccessMessage] = useState(''); // Success message state
 
   // Timer logic
   useEffect(() => {
@@ -19,79 +20,108 @@ function MailOtp({ email, setIsOtpValid, resetVerification }) {
     }
   }, [timer]);
 
+  // Handle OTP input change
   const handleChange = (e, index) => {
     const value = e.target.value;
-  
+
     // Allow only one character and ensure it's a number
     if (isNaN(value) || value.length > 1) return;
-  
+
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-  
+   
+    if (value && onOtpInput) {
+      onOtpInput(); // Clear success message on input
+    }
+
     // Move focus to the next input when typing forward
     if (value && index < otp.length - 1) {
       document.getElementById(`otp-input-${index + 1}`).focus();
     }
-  
+
     // Move focus to the previous input when deleting/backspacing
     if (!value && index > 0) {
       document.getElementById(`otp-input-${index - 1}`).focus();
     }
   };
-  
 
+  // Handle resend OTP request
   const handleResendOtp = async () => {
     try {
-      const apiUrl = `https://www.epiic.amrithaa.net/api/otp/mail/request?mail=${encodeURIComponent(email)}`;
+      const apiUrl = `${process.env.REACT_APP_OTP_MAIL_REQUEST_URL}?mail=${encodeURIComponent(email)}`;
       const response = await fetch(apiUrl, { method: 'POST' });
+
       if (!response.ok) {
-        throw new Error('Failed to resend OTP');
+        const errorData = await response.json(); // Parse the error response
+        throw new Error(errorData.message || 'Failed to resend OTP');
       }
 
-      alert('OTP resent successfully!');
+      const responseData = await response.json(); // Parse the response
+      console.log(responseData.message ); // Display the success message
+      setSuccessMessage(responseData.message );
       setTimer(5); // Reset timer
       setCanResend(false); // Disable resend until timer ends
+      setErrorMessage(''); // Clear any error messages after successful resend
     } catch (error) {
       console.error('Error resending OTP:', error);
+      setErrorMessage(error.message); // Set the error message for display
     }
   };
 
+  // Handle OTP submission
   const handleSubmit = async () => {
     const enteredOtp = otp.join('');
     if (otp.some((digit) => digit === '')) {
-      alert('Please enter all OTP digits.');
-      return;
-    }
-
-    if (enteredOtp === DUMMY_OTP) {
-      alert('Dummy OTP verified successfully!');
-      setIsVerified(true); // Mark as verified
-      setIsOtpValid(true);
+      setErrorMessage('Please enter all OTP digits.'); // Show a message if OTP is incomplete
       return;
     }
 
     try {
-      const apiUrl = `https://www.epiic.amrithaa.net/api/otp/mail/verify?mail=${encodeURIComponent(email)}&otp=${enteredOtp}`;
+      // Log email and OTP for debugging
+      console.log('Verifying OTP for email:', email);
+      console.log('Entered OTP:', enteredOtp);
+
+      const apiUrl = `${process.env.REACT_APP_OTP_MAIL_VERIFY_URL}?mail=${encodeURIComponent(email)}&otp=${enteredOtp}`;
+      console.log('API URL:', apiUrl); // Log the full URL to check the request
+
       const response = await fetch(apiUrl, { method: 'POST' });
+      
+      // Check if the response is successful
       if (!response.ok) {
-        throw new Error('OTP verification failed');
+        const responseData = await response.json(); // Parse the error response
+        console.error('Error response:', responseData); // Log the error response for debugging
+
+        // Ensure to throw the error with the appropriate message from the API response
+      const errorMessage = responseData.error || 'OTP verification failed';
+      setErrorMessage(errorMessage); // Display the error message
+      throw new Error(errorMessage); // Throw the error to stop further processing
       }
 
-      alert('OTP verified successfully!');
+      const responseData = await response.json(); // Parse the response
+      setVerifySuccessMessage(responseData.message );
+      setVerifySuccessMail(email);
+      console.log(responseData);
       setIsVerified(true); // Mark as verified
-      setIsOtpValid(true);
+      setIsOtpValid(true); // Update parent state
+      setErrorMessage(''); // Clear error message after successful verification
     } catch (error) {
       console.error('Error verifying OTP:', error);
-      alert('Invalid OTP. Please try again.');
+      setErrorMessage(error.message || 'Invalid OTP. Please try again.'); // Display the actual error message from the API response
+      setVerifySuccessMessage(''); // Clear success message in case of failure
     }
   };
 
+
+
+  // Reset OTP and verification state
   const resetOtp = () => {
     setOtp(['', '', '', '']);
     setIsVerified(false); // Reset verification status
     setTimer(5);
     setCanResend(false);
+    setErrorMessage(''); // Clear any error messages
+    setSuccessMessage(''); // Clear success message
   };
 
   useEffect(() => {
@@ -104,44 +134,47 @@ function MailOtp({ email, setIsOtpValid, resetVerification }) {
     return <button className="verified-btn" disabled>Verified</button>;
   }
 
-
-
   return (
-    
     <>
-<div className='verify-box'>
-      <div className='d-flex'>
-      {otp.map((digit, index) => (
-  <input
-    key={index}
-    type="tel"
-    maxLength={1}
-    id={`otp-input-${index}`}
-    value={digit} // The value comes from the otp state
-    onChange={(e) => handleChange(e, index)} // Update the value dynamically on change
-    onFocus={(e) => e.target.select()} // Select value on focus
-    autoFocus={index === 0} // Autofocus on the first input by default
-    className={`otp-input ${digit === "" ? "" : "not-empty"}`} // Optional class to style the input
-  />
-))}
+      <div className="d-inline">
+        <div className="verify-box">
+          <div className="d-flex">
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                type="tel"
+                maxLength={1}
+                id={`otp-input-${index}`}
+                value={digit}
+                onChange={(e) => handleChange(e, index)}
+                onFocus={(e) => e.target.select()}
+                autoFocus={index === 0}
+                className={`otp-input ${digit === "" ? "" : "not-empty"}`}
+              />
+            ))}
+          </div>
 
+          {/* Display error message */}
+          {errorMessage && <p className="error otp-message">{errorMessage}</p>}
+
+          {/* Display success message */}
+          {successMessage && <p className="success otp-message">{successMessage}</p>}
+
+          <p className="resent-otp">
+            {canResend ? (
+              <button type="button" className="resent-otp" onClick={handleResendOtp}>
+                Resend OTP
+              </button>
+            ) : (
+              `0${timer}:00s`
+            )}
+          </p>
+        </div>
+
+        <button type="button" className="otp-btn" onClick={handleSubmit}>
+          Submit
+        </button>
       </div>
-
-      <p className='resent-otp'>
-        {canResend ? (
-          <button type="button" onClick={handleResendOtp}>
-            Resend OTP
-          </button>
-        ) : (
-          `0${timer}:00s`
-        )}
-      </p>
-
-     
-    </div>
-     <button type='button' className='otp-btn' onClick={handleSubmit}>
-     Submit
-   </button>
     </>
   );
 }

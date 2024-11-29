@@ -600,8 +600,16 @@ text-align: center;
   cursor: pointer;
   text-decoration: none;
   font-weight: 700;
+  background: transparent;
+  border: none;
 }
-
+.d-inline{
+  display: flex;
+  gap: 20px;
+}
+.otp-message{
+  margin-top: 10px;
+}
 .resent-otp:hover {
   color: #006fa2; /* Darker color on hover */
 }

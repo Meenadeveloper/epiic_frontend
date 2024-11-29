@@ -20,16 +20,27 @@ function CorporateRegistrationBasicForm() {
     organisation: ''
   });
 
+  const [verifySuccessMessage, setVerifySuccessMessage] = useState('');
+  const [verifySuccessMail, setVerifySuccessMail] = useState('');
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
 
      // Real-time validation for email
      if (name === 'email') {
+      if (verifySuccessMail !== value) {
+        setVerifySuccessMessage('');
+        setActiveOtp(null);
+      } else {
+        setVerifySuccessMessage('OTP verified successfully'); 
+        setActiveOtp('mail');
+      }
+
       // Reset OTP verification and success message when the email changes
     setIsOtpValid(false); // Remove success state
     setOtpSent(false); // Reset OTP sent status
-    setActiveOtp(null); // Hide OTP box
+    //setActiveOtp(null); // Hide OTP box
     setFormErrors((prevErrors) => ({
       ...prevErrors,
       email: '', // Clear email-specific error messages
@@ -50,6 +61,11 @@ function CorporateRegistrationBasicForm() {
       } else {
         setFormErrors((prevErrors) => ({ ...prevErrors, email: '' })); // Clear error if valid
       }
+
+       // Clear the success message when email field changes
+    if (successMessage) {
+      setSuccessMessage('');
+    }
     }
   };
 
@@ -194,44 +210,67 @@ if (!formValues.organisation) {
 
   const [isOtpValid, setIsOtpValid] = useState(false); // Track if OTP is valid (for green border)
 
-  const handleMailOtpClick = async () => {
+  
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isOtpEntered, setIsOtpEntered] = useState(false); // Track if OTP input is being typed
 
-     // Validate email
-     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const handleOtpInput = () => {
+    setSuccessMessage(''); // Clear the success message when user enters OTP
+  };
+
+  const handleMailOtpClick = async () => {
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formValues.email) {
       setFormErrors({ email: 'Email is required' });
+
       return;
     } else if (!emailRegex.test(formValues.email)) {
       setFormErrors({ email: 'Invalid Email Id' });
+
       return;
-     }
-  
+    }
+
     const email = formValues.email;
-    const apiUrl = `https://www.epiic.amrithaa.net/api/otp/mail/request?mail=${encodeURIComponent(email)}`;
-  
+    const apiUrl = process.env.REACT_APP_OTP_MAIL_REQUEST_URL; // Use REACT_APP_ prefix
+    console.log("API URL for mail OTP request:", apiUrl);
+
     try {
-      const response = await fetch(apiUrl, {
+      // Make the API request
+      const response = await fetch(`${apiUrl}?mail=${encodeURIComponent(email)}`, {
         method: 'POST', // Use POST method
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mail: email }) // Sending email in the request body
       });
-  
+
+      // Check if the response is OK before trying to parse it
       if (!response.ok) {
-        throw new Error('Failed to send OTP');
+        const errorData = await response.json(); // Parse the error response
+        const errorMessage = errorData.error?.mail?.[0] || 'Failed to send OTP'; // Extract specific error message
+        throw new Error(errorMessage);
       }
-  
-      const data = await response.json();
-      console.log('OTP sent successfully:', data);
-  
+
+      // If no error occurred, parse the success response
+      const responseData = await response.json(); // Get the JSON response from the API
+      console.log("API Response Data:", responseData);
+
+      // Success case: Set success message and display it in UI
+      setSuccessMessage(responseData.message );
+      console.log('OTP sent successfully:', responseData);
+
       // Mark OTP as sent
       setOtpSent(true);
-  
+
       // Show OTP verification input
       setActiveOtp('mail');
     } catch (error) {
       console.error('Error sending OTP:', error);
+      setFormErrors({ email: error.message });  // Show the error message near the form field
+      setSuccessMessage('');
+      setVerifySuccessMessage('');
     }
   };
+  
   
   
 
@@ -311,7 +350,10 @@ if (!formValues.organisation) {
                           onChange={handleInputChange}
                         />
                         {formErrors.email && <p className='error'>{formErrors.email}</p>}
-                        {isOtpValid && <p className="success">Email verified successfully!</p>}
+                        {successMessage && !verifySuccessMessage && (
+                          <p className="success">{successMessage}</p>
+                        )}
+                        {verifySuccessMessage && <p className="success">{verifySuccessMessage}</p>}
                       </div>
                     </div>
 
@@ -334,6 +376,9 @@ if (!formValues.organisation) {
                      email={formValues.email}
                      setIsOtpValid={setIsOtpValid}
                      resetVerification={!isOtpValid}
+                     setVerifySuccessMessage={setVerifySuccessMessage}
+                     setVerifySuccessMail={setVerifySuccessMail}
+                     onOtpInput={handleOtpInput}
               />
                      }
                       </div>
