@@ -588,7 +588,10 @@ text-align: center;
   border: 2px solid green;
 }
 .success{
-  color:green
+  color:green !important;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
 }
 .resent-otp {
   margin-top: 10px;
@@ -630,3 +633,20 @@ text-align: center;
     }
   }
   
+.verified-btn{
+  width: fit-content;
+  padding: 10px 30px;
+  border-radius: 20px;
+  border: 2px solid green;
+  background-color: green;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+}
+.otp-box{
+  align-items: center;
+}

@@ -26,8 +26,18 @@ function CorporateRegistrationBasicForm() {
 
      // Real-time validation for email
      if (name === 'email') {
+      // Reset OTP verification and success message when the email changes
+    setIsOtpValid(false); // Remove success state
+    setOtpSent(false); // Reset OTP sent status
+    setActiveOtp(null); // Hide OTP box
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      email: '', // Clear email-specific error messages
+    }));
+    
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!value) {
+        
         setFormErrors((prevErrors) => ({
           ...prevErrors,
           email: 'Email is required',
@@ -182,7 +192,6 @@ if (!formValues.organisation) {
   const [activeOtp, setActiveOtp] = useState(null); // State to track which OTP component to show
   const [otpSent, setOtpSent] = useState(false); // To track if OTP has been sent
 
-  const [otpVerified, setOtpVerified] = useState(false); // Track OTP verification
   const [isOtpValid, setIsOtpValid] = useState(false); // Track if OTP is valid (for green border)
 
   const handleMailOtpClick = async () => {
@@ -224,11 +233,7 @@ if (!formValues.organisation) {
     }
   };
   
-  const handleOtpVerification = () => {
-    setOtpVerified(true);
-    setIsOtpValid(true); // Set to true to turn email border green
-  };
-
+  
 
   const handleMobileOtpClick = () => {
     setActiveOtp('mobile'); // Show the MobileOtp component
@@ -323,7 +328,14 @@ if (!formValues.organisation) {
                       )}
 
                         {/* Render the MailOtp component */}
-                     {activeOtp === 'mail' && <MailOtp />}
+                     {activeOtp === 'mail' && 
+                     
+                     <MailOtp
+                     email={formValues.email}
+                     setIsOtpValid={setIsOtpValid}
+                     resetVerification={!isOtpValid}
+              />
+                     }
                       </div>
                     </div>
                   </div>
