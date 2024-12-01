@@ -438,7 +438,7 @@ text-align: center;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    max-width: 350px;
+    max-width: 380px;
     height: 100%;
     margin: 0 auto;
     justify-content: flex-start;
@@ -455,11 +455,11 @@ text-align: center;
   .register-input {
     padding: 10px 20px;
     width: 100%; /* Ensure the input takes the full width of the column */
-    max-width: 350px; /* Optionally limit the input width */
+    /* max-width: 350px;  */
     border-radius: 20px;
     outline: none;
     background-color: transparent;
-    border: 1.03px solid rgba(120, 120, 120, 1);
+    border: 1px solid #000000;
     /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
     height: 45px;
     font-size: 12px;
@@ -606,6 +606,7 @@ text-align: center;
 .d-inline{
   display: flex;
   gap: 20px;
+  text-wrap-mode: nowrap;
 }
 .otp-message{
   margin-top: 10px;
@@ -657,4 +658,356 @@ text-align: center;
 }
 .otp-box{
   align-items: center;
+}
+.toast-error{
+  color: red !important;
+}
+.toast-success{
+  color:green !important
+}
+
+/* corporate */
+.corporate-head{
+  text-align: center;
+  padding: 0px 10px;
+  padding-bottom: 10px;
+  color: #000000;
+}
+.corporate-basic-box{
+  /* padding: 20px 10px; */
+  padding-bottom: 10px;
+}
+.corporate-border{
+  border: 1px solid #000000;
+  box-shadow: 0px 0px 0px 0px #00000040;
+  border-radius: 20px;
+  padding: 20px;
+  /* margin: 20px; */
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.corporate-box{
+  max-width: 1000px;
+}
+@media screen and (max-width:768px) {
+  .corporate-border{
+    padding: 10px 5px;
+    margin: 0px;
+  }
+}
+@media screen and (max-width:568px) {
+  .d-inline{
+    flex-wrap: wrap;
+  }
+  .corporate-border {
+    padding: 20px 20px;
+    margin: 0px;
+    margin-bottom: 15px;
+}
+.register-heading h2 {
+  font-size: 20px;
+  padding: 10px;
+  padding-top: 20px;
+}
+.corporate-head {
+  padding-bottom: 10px;
+  font-size: 22px;
+}
+.register-form-box {
+  padding: 20px 10px;
+}
+}
+.corporate-reset{
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+.dropdown-container{
+  position: relative;
+}
+.dropdown-option-box{
+  position: absolute;
+  top:100%;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  max-width: 100%;
+  min-width: 300px;
+  width: 360px;
+  margin-top: 5px;
+  max-height: 210px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  clip-path: inset(0 round 20px); /* Ensures content including scrollbar is inside border-radius */
+  z-index: 1;
+}
+
+/* Custom scrollbar styles */
+.dropdown-option-box::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+
+}
+
+.dropdown-option-box::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+  border-radius: 20px;
+}
+
+.dropdown-option-box::-webkit-scrollbar-thumb {
+  background-color: #c4c4c4; /* Scrollbar thumb color */
+  border-radius: 20px;
+}
+/* Hide scrollbar buttons (arrows) */
+.dropdown-option-box::-webkit-scrollbar-button {
+  display: none; /* Hides the scrollbar buttons */
+}
+
+.dropdown-option-box::-webkit-scrollbar-thumb:hover {
+  background-color: #e2e2e2; /* Thumb color on hover */
+}
+.dropdown-container
+{
+  list-style: none;
+ 
+}
+.dropdown-container li{
+  color: #000000;
+  font-size: 12px;
+  padding: 13px 20px ;
+  border-bottom: 1px solid #ECECEC;
+  transition: all 0.5s ease;
+  cursor: pointer;
+
+}
+.dropdown-container li:hover{
+  background-color: #e2e2e2;
+}
+.dropdown-container li:nth-child(1):hover{
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.dropdown-container li:nth-last-child(1):hover{
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+.search-box-container{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-icon {
+  position: absolute;
+  left: 10px; /* Place search icon inside left of the input */
+  font-size: 20px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 10px; /* Place down arrow icon inside right of the input */
+  font-size: 20px;
+  color: #000000;
+  cursor: pointer;
+  cursor: pointer;
+}
+
+.drodown-input{
+  padding-left: 30px; /* Make space for the search icon */
+  padding-right: 30px; /* Make space for the down arrow icon */
+}
+.not-found {
+  color: gray;
+  font-style: italic;
+  padding: 10px;
+  text-align: center;
+}
+.register-full-row{
+  display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    justify-items: start;
+    align-items: center;
+    padding: 5px;
+    padding-bottom: 20px;
+    max-width: 850px;
+    margin: 0 auto;
+}
+.textarea-input{
+  padding: 10px 20px;
+    width: 100%;
+    border-radius: 20px;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid #000000;
+    font-size: 12px;
+    height: 100%;
+}
+.save-btn{
+ 
+    width: fit-content;
+    padding: 10px 25px;
+    border-radius: 20px;
+    border: 2.03px solid transparent;
+    outline: none;
+    background: #ffff;
+    color: rgba(0, 0, 0, 1);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 3px 4px 10px 0px #00000040;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+
+}
+.save-btn i{
+  font-weight: 800;
+  font-size: 25px;
+}
+.save-btn p{
+  color: rgba(0, 0, 0, 1);
+  font-size: 14px;
+  font-weight: 700;
+}
+.d-center
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.about-box{
+  padding: 10px;
+  padding-top: 20px;
+}
+.corporate-borderless {
+  border: none;
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.file-btn{
+  width: fit-content;
+  border-radius: 15px;
+  border: none;
+  background: #000000;
+  color: #fff;
+  padding: 7px 15px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.logo-input-container{
+  max-width: 850px;
+  width: 100%;
+  min-width: 300px;
+  margin: 0 auto;
+  padding: 15px 10px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+background: #ffff;
+cursor: pointer;
+border: 2px solid transparent; /* Change to the desired color when dragging */
+transition: all 0.5s ease;
+
+}
+.logo-file-upload-content{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.logo-file-upload-content span{
+  color: #484848;
+  font-size: 10px;
+  font-weight: 400;
+
+
+}
+.logo-file-upload-content p{
+color: #000000;
+font-size: 12px;
+font-weight: 400;
+}
+.logo-input-container.drag-over {
+  border: 2px solid #009fe3; /* Change to the desired color when dragging */
+}
+.file-error{
+width: 100%;
+ padding: 10px;
+  
+}
+.file-error .error{
+  max-width: 100%;
+}
+.address-content{
+  padding: 0px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.address-item{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+
+}
+.address-data{
+  color: #000000;
+  font-size: 16px;
+  font-weight: 800;
+}
+.address-item .dropdown-icon{
+  position: unset;
+  font-size: 35px;
+}
+.address-saved-box{
+  margin-top: 20px;
+ margin-bottom: 10px; 
+}
+.address-view-box{
+  margin-bottom: 10px;
+}
+.address-view-data span{
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+  text-wrap-mode: nowrap;
+}
+.address-view-data p{
+  font-size: 16px;
+  font-weight: 400;
+  color: #484646;
+  white-space: wrap;        /* Prevent the text from wrapping */
+  overflow: hidden;           /* Hide the overflow text */
+  text-overflow: ellipsis;     /* Show ellipsis (...) for overflow text */
+}
+
+.address-view-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.address-view-item {
+  flex-grow: 1;              /* Allow the item to grow */
+  flex-shrink: 0;            /* Prevent the item from shrinking too much */
+  min-width: 250px;          /* Set a minimum width to prevent items from becoming too small */
+  max-width: auto;           /* Let the item size adjust based on content */
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: start;
+}
+.address-input{
+  border-radius: 15px;
+  height: 55px;
 }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'; // Required for styling
-
+import { toast } from 'react-toastify'; // Import only the toast
+import 'react-toastify/dist/ReactToastify.css';
 import MailOtp from './MailOtp'; // Import the MailOtp component
 import MobileOtp from './MobileOtp'; // Import the MobileOtp component
 
@@ -150,6 +151,7 @@ if (!formValues.organisation) {
     return Object.keys(errors).length === 0; // Return true if no errors
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -163,7 +165,7 @@ if (!formValues.organisation) {
           designation: formValues.designation,
         };
 
-        const url = `https://www.epiic.amrithaa.net/api/corporate/register`;
+        const url = process.env.REACT_APP_EPIIC_CORPORATE_BASIC_REGISTER_URL;
         const params = new URLSearchParams(payload).toString();
         const fullUrl = `${url}?${params}`;
 
@@ -176,34 +178,32 @@ if (!formValues.organisation) {
 
         if (response.ok) {
           const data = await response.json();
-          alert('Form submitted successfully!');
-          console.log('Response:', data);
-
-          // Reset form after successful submission
-          setFormValues({
-            firstName: '',
-            lastName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            designation: '',
-            organisation: '',
+          toast.success(data.message || 'Form submitted successfully!', {
+            position: "top-right",
+            className: 'toast-success',  // Use custom CSS class for success
           });
-          setPhoneNumber('');
-          setIsChecked(false);
-          setFormErrors({});
+          console.log('Response:', data);
         } else {
-          alert('Failed to submit form. Please try again.');
+          const errorData = await response.json();
+          toast.error(errorData.message || 'Failed to submit form. Please try again.', {
+            position: "top-right",
+            className: 'toast-error',  // Use custom CSS class for error
+          });
         }
       } catch (error) {
         console.error('Error submitting form:', error);
-        alert('An error occurred. Please try again.');
+        toast.error('An error occurred while submitting the form. Please try again later.', {
+          position: "top-right",
+          className: 'toast-error',  // Use custom CSS class for error
+        });
       }
     } else {
-      console.log('Form has errors');
+      toast.error('Please fix the form errors before submitting.', {
+        position: "top-right",
+        className: 'toast-error',  // Use custom CSS class for error
+      });
     }
   };
-
 
   const [activeOtp, setActiveOtp] = useState(null); // State to track which OTP component to show
   const [otpSent, setOtpSent] = useState(false); // To track if OTP has been sent

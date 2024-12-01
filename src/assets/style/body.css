@@ -18,8 +18,8 @@
     font-family: 'Montserrat', sans-serif !important;
   }
   
-  h1, h2, h3, h4, h5, h6, p, li, span, a , div{
-    color: white !important; /* Applies white color to specific elements */
+  h1, h2, h3, h4, h5, h6, p, li, span, a {
+    color: white ; /* Applies white color to specific elements */
   }
   
   .body-bg{

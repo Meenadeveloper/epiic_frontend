@@ -7,10 +7,14 @@ import Home from './page/Home';
 import CorporateLogin from './page/CorporateLogin';
 import CorporateRegistrationPage from './page/CorporateRegistrationPage';
 import CorporateBasicRegistrationPage from './page/CorporateBasicRegistrationPage';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
     <>
-
+  <ToastContainer />  {/* Add it here globally */}
    <Router> 
      
         <Routes>

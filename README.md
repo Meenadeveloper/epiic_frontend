@@ -33,6 +33,11 @@ npm install react-router-dom
 <!-- mpbile -->
   npm install react-phone-number-input@latest
 
+  <!-- toast -->
+  npm install react-toastify
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

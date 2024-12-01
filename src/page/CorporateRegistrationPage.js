@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Blue from "../assets/images/blue.png";
 import Yellow from "../assets/images/yellow.png";
 import Purple from "../assets/images/purple.png";
+import CorporateRegister from "../components/CorporateRegister";
 
 function CorporateRegistrationPage() {
     const BlueBox = {
@@ -65,7 +66,7 @@ function CorporateRegistrationPage() {
 
         <div className="page-wrapper">
           <Header />
-          
+          <CorporateRegister/>
         </div>
       </div>
       

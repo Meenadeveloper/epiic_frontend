@@ -2,23 +2,24 @@ import React, { useState, useEffect } from 'react';
 
 function MailOtp({ email, setIsOtpValid, resetVerification, setVerifySuccessMessage, setVerifySuccessMail, onOtpInput  }) {
   const [otp, setOtp] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(5); // Timer in seconds
+  const [timer, setTimer] = useState(300); // 5 minutes in seconds
   const [canResend, setCanResend] = useState(false); // To control Resend button
   const [isVerified, setIsVerified] = useState(false); // Verification status
   const [errorMessage, setErrorMessage] = useState(''); // Error message state
   const [successMessage, setSuccessMessage] = useState(''); // Success message state
 
-  // Timer logic
-  useEffect(() => {
-    if (timer > 0) {
-      const interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    } else {
-      setCanResend(true); // Enable resend button after timer ends
-    }
-  }, [timer]);
+  // Timer countdown effect
+useEffect(() => {
+  if (timer > 0) {
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval); // Clean up interval on unmount or when timer changes
+  } else {
+    setCanResend(true); // Enable the resend button after the timer reaches 0
+  }
+}, [timer]);
 
   // Handle OTP input change
   const handleChange = (e, index) => {
@@ -60,7 +61,7 @@ function MailOtp({ email, setIsOtpValid, resetVerification, setVerifySuccessMess
       const responseData = await response.json(); // Parse the response
       console.log(responseData.message ); // Display the success message
       setSuccessMessage(responseData.message );
-      setTimer(5); // Reset timer
+      setTimer(300); // Reset timer to 5 minutes (300 seconds)
       setCanResend(false); // Disable resend until timer ends
       setErrorMessage(''); // Clear any error messages after successful resend
     } catch (error) {
