@@ -1,5 +1,6 @@
 import CountryInput from "./CountryInput"
 import EmailOtp from "./EmailOtp"
+import PhoneOtp from "./PhoneOtp"
 
 function CorporateBasicDetail() {
   return (
@@ -41,6 +42,9 @@ function CorporateBasicDetail() {
 
          {/* email row component */}
          <EmailOtp/>
+
+         {/* mobile otp */}
+         <PhoneOtp/>
 
          <div className='register-row'>
            <div className='register-col'>

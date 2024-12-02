@@ -35,6 +35,8 @@ npm install react-router-dom
 
   <!-- toast -->
   npm install react-toastify
+<!-- axios -->
+npm install axios
 
 
 

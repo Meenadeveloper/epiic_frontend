@@ -1,29 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function EmailOtp({ email, onOtpInput }) {
+function EmailOtp() {
+  const [email, setEmail] = useState('');
+  const [verifiedEmail, setVerifiedEmail] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(300); // 5 minutes in seconds
-  const [canResend, setCanResend] = useState(false); // To control Resend button
+  const [timer, setTimer] = useState(300);
+  const [canResend, setCanResend] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [verifySuccessMessage, setVerifySuccessMessage] = useState('');
-  const [verifySuccessMail, setVerifySuccessMail] = useState('');
+  const [isOtpSectionVisible, setIsOtpSectionVisible] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [isOtpValid, setIsOtpValid] = useState(false);
 
-  // Timer countdown effect
+  const API_OTP_REQUEST_URL = process.env.REACT_APP_OTP_MAIL_REQUEST_URL;
+  const API_OTP_VERIFY_URL = process.env.REACT_APP_OTP_MAIL_VERIFY_URL;
+
   useEffect(() => {
-    if (timer > 0) {
+    if (timer > 0 && !canResend) {
       const interval = setInterval(() => {
         setTimer((prev) => prev - 1);
       }, 1000);
 
-      return () => clearInterval(interval); // Clean up interval on unmount or when timer changes
-    } else {
-      setCanResend(true); // Enable the resend button after the timer reaches 0
+      return () => clearInterval(interval);
     }
-  }, [timer]);
+    else if (timer === 0) {
+      setCanResend(true); // Enable Resend OTP button when timer finishes
+    }
+  }, [timer, canResend]);
 
-  // Format timer as MM:SS
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -32,130 +37,182 @@ function EmailOtp({ email, onOtpInput }) {
       .padStart(2, '0')}`;
   };
 
-  // Handle OTP input change
-  const handleChange = (e, index) => {
-    const value = e.target.value;
+  const handleChangeEmail = (e) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+     setErrorMessage('');
+    setSuccessMessage('');
+    setVerifySuccessMessage('');
+    
 
-    // Allow only one character and ensure it's a number
+    // Reset state if email is different from verified email
+    if (newEmail !== verifiedEmail) {
+      setIsOtpSectionVisible(false);
+      setIsVerified(false);
+    }else{
+      setIsVerified(true);
+
+    }
+     // Validate email format
+     if (!validateEmail(newEmail)) {
+      setSuccessMessage(''); // Clear success message if email format is invalid
+    }
+    // Check if email is empty and show error message
+  if (newEmail.trim() === '') {
+    setErrorMessage('Email is required');
+    setIsVerified('');
+  }
+
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSendOtp = async () => {
+    if (!validateEmail(email)) {
+      setErrorMessage('Please enter a valid email address.');
+      setSuccessMessage(''); // Clear any success message when email is invalid
+      return;
+    }
+
+    try {
+      const response = await axios.post(API_OTP_REQUEST_URL, { mail: email });
+      setSuccessMessage(response.data.message || 'OTP sent successfully.');
+      setErrorMessage(''); // Clear error message on success
+      setIsOtpSectionVisible(true);
+      setTimer(300);
+      setCanResend(false);
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message || 'Error sending OTP. Please try again.'
+      );
+      setSuccessMessage(''); // Clear success message on error
+    }
+  };
+
+  const handleChangeOtp = (e, index) => {
+    const value = e.target.value;
     if (isNaN(value) || value.length > 1) return;
 
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
-    if (value && onOtpInput) {
-      onOtpInput(); // Clear success message on input
-    }
-
-    // Move focus to the next input when typing forward
     if (value && index < otp.length - 1) {
       document.getElementById(`otp-input-${index + 1}`).focus();
     }
 
-    // Move focus to the previous input when deleting/backspacing
     if (!value && index > 0) {
       document.getElementById(`otp-input-${index - 1}`).focus();
     }
   };
 
-  // Handle OTP submission
-  const handleSubmit = async () => {
+  const handleResendOtp = async () => {
+    setTimer(300);
+    setCanResend(false);
+
+    try {
+      const response = await axios.post(API_OTP_REQUEST_URL, { mail: email });
+      setSuccessMessage(response.data.message || 'OTP resent successfully.');
+      setErrorMessage(''); // Clear error message on resend success
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message || 'Error resending OTP. Please try again.'
+      );
+      setSuccessMessage(''); // Clear success message on resend error
+    }
+  };
+
+  const handleSubmitOtp = async () => {
     const enteredOtp = otp.join('');
     if (otp.some((digit) => digit === '')) {
-      setErrorMessage('Please enter all OTP digits.'); // Show a message if OTP is incomplete
+      setErrorMessage('Please enter all OTP digits.');
       return;
     }
 
     try {
-      // Log email and OTP for debugging
-      console.log('Verifying OTP for email:', email);
-      console.log('Entered OTP:', enteredOtp);
-
-      const apiUrl = `${process.env.REACT_APP_OTP_MAIL_VERIFY_URL}?mail=${encodeURIComponent(
-        email
-      )}&otp=${enteredOtp}`;
-      console.log('API URL:', apiUrl); // Log the full URL to check the request
-
-      const response = await fetch(apiUrl, { method: 'POST' });
-
-      // Check if the response is successful
-      if (!response.ok) {
-        const responseData = await response.json(); // Parse the error response
-        console.error('Error response:', responseData); // Log the error response for debugging
-
-        const errorMessage = responseData.error || 'OTP verification failed';
-        setErrorMessage(errorMessage); // Display the error message
-        throw new Error(errorMessage); // Throw the error to stop further processing
-      }
-
-      const responseData = await response.json(); // Parse the response
-      setVerifySuccessMessage(responseData.message);
-      setVerifySuccessMail(email);
-      console.log(responseData);
-      setIsVerified(true); // Mark as verified
-      setIsOtpValid(true); // Update parent state
-      setErrorMessage(''); // Clear error message after successful verification
+      const response = await axios.post(
+        `${API_OTP_VERIFY_URL}?mail=${email}&otp=${enteredOtp}`
+      );
+      setVerifySuccessMessage(response.data.message || 'OTP verified successfully.');
+      setVerifiedEmail(email); // Mark this email as verified
+      setIsVerified(true);
+      setIsOtpSectionVisible(false);
+      setErrorMessage(''); // Clear error message on verify success  
+    // Clear OTP input fields
+    setOtp(['', '', '', '']);
     } catch (error) {
-      console.error('Error verifying OTP:', error);
-      setErrorMessage(error.message || 'Invalid OTP. Please try again.'); // Display the actual error message from the API response
-      setVerifySuccessMessage(''); // Clear success message in case of failure
+      setErrorMessage(
+        error.response?.data?.message || 'Invalid OTP. Please try again.'
+      );
+      setSuccessMessage(''); // Clear any success message when email is invalid
+      setVerifySuccessMessage(''); // Clear success message on verify error
+       // Clear OTP input fields on failure as well (optional)
+    setOtp(['', '', '', '']);
     }
   };
 
-  // Handle Resend OTP functionality
-  const handleResendOtp = () => {
-    setTimer(300); // Reset timer to 5 minutes
-    setCanResend(false); // Disable resend button until the timer runs out
-    // Implement logic to resend OTP here, e.g., send a request to the server
-    console.log('Resending OTP...');
-  };
-
   return (
-    <>
-      <div className='register-row'>
-        <div className='register-col'>
+    <div className="register-row">
+       <div className="register-col">
+       <div
+        className={`register-form-control ${errorMessage ? 'error-input' : ''}`}
+      >
+        <label className="register-label">Email ID</label>
+        <input
+          type="email"
+          name="email"
+          className={`register-input ${
+             isVerified ? 'success-input-field' : ''
+          } ${errorMessage ? 'err-input-field' : ''}`}
+          placeholder="Enter work mail ID"
+          value={email}
+          onChange={handleChangeEmail}
+        />
+        {errorMessage && <p className="error">{errorMessage}</p>}
+        {verifySuccessMessage && (
+              <p className="success">{verifySuccessMessage}</p>
+            )}      </div>
+       </div>
+     
+        <div className="register-col">
           <div className="register-form-control">
-            <label className='register-label'>Email ID</label>
-            <input
-              type='email'
-              name='email'
-              className="register-input"
-              placeholder='Enter work mail ID'
-              value={email}
-              readOnly // Assuming the email is pre-filled and not editable
-            />
-            <p className='error'></p>
-          </div>
-        </div>
 
-        <div className='register-col'>
-          <div className='register-form-control'>
-          <div className="d-inline">
-            <div className="verify-box">
-              <div className="d-flex">
-                {otp.map((digit, index) => (
-                  <input
-                    key={index}
-                    type="tel"
-                    maxLength={1}
-                    id={`otp-input-${index}`}
-                    value={digit}
-                    onChange={(e) => handleChange(e, index)}
-                    onFocus={(e) => e.target.select()}
-                    autoFocus={index === 0}
-                    className={`otp-input ${digit === "" ? "" : "not-empty"}`}
-                  />
-                ))}
+          {!isOtpSectionVisible && email !== verifiedEmail &&(
+        <button
+          type="button"
+          className="otp-btn"
+          onClick={handleSendOtp}
+        >
+          Send OTP
+        </button>
+      )}
+
+          {isOtpSectionVisible && (
+            <div className="d-inline">
+              <div className="verify-box">
+                <div className="d-flex">
+                  {otp.map((digit, index) => (
+                    <input
+                      key={index}
+                      type="tel"
+                      maxLength={1}
+                      id={`otp-input-${index}`}
+                      value={digit}
+                      onChange={(e) => handleChangeOtp(e, index)}
+                      onFocus={(e) => e.target.select()}
+                      autoFocus={index === 0}
+                      className={`otp-input ${digit === '' ? '' : 'not-empty'}`}
+                    />
+                  ))}
+                </div>
+                {successMessage && (
+              <p className="success" style={{marginTop:'10px'}}>{successMessage}</p>
+            )}  
               </div>
-
-               {/* Display error message */}
-          {errorMessage && <p className="error otp-message">{errorMessage}</p>}
-            {verifySuccessMessage && (
-           <p className="success">{verifySuccessMessage}</p>
-           )}
-              
-            </div>
-            <p className="resent-otp corporate-reset">
+              <p className="resent-otp corporate-reset">
                 {canResend ? (
                   <button
                     type="button"
@@ -165,20 +222,29 @@ function EmailOtp({ email, onOtpInput }) {
                     Resend OTP
                   </button>
                 ) : (
-                  ` ${formatTime(timer)} s`
+                  `${formatTime(timer)} s`
                 )}
               </p>
+              <button
+                type="button"
+                className="otp-btn"
+                onClick={handleSubmitOtp}
+              >
+                Submit
+              </button>
+            </div>
+          )}
 
-            <button type="button" className="otp-btn" onClick={handleSubmit}>
-              Submit
-            </button>
+
+          {verifiedEmail && email === verifiedEmail &&  (
+        <button className="verified-btn" disabled>
+          Verified
+        </button>
+      )}
+
           </div>
-          </div>
-         
-        </div>
-      </div>
-     
-    </>
+        </div>     
+    </div>
   );
 }
 
