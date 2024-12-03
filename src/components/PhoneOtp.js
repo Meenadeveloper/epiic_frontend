@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import axios from 'axios';
 
-function PhoneOtp() {
+function PhoneOtp({isPhoneVerified,setIsPhoneVerified}) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verifiedPhoneNumber, setVerifiedPhoneNumber] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -55,8 +55,10 @@ function PhoneOtp() {
     if (sanitizedPhone  !== verifiedPhoneNumber) {
       setIsOtpSectionVisible(false);
       setIsVerified(false);
+      setIsPhoneVerified(false);
     } else {
       setIsVerified(true);
+      setIsPhoneVerified(true);
     }
 
     // Check if phone number is empty
@@ -181,6 +183,7 @@ function PhoneOtp() {
       setIsOtpSectionVisible(false);
       setErrorMessage('');
       setOtp(['', '', '', '']);
+      setIsPhoneVerified(true);// Update parent component state
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || 'Invalid OTP. Please try again.'
@@ -188,6 +191,8 @@ function PhoneOtp() {
       setSuccessMessage('');
       setVerifySuccessMessage('');
       setOtp(['', '', '', '']);
+      setIsPhoneVerified(false);// Update parent component state
+
     }
   };
 

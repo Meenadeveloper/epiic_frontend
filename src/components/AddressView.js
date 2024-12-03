@@ -1,6 +1,5 @@
-import React from 'react'
 
-function AddressView() {
+function AddressView({ address }) {
   return (
     <>
       <div className='address-view-box'>
@@ -11,7 +10,7 @@ function AddressView() {
                         <span>Address 1*  :</span> 
                         </div>
                         <div className='address-view-data'>
-                        <p>No 3 , 1 street, west mambalam, chennai-33</p>
+                        <p>{address.address}</p>
                         </div> 
                </div>
 
@@ -20,7 +19,7 @@ function AddressView() {
                         <span>State  :</span>
                         </div>
                         <div className='address-view-data'>
-                        <p>Tamil Nadu</p>
+                        <p>{address.state}</p>
                         </div> 
                </div>
                <div className='address-view-item'>
@@ -28,7 +27,7 @@ function AddressView() {
                         <span>District  :</span>
                         </div>
                         <div className='address-view-data'>
-                        <p>Chennai</p>
+                        <p>{address.district}</p>
                         </div> 
                </div>
                <div className='address-view-item'>
@@ -36,7 +35,7 @@ function AddressView() {
                         <span>Pin code  :</span>
                         </div>
                         <div className='address-view-data'>
-                        <p>600039</p>
+                        <p>{address.pincode}</p>
                         </div> 
                </div>
                <div className='address-view-item'>
@@ -44,16 +43,14 @@ function AddressView() {
                         <span>Tags  :</span>
                         </div>
                         <div className='address-view-data'>
-                        <p>Primary</p>
+                        <p>{address.tags}</p>
                         </div> 
                </div>
             </div>
         </div>
        </div>
 
-       <div className='d-center'>
-        <button className='save-btn'><i class="material-icons">add</i> <p>Add New</p></button>
-        </div>     
+            
     </>
   )
 }

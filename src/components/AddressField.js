@@ -1,16 +1,43 @@
-import React from 'react'
-import AddressShortView from './AddressShortView'
-import AddressEdit from './AddressEdit'
+import React, { useState } from "react";
 
-function AddressField() {
+function AddressField({ onSave }) {
+ // Using an array to store the address fields
+ const [address, setAddress] = useState([{
+  address1: "",
+  state: "",
+  district: "",
+  pincode: "",
+  tags: "",
+}]);
+
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+  setAddress((prevAddress) => ({
+    ...prevAddress,
+    [name]: value,
+  }));
+};
+
+const handleSave = () => {
+  // Your save logic here, such as passing data to a parent component or saving it in state
+  onSave(address); // Pass the address data back to the parent component
+};
+
+
+ 
   return (
     <>
         <div className="corporate-border">
           <div className='register-full-row'>
             <label className='register-label'>Address 1*</label>
-             <textarea  className="textarea-input"
-                  rows="3"  placeholder='Lorem ipsum'>
-                            </textarea>   
+            <textarea
+  className="textarea-input"
+  rows="3"
+  placeholder="Lorem ipsum"
+  name="address1"
+  value={address.address1}
+  onChange={handleChange}
+/>   
           
            </div>
 
@@ -22,9 +49,13 @@ function AddressField() {
                      <div className="search-box-container">
                      <input
                           type='text'
-                          name='state'
-                          className="register-input drodown-input"
-                          placeholder='Search'
+                          
+                        
+                    className="register-input drodown-input"
+                    placeholder="Search"
+                    name="state"
+          value={address.state}
+          onChange={handleChange}
                         />
                         <i className="material-icons search-icon">search</i>
                         <i
@@ -55,9 +86,12 @@ function AddressField() {
                      <div className="search-box-container">
                      <input
                           type='text'
-                          name='district'
-                          className="register-input drodown-input"
-                          placeholder='Search'
+                         
+                    className="register-input drodown-input"
+                    placeholder="Search"
+                    name="district"
+          value={address.district}
+          onChange={handleChange}
                         />
                         <i className="material-icons search-icon">search</i>
                         <i
@@ -88,9 +122,11 @@ function AddressField() {
                      <label className='register-label'>Pin code</label>
                         <input
                           type='text'
-                          name='pincode'
-                          className="register-input"
-                          placeholder='Enter Name'
+                className="register-input"
+                placeholder="Enter Pin code"
+                name="pincode"
+          value={address.pincode}
+          onChange={handleChange}
                         />
                         <p className='error'></p>
                 </div>     
@@ -103,9 +139,11 @@ function AddressField() {
                      <div className="search-box-container">
                      <input
                           type='text'
-                          name='tags'
-                          className="register-input drodown-input"
-                          placeholder='Search'
+                    className="register-input drodown-input"
+                    placeholder="Search"
+                    name="tags"
+          value={address.tags}
+          onChange={handleChange}
                         />
                         <i className="material-icons search-icon">search</i>
                         <i
@@ -130,12 +168,11 @@ function AddressField() {
 
          </div>
          <div className='d-center'>
-         <button type="button" class="save-btn">Save</button>
+         <button type="button" class="save-btn" onClick={handleSave}>Save</button>
          </div>
         </div>
 
-        <AddressShortView/>
-        <AddressEdit/>
+       
       
     </>
   )

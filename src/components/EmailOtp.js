@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function EmailOtp() {
+function EmailOtp({ isEmailVerified, setIsEmailVerified }) {
   const [email, setEmail] = useState('');
-  const [verifiedEmail, setVerifiedEmail] = useState('');
-  const [otp, setOtp] = useState(['', '', '', '']);
-  const [timer, setTimer] = useState(300);
-  const [canResend, setCanResend] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const [verifySuccessMessage, setVerifySuccessMessage] = useState('');
-  const [isOtpSectionVisible, setIsOtpSectionVisible] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
+  const [verifiedEmail, setVerifiedEmail] = useState(''); // Store the verified email
+  const [otp, setOtp] = useState(['', '', '', '']); // OTP input fields
+  const [timer, setTimer] = useState(300); // Timer for OTP expiration (5 minutes)
+  const [canResend, setCanResend] = useState(false); // Flag to manage resend button
+  const [errorMessage, setErrorMessage] = useState(''); // Error messages
+  const [successMessage, setSuccessMessage] = useState(''); // Success messages
+  const [verifySuccessMessage, setVerifySuccessMessage] = useState(''); // OTP verification success message
+  const [isOtpSectionVisible, setIsOtpSectionVisible] = useState(false); // Show OTP input section
+  const [isVerified, setIsVerified] = useState(false); // Verify if email is successfully verified
 
   const API_OTP_REQUEST_URL = process.env.REACT_APP_OTP_MAIL_REQUEST_URL;
   const API_OTP_VERIFY_URL = process.env.REACT_APP_OTP_MAIL_VERIFY_URL;
@@ -45,14 +45,16 @@ function EmailOtp() {
     setVerifySuccessMessage('');
     
 
-    // Reset state if email is different from verified email
+    /// Reset OTP section visibility if email is different from verified email
     if (newEmail !== verifiedEmail) {
       setIsOtpSectionVisible(false);
       setIsVerified(false);
-    }else{
+      setIsEmailVerified(false);
+    } else {
       setIsVerified(true);
-
+      setIsEmailVerified(true);
     }
+
      // Validate email format
      if (!validateEmail(newEmail)) {
       setSuccessMessage(''); // Clear success message if email format is invalid
@@ -82,8 +84,8 @@ function EmailOtp() {
       setSuccessMessage(response.data.message || 'OTP sent successfully.');
       setErrorMessage(''); // Clear error message on success
       setIsOtpSectionVisible(true);
-      setTimer(300);
-      setCanResend(false);
+      setTimer(300); // Reset timer on OTP sent
+      setCanResend(false); // Disable resend button until timer expires
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || 'Error sending OTP. Please try again.'
@@ -143,6 +145,7 @@ function EmailOtp() {
       setErrorMessage(''); // Clear error message on verify success  
     // Clear OTP input fields
     setOtp(['', '', '', '']);
+    setIsEmailVerified(true); // Update parent component state
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || 'Invalid OTP. Please try again.'
@@ -151,6 +154,7 @@ function EmailOtp() {
       setVerifySuccessMessage(''); // Clear success message on verify error
        // Clear OTP input fields on failure as well (optional)
     setOtp(['', '', '', '']);
+    setIsEmailVerified(false);
     }
   };
 
