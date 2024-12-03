@@ -62,43 +62,48 @@ function PhoneOtp() {
     // Check if phone number is empty
   if (!sanitizedPhone) {
     setErrorMessage('Phone number is required');
+    setIsVerified('');
   }
   // Validate phone number format
   if (!validatePhoneNumber(sanitizedPhone)) {
     setErrorMessage('Please enter a valid phone number');
-
+    setIsVerified(''); 
     return;
   }
   // Check if the phone number length is greater than 12 digits
-  if (sanitizedPhone.length > 12) {
+  if (sanitizedPhone.length !== 13) {
     setErrorMessage('Phone number cannot be more than 12 digits');
+    setIsVerified(''); 
     return;
   }
   };
 
   const handleSendOtp = async () => {
     const sanitizedPhoneNumber = phoneNumber.replace(/\s+/g, ''); // Remove spaces
-
+  
+    // Validate phone number is not empty
     if (!sanitizedPhoneNumber) {
       setErrorMessage('Please enter a valid phone number.');
       setSuccessMessage('');
+      setIsVerified('');
       return;
     }
-    if (!sanitizedPhoneNumber > 12) {
-        setErrorMessage('Phone number ca be more than 12 digits');
-        setSuccessMessage('');
-        return;
-      }
-
-
+  
+    // Validate phone number length
+    if (sanitizedPhoneNumber.length  !== 13) {
+      setErrorMessage('Phone number must be 10 digits');
+      setSuccessMessage('');
+      return;
+    }
+  
     try {
       const url = `${API_OTP_REQUEST_URL}?mobile=${sanitizedPhoneNumber}`;
-      console.log("Sending OTP to:", phoneNumber);
+      console.log("Sending OTP to:", sanitizedPhoneNumber);
       console.log("Request URL:", url);
-
+  
       const response = await axios.post(url); // Send the request to the constructed URL
       console.log("API Response:", response);
-
+  
       setSuccessMessage(response.data.message || 'OTP sent successfully.');
       setErrorMessage('');
       setIsOtpSectionVisible(true);
@@ -106,13 +111,15 @@ function PhoneOtp() {
       setCanResend(false);
     } catch (error) {
       console.error("Error sending OTP:", error.response || error.message);
-
+  
       setErrorMessage(
         error.response?.data?.message || 'Error sending OTP. Please try again.'
       );
       setSuccessMessage('');
+      setIsVerified('');
     }
   };
+  
 
   const handleChangeOtp = (e, index) => {
     const value = e.target.value;
