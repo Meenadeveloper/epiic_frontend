@@ -6,21 +6,21 @@ import CorporateRegistrationBasicForm from "../components/CorporateRegistrationB
 
 function CorporateBasicRegistrationPage() {
     const BlueBox = {
-        top: "430.96px",
-        left: "742.52px",
+        top: "455.2px",
+        left: "618.59px",
         position: "absolute",
       };
       const ColorBlue = {
-        width: "1061.86px",
-        height: "814.28px",
-        opacity: 0.8,
+        width: "971.3px",
+        height: "745.28px",
+        opacity: 0.5,
         transform: "rotate(23.94deg)", // Use transform to handle rotation
         boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)", // Use camelCase for boxShadow
-        filter: "blur(150px)",
+        filter: "blur(100px)",
       };
       const YellowBox = {
-        top: "360px",
-        left: "5px",
+        top: "220px",
+        left: "133px",
         position: "absolute",
       };
     
@@ -33,16 +33,16 @@ function CorporateBasicRegistrationPage() {
         transform: "rotate(16.22 deg)",
       };
       const PurpleBox = {
-        top: "-708.11px",
-        left: "256.19px",
+        top: "-400.09px",
+        left: "-500px",
         position: "absolute",
-        background: "rgba(159, 93, 152, 1)",
+        // background: "rgba(159, 93, 152, 1)",
 
       };
       const ColorPurple = {
         width: "973.26px",
-        height: "869.43px",
-        filter: "blur(150px)",
+        height: "609.43px",
+        filter: "blur(300px)",
     
         opacity: 1, // No 'px' for opacity
         transform: "rotate(-30.73deg)",
@@ -56,10 +56,10 @@ function CorporateBasicRegistrationPage() {
             <img src={Blue} alt="" style={ColorBlue} />
           </div>
           <div class="purple" style={PurpleBox}>
-            <img src={Purple} alt="" style={ColorYellow} />
+            <img src={Purple} alt="" style={ColorPurple} />
           </div>
           <div class="yellow" style={YellowBox}>
-            <img src={Yellow} alt="" style={ColorPurple} />
+            <img src={Yellow} alt="" style={ColorYellow} />
           </div>
         </div>
 

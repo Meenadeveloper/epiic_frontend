@@ -6,7 +6,18 @@ function CorporateLoginForm() {
         <div className='custom-container'>
             <div className='login-box'>
             <div className='back-btn-box'>
-            <button  className='back-btn'>Back</button>
+            <button
+                className='back-btn'
+                onClick={() => {
+                  if (window.history.length > 1) {
+                    window.history.back();
+                  } else {
+                    window.location.href = '/'; // Replace '/' with your fallback URL
+                  }
+                }}
+              >
+                Back
+              </button>
 
             </div>
                 <div className='login-grid-box'>
@@ -21,14 +32,14 @@ function CorporateLoginForm() {
                            <form className='login-form'>
                               <div className='form-control'>
                                 <label for='email' className='input-label'>Email</label>
-                                <input type='text'placeholder='Enter Name' className='input-text' />
+                                <input type='email'placeholder='Enter Name' className='input-text' />
                               </div>
 
-                              <div className='form-control error-input'>
+                              <div className='form-control'>
                                 <label for='email' className='input-label'>Password</label>
-                                <input type='text'placeholder='Must be atleast 8 characters' className='input-text' />
+                                <input type='password'placeholder='Must be atleast 8 characters' className='input-text' />
                                 {/* error text */}
-                                <p className='error'>error</p>
+                                {/* <p className='error'>error</p> */}
                               </div>
                               <div className='form-link-box'>
                                  <Link to="#" className='forgot-link'>Forgot Password ?</Link>

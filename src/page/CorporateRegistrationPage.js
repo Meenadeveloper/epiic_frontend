@@ -1,70 +1,70 @@
 import Header from "../components/Header";
-import Blue from "../assets/images/blue.png";
-import Yellow from "../assets/images/yellow.png";
-import Purple from "../assets/images/purple.png";
+import Blue from "../assets/images/reg_blue.png";
+import Yellow from "../assets/images/reg_yellow.png";
+import Purple from "../assets/images/reg_purple.png";
 import CorporateRegister from "../components/CorporateRegister";
 
 function CorporateRegistrationPage() {
     const BlueBox = {
-        top: "430.96px",
-        left: "742.52px",
+        top: "510.64px",
+        left: "462px",
         position: "absolute",
       };
       const ColorBlue = {
-        width: "1061.86px",
-        height: "814.28px",
+        width: "870.25px",
+        height: "1665.64px",
         opacity: 0.8,
-        transform: "rotate(23.94deg)", // Use transform to handle rotation
+        transform: "rotate(27.04deg)", // Use transform to handle rotation
         boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)", // Use camelCase for boxShadow
-        filter: "blur(150px)",
+        filter: "blur(200px)",
       };
       const YellowBox = {
-        top: "360px",
-        left: "5px",
+        top: "-567.79px",
+        left: "-314px",
         position: "absolute",
       };
     
       const ColorYellow = {
-        width: "626px !important",
-        height: "672px !important",
-        filter: "blur(350px)",
+        width: "996.87px !important",
+        height: "975.02px !important",
+        filter: "blur(200px)",
     
-        opacity: 0.9,
-        transform: "rotate(16.22 deg)",
+        opacity: 0.8,
+        transform: "rotate(27.04deg)",
       };
       const PurpleBox = {
-        top: "-708.11px",
-        left: "256.19px",
+        top: "160.92px",
+        left: "-173px",
         position: "absolute",
-        background: "rgba(159, 93, 152, 1)",
+        // background: "rgba(159, 93, 152, 1)",
 
       };
       const ColorPurple = {
-        width: "973.26px",
-        height: "869.43px",
+        width: "872.66px",
+        height: "1465.6px",
         filter: "blur(150px)",
     
-        opacity: 1, // No 'px' for opacity
-        transform: "rotate(-30.73deg)",
+        opacity: 0.8, // No 'px' for opacity
+        transform: "rotate(27.04deg)",
       };
     
 
   return (
     <>
-     <div class="body-bg">
+     <div class="body-bg" style={{overflowY:'scroll'}}>
         <div class="bg-box">
           <div class="blue" style={BlueBox}>
             <img src={Blue} alt="" style={ColorBlue} />
           </div>
           <div class="purple" style={PurpleBox}>
-            <img src={Purple} alt="" style={ColorYellow} />
+            <img src={Purple} alt="" style={ColorPurple} />
           </div>
           <div class="yellow" style={YellowBox}>
-            <img src={Yellow} alt="" style={ColorPurple} />
+            <img src={Yellow} alt="" style={ColorYellow} />
           </div>
         </div>
 
-        <div className="page-wrapper">
+        <div className="page-wrapper" style={{overflowY:'unset'}}>
           <Header />
           <CorporateRegister/>
         </div>

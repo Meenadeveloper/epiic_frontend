@@ -15,7 +15,7 @@ function App() {
   return (
     <>
   <ToastContainer />  {/* Add it here globally */}
-   <Router> 
+   <Router > 
      
         <Routes>
         <Route path="/" element={<Home />} />

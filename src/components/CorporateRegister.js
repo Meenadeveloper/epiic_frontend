@@ -1,5 +1,6 @@
 import AboutField from "./AboutField";
 import AdditionalInformation from "./AdditionalInformation";
+import AddressField from "./AddressField";
 import AddressManager from "./AddressManager";
 import CorporateBasicDetail from "./CorporateBasicDetail";
 import LogoInput from "./LogoInput";
@@ -167,7 +168,7 @@ const handleSubmit = (e) => {
                   isPhoneVerified={isPhoneVerified}
                   setIsPhoneVerified={setIsPhoneVerified}
                 />
-                   <AddressManager/>
+                   <AddressField/>
                     <AboutField/>
                     <AdditionalInformation/>
                     <LogoInput/>

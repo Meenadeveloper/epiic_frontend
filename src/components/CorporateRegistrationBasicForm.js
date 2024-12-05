@@ -5,8 +5,11 @@ import { toast } from 'react-toastify'; // Import only the toast
 import 'react-toastify/dist/ReactToastify.css';
 import MailOtp from './MailOtp'; // Import the MailOtp component
 import MobileOtp from './MobileOtp'; // Import the MobileOtp component
+import { useNavigate } from 'react-router-dom';
 
 function CorporateRegistrationBasicForm() {
+  const navigate = useNavigate(); // Initialize useNavigate
+
   const [phoneNumber, setPhoneNumber] = useState(''); // State for the phone number
   const [isChecked, setIsChecked] = useState(false); // State for terms and conditions checkbox
   const [formErrors, setFormErrors] = useState({}); // State for form errors
@@ -152,58 +155,65 @@ if (!formValues.organisation) {
   };
 
   
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        const payload = {
-          name: `${formValues.firstName} ${formValues.lastName}`,
-          organization_name: formValues.organisation,
-          email: formValues.email,
-          password: formValues.password,
-          mobile: phoneNumber,
-          designation: formValues.designation,
-        };
 
-        const url = process.env.REACT_APP_EPIIC_CORPORATE_BASIC_REGISTER_URL;
-        const params = new URLSearchParams(payload).toString();
-        const fullUrl = `${url}?${params}`;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (validateForm()) {
+    try {
+      const payload = {
+        name: `${formValues.firstName} ${formValues.lastName}`,
+        organization_name: formValues.organisation,
+        email: formValues.email,
+        password: formValues.password,
+        mobile: phoneNumber,
+        designation: formValues.designation,
+      };
 
-        const response = await fetch(fullUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const url = process.env.REACT_APP_EPIIC_CORPORATE_BASIC_REGISTER_URL;
+      console.log(url)
+      const params = new URLSearchParams(payload).toString();
+      const fullUrl = `${url}?${params}`;
+
+      const response = await fetch(fullUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success(data.message || 'Form submitted successfully!', {
+          position: "top-right",
+          className: 'toast-success',  // Use custom CSS class for success
         });
+        console.log('Response:', data);
 
-        if (response.ok) {
-          const data = await response.json();
-          toast.success(data.message || 'Form submitted successfully!', {
-            position: "top-right",
-            className: 'toast-success',  // Use custom CSS class for success
-          });
-          console.log('Response:', data);
-        } else {
-          const errorData = await response.json();
-          toast.error(errorData.message || 'Failed to submit form. Please try again.', {
-            position: "top-right",
-            className: 'toast-error',  // Use custom CSS class for error
-          });
-        }
-      } catch (error) {
-        console.error('Error submitting form:', error);
-        toast.error('An error occurred while submitting the form. Please try again later.', {
+        // Navigate to /corporate upon success
+        navigate('/corporate-registration');  // This will navigate to the /corporate page
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || 'Failed to submit form. Please try again.', {
           position: "top-right",
           className: 'toast-error',  // Use custom CSS class for error
         });
       }
-    } else {
-      toast.error('Please fix the form errors before submitting.', {
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error('An error occurred while submitting the form. Please try again later.', {
         position: "top-right",
         className: 'toast-error',  // Use custom CSS class for error
       });
     }
-  };
+  } else {
+    toast.error('Please fix the form errors before submitting.', {
+      position: "top-right",
+      className: 'toast-error',  // Use custom CSS class for error
+    });
+  }
+};
+
 
   const [activeOtp, setActiveOtp] = useState(null); // State to track which OTP component to show
   const [otpSent, setOtpSent] = useState(false); // To track if OTP has been sent

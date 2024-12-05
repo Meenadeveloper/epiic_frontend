@@ -7,7 +7,7 @@ function Home() {
   return (
     <>
 
-<div class="body-bg">
+<div class="body-bg" >
   <div class="bg-box">
   <div class="color-blue"></div>
   <div class="color-purple"></div>
