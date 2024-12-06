@@ -21,13 +21,26 @@
   h1, h2, h3, h4, h5, h6, p, li, span, a {
     color: white ; /* Applies white color to specific elements */
   }
-  
+  #root{
+    background: #0F0F0F;
+    height: auto;
+
+  }
   .body-bg{
     width: 100%;
     height: 100%;
     background: #0F0F0F;
     overflow: hidden;
   }
+  /* .body-background{
+    background-position: top center;
+    background-repeat: no-repeat;
+    max-width: 1400px;
+    height: auto;
+    margin: 0 auto;
+    background-size: cover;
+    background-attachment: scroll;
+  } */
   
   .bg-box{
     max-width: 1140px;

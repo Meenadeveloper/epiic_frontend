@@ -168,7 +168,7 @@ const handleSubmit = (e) => {
                   isPhoneVerified={isPhoneVerified}
                   setIsPhoneVerified={setIsPhoneVerified}
                 />
-                   <AddressField/>
+                 
                     <AboutField/>
                     <AdditionalInformation/>
                     <LogoInput/>

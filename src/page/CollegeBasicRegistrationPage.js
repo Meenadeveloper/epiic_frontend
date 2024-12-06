@@ -1,57 +1,53 @@
 import Header from "../components/Header";
-import Blue from "../assets/images/reg_blue.png";
-import Yellow from "../assets/images/reg_yellow.png";
-import Purple from "../assets/images/reg_purple.png";
-import CorporateRegister from "../components/CorporateRegister";
-
-function CorporateRegistrationPage() {
+import Blue from "../assets/images/college_basic_blue.png";
+import Yellow from "../assets/images/college_basic_yellow.png";
+import Purple from "../assets/images/college_basic_purple.png";
+import CollegeBasicRegisterForm from "../components/CollegeBasicRegisterForm";
+function CollegeBasicRegistrationPage() {
     const BlueBox = {
-        top: "510.64px",
-        left: "462px",
+        top: "600.42px",
+        left: "-106.32px",
         position: "absolute",
       };
       const ColorBlue = {
-        width: "870.25px",
-        height: "1665.64px",
+        width: "584.24px",
+        height: "690.13px",
         opacity: 0.8,
-        transform: "rotate(27.04deg)", // Use transform to handle rotation
-        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)", // Use camelCase for boxShadow
+        transform: "rotate(-158.45deg)", // Use transform to handle rotation
         filter: "blur(200px)",
       };
       const YellowBox = {
-        top: "-367.79px",
-        left: "-314px",
+        top: "-200.89px",
+        left: "-100.5px",
         position: "absolute",
       };
     
       const ColorYellow = {
-        width: "996.87px !important",
-        height: "1105.02px !important",
-        filter: "blur(180px)",
+        width: "669.25px !important",
+        height: "400.25px !important",
+        filter: "blur(300px)",
     
-        opacity: 1,
+        opacity: 0.8,
         transform: "rotate(27.04deg)",
       };
       const PurpleBox = {
-        top: "160.92px",
-        left: "-173px",
+        top: "-130.92px",
+        left: "773px",
         position: "absolute",
         // background: "rgba(159, 93, 152, 1)",
 
       };
       const ColorPurple = {
-        width: "872.66px",
-        height: "2200.6px",
-        filter: "blur(150px)",
+        width: "585.86px",
+        height: "805.1px",
+        filter: "blur(250px)",
     
         opacity: 0.8, // No 'px' for opacity
-        transform: "rotate(27.04deg)",
+        transform: "rotate(-158.45deg)",
       };
-    
-
   return (
     <>
-     <div class="body-bg" >
+      <div class="body-bg" style={{overflowY:'scroll'}}>
         <div class="bg-box">
           <div class="blue" style={BlueBox}>
             <img src={Blue} alt="" style={ColorBlue} />
@@ -66,7 +62,7 @@ function CorporateRegistrationPage() {
 
         <div className="page-wrapper" style={{overflowY:'unset'}}>
           <Header />
-          <CorporateRegister/>
+          <CollegeBasicRegisterForm/>
         </div>
       </div>
       
@@ -74,4 +70,4 @@ function CorporateRegistrationPage() {
   )
 }
 
-export default CorporateRegistrationPage
+export default CollegeBasicRegistrationPage

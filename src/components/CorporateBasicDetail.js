@@ -1,3 +1,4 @@
+import AddressField from "./AddressField"
 import CountryInput from "./CountryInput"
 import EmailOtp from "./EmailOtp"
 import PhoneOtp from "./PhoneOtp"
@@ -122,6 +123,8 @@ function CorporateBasicDetail({
          </div>
              
         </div>
+
+        <AddressField/>
       </div>
     </>
   )

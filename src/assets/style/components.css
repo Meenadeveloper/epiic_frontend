@@ -185,7 +185,7 @@ text-align: center;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-
+margin-left: 40px;
   }
   .login-container , .register-container{
     padding: 30px 0px;
@@ -403,7 +403,7 @@ color: rgba(255, 0, 0, 1) !important;
     min-width: 300px;
     margin: 0 auto;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.589);
+    background: rgb(255 255 255 / 75%);
     box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.25);
     padding: 20px;
     color: rgba(0, 0, 0, 1);
@@ -682,6 +682,10 @@ text-align: center;
 .corporate-basic-box{
   /* padding: 20px 10px; */
   padding-bottom: 10px;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .corporate-border{
   border: 1px solid #000000;
@@ -691,9 +695,10 @@ text-align: center;
   /* margin: 20px; */
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 970px;
 }
 .corporate-box{
-  max-width: 1000px;
+  max-width: 1128px;
 }
 @media screen and (max-width:768px) {
   .corporate-border{
@@ -894,6 +899,7 @@ text-align: center;
   padding: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 970px;
 }
 .file-btn{
   width: fit-content;

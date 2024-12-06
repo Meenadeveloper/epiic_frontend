@@ -227,7 +227,7 @@ function AdditionalInformation() {
 
        </div>
        <div className='register-full-row'>
-            <label className='register-label'>Address 1*</label>
+            <label className='register-label'>Tags (optional)</label>
              <textarea  className="textarea-input"
                   rows="4"  placeholder='Lorem ipsum'>
                             </textarea>   

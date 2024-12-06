@@ -10,6 +10,7 @@ import CorporateBasicRegistrationPage from './page/CorporateBasicRegistrationPag
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CollegeBasicRegistrationPage from './page/CollegeBasicRegistrationPage';
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/corporate-login" element={<CorporateLogin />} />
         <Route path="/corporate-register" element={<CorporateBasicRegistrationPage />} />
-        <Route path="/corporate-registration" element={<CorporateRegistrationPage />} />        
+        <Route path="/corporate-registration" element={<CorporateRegistrationPage />} />   
+        <Route path="/college-basic-register" element={<CollegeBasicRegistrationPage />} />        
+     
         </Routes>
      
     </Router>
