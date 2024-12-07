@@ -23,14 +23,16 @@
   }
   #root{
     background: #0F0F0F;
-    height: auto;
+    /* height: auto; */
 
   }
   .body-bg{
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     background: #0F0F0F;
-    overflow: hidden;
+    /* overflow: hidden; */
+    overflow-x: hidden;
+    height: inherit;
   }
   /* .body-background{
     background-position: top center;
@@ -48,14 +50,13 @@
     margin: 0 auto;
     position: relative;
    }
-   .color-blue{
+   /* .color-blue{
     display: block;
     position: absolute;
     background: #5D79EF;
     filter: blur(200px);
   
-    /* Vector */
-  
+   
   position: absolute;
   width: 576.02px;
   height: 1019.92px;
@@ -82,7 +83,7 @@
     filter: blur(200px);
   
   
-    /* Vector */
+   
   
   position: absolute;
   width: 577.61px;
@@ -107,8 +108,7 @@
     border-radius: 50%;
     background: #F49546;
    filter: blur(300px);
-  /* Vector */
-  
+
   position: absolute;
   width: 659.83px;
   height: 900.14px;
@@ -120,13 +120,13 @@
   transform: matrix(0.83, -0.56, 0.15, 0.99, 0, 0);
   
   
-  }
+  } */
 
   .page-wrapper{
     position: relative;
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    /* overflow-y: auto; */
   }
 
   .inner-container{

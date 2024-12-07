@@ -43,6 +43,8 @@ function CollegeBasicRegisterForm() {
                   </div>
                   </form>  
               </div>
+
+              
             </div>
            </div>
         </div>

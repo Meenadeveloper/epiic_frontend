@@ -51,7 +51,7 @@ function LogoInput() {
   return (
     <>
       <div className="register-full-row" >
-        <label className="register-label">Address 1*</label>
+        <label className="register-label"> Upload Logo (Optional)</label>
         <div
           className={`logo-input-container ${isDragOver ? 'drag-over' : ''}`} // Conditionally apply class
           onDrop={handleDrop}

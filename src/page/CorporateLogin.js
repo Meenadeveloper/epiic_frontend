@@ -6,19 +6,17 @@ import CorporateLoginForm from "../components/CorporateLoginForm";
 
 function CorporateLogin() {
   const BlueBox = {
-    top: "-103.73px",
-    left: "723.55px",
+    top: "-250.73px",
+    left: "580.55px",
     position: "absolute",
   };
   const ColorBlue = {
     width: "574.76px",
     height: "745.28px",
 
-    gap: "0px",
-    opacity: 0.8,
-    transform: "rotate(23.94deg)", // Use transform to handle rotation
-    boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)", // Use camelCase for boxShadow
-    filter: "blur(150px)",
+    opacity: 0.9,
+    transform: "rotate(130.94deg)", // Use transform to handle rotation
+    filter: "blur(100px)",
   };
   const YellowBox = {
     top: "102.32px",
@@ -28,23 +26,23 @@ function CorporateLogin() {
 
   const ColorYellow = {
     width: "658.39px !important",
-    height: "657.75px !important",
-    filter: "blur(350px)",
+    height: "670.75px !important",
+    filter: "blur(200px)",
 
-    opacity: 0.9,
+    opacity: 1,
     transform: "rotate(23.94deg)",
   };
   const PurpleBox = {
-    top: "313.72px",
+    top: "213.72px",
     left: "24px",
     position: "absolute",
   };
   const ColorPurple = {
     width: "576.35px",
-    height: "869.43px",
-    filter: "blur(150px)",
+    height: "569.43px",
+    filter: "blur(200px)",
 
-    opacity: 0.8, // No 'px' for opacity
+    opacity: "1", // No 'px' for opacity
     transform: "rotate(23.94deg)",
   };
 
@@ -56,10 +54,10 @@ function CorporateLogin() {
             <img src={Blue} alt="" style={ColorBlue} />
           </div>
           <div class="purple" style={PurpleBox}>
-            <img src={Purple} alt="" style={ColorYellow} />
+            <img src={Purple} alt="" style={ColorPurple} />
           </div>
           <div class="yellow" style={YellowBox}>
-            <img src={Yellow} alt="" style={ColorPurple} />
+            <img src={Yellow} alt="" style={ColorYellow} />
           </div>
         </div>
 

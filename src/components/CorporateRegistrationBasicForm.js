@@ -6,9 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import MailOtp from './MailOtp'; // Import the MailOtp component
 import MobileOtp from './MobileOtp'; // Import the MobileOtp component
 import { useNavigate } from 'react-router-dom';
+import SuccessPopup from './SuccessPopup';
 
 function CorporateRegistrationBasicForm() {
   const navigate = useNavigate(); // Initialize useNavigate
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const [phoneNumber, setPhoneNumber] = useState(''); // State for the phone number
   const [isChecked, setIsChecked] = useState(false); // State for terms and conditions checkbox
@@ -190,8 +192,8 @@ const handleSubmit = async (e) => {
         });
         console.log('Response:', data);
 
-        // Navigate to /corporate upon success
-        navigate('/corporate-registration');  // This will navigate to the /corporate page
+       // Show the popup upon successful form submission
+       setShowSuccessPopup(true);
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || 'Failed to submit form. Please try again.', {
@@ -519,6 +521,8 @@ const handleSubmit = async (e) => {
                     </button>
                   </div>
                 </form>
+{/* Show success popup if form is successfully submitted */}
+{showSuccessPopup && <SuccessPopup onClose={() => setShowSuccessPopup(false)} navigate={navigate} />}
               </div>
             </div>
           </div>

@@ -151,7 +151,7 @@ const handleSubmit = (e) => {
                 Back
               </button>
             </div>
-            <div className='register-form-container '>
+            <div className='register-form-container  '>
               <div className='register-form-box corporate-box'>
                 <div className='register-heading'>
                   <h2>CORPORATE REGISTRATION</h2>

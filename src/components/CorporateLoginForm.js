@@ -30,7 +30,7 @@ function CorporateLoginForm() {
                         <div className='login-form-box'>
                         <h2 className='login-form-heading'>CORPORATE LOGIN</h2>
                            <form className='login-form'>
-                              <div className='form-control'>
+                              <div className='form-control login-input'>
                                 <label for='email' className='input-label'>Email</label>
                                 <input type='email'placeholder='Enter Name' className='input-text' />
                               </div>
@@ -40,10 +40,11 @@ function CorporateLoginForm() {
                                 <input type='password'placeholder='Must be atleast 8 characters' className='input-text' />
                                 {/* error text */}
                                 {/* <p className='error'>error</p> */}
-                              </div>
-                              <div className='form-link-box'>
+                                <div className='form-link-box'>
                                  <Link to="#" className='forgot-link'>Forgot Password ?</Link>
                               </div>
+                              </div>
+                             
                               <div className='form-control'>
                                 <button type='submit' className='login-btn'>Login</button>
                               </div>
