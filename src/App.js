@@ -11,6 +11,8 @@ import CorporateBasicRegistrationPage from './page/CorporateBasicRegistrationPag
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CollegeBasicRegistrationPage from './page/CollegeBasicRegistrationPage';
+import CandidateBasicRegistrationPage from './page/CandidateBasicRegistrationPage';
+import CandidateRegistrationPage from './page/CandidateRegistrationPage';
 
 function App() {
   return (
@@ -21,9 +23,13 @@ function App() {
         <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/corporate-login" element={<CorporateLogin />} />
-        <Route path="/corporate-register" element={<CorporateBasicRegistrationPage />} />
+        <Route path="/corporate-basic-register" element={<CorporateBasicRegistrationPage />} />
         <Route path="/corporate-registration" element={<CorporateRegistrationPage />} />   
-        <Route path="/college-basic-register" element={<CollegeBasicRegistrationPage />} />        
+        <Route path="/college-basic-register" element={<CollegeBasicRegistrationPage />} />   
+        <Route path="/candidate-basic-register" element={<CandidateBasicRegistrationPage />} />  
+        <Route path="/candidate-registeration" element={<CandidateRegistrationPage />} />        
+      
+     
      
         </Routes>
      

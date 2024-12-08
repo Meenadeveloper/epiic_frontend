@@ -1,5 +1,4 @@
-import React from 'react'
-
+import SuccessIcon from '../assets/images/Checkmark.svg'
 function SuccessPopup({ onClose, navigate }) {
 
     const handleContinue = () => {
@@ -12,11 +11,15 @@ function SuccessPopup({ onClose, navigate }) {
       <div class="successpopup-overlay"></div>
       <div class="success-popup">
         <button class="success-popup-close-btn"><span class="material-icons">close</span></button>
-               <h2>Popup Title</h2>
-           <p>This is a popup centered inside the form container.</p>
+        <div className='success-content'>
+           <img src={SuccessIcon} alt="" />        
+        <h2>Successfully Submitted!</h2>
+           <p>Thank you! Your form has been successfully submitted.</p>
            <button className="continue-btn" onClick={handleContinue}>
           Continue
         </button>
+        </div>
+               
        </div>
       
     </>

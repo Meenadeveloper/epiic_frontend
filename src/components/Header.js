@@ -21,26 +21,26 @@ const handleMobileClose = () => setIsMobileOpen(false);
          
             <div className='custom-container'>
             <div className="inner-nav">
-            <Link className="navbar-brand" to="#">
+            <Link className="navbar-brand" to="/">
             <Logo   className='logo-img' />
             </Link>
             
             <div className="menu-box">
               <ul className="menu-list-box ">
                 <li className="menu-list-item">
-                  <a className="menu-link active" href="#">
+                  <a className="menu-link active" href="/corporate-basic-register">
                     Corporate
                   </a>
                 </li>
                 <li className="menu-list-item">
                   
-                  <a className="menu-link" href="#">
+                  <a className="menu-link" href="/college-basic-register">
                     College
                   </a>
                 </li>
                 <li className="menu-list-item">
                  
-                  <a className="menu-link" href="#">
+                  <a className="menu-link" href="/candidate-basic-register">
                     Candidate
                   </a>
                 </li>
@@ -90,13 +90,13 @@ const handleMobileClose = () => setIsMobileOpen(false);
                 </div>
                 <ul className='mobile-items-box'>
                   <li className='mobile-menu-item'>
-                    <Link to="#" className='mobile-menu-link'> Corporate</Link>
+                    <Link to="/corporate-basic-register" className='mobile-menu-link'> Corporate</Link>
                   </li>
                   <li className='mobile-menu-item'>
-                    <Link to="#" className='mobile-menu-link'> College</Link>
+                    <Link to="/college-basic-register" className='mobile-menu-link'> College</Link>
                   </li>
                   <li className='mobile-menu-item'>
-                    <Link to="#" className='mobile-menu-link'> Candidate</Link>
+                    <Link to="/candidate-basic-register" className='mobile-menu-link'> Candidate</Link>
                   </li>
                   <li className='mobile-menu-item'>
                     <Link to="#" className='mobile-menu-link'> Speaker</Link>

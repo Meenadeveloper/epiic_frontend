@@ -13,13 +13,19 @@ const EpiicUsers = () => {
       navigate('/corporate-login'); // Navigates to the /register URL
     };
   const handleCorporateRegisterClick = () => {
-   navigate('/corporate-register'); // Navigates to the /register URL
+   navigate('/corporate-basic-register'); // Navigates to the /register URL
  };
 
  const handleCollegeRegisterClick = () => {
    navigate('/college-basic-register'); // Navigates to the /register URL
  };
 
+ const handleCandidateRegisterClick = () => {
+   navigate('/candidate-basic-register'); // Navigates to the /register URL
+ };
+
+
+ 
   return (
     <div className='custom-container'>
        <div className='epiic-users-box'>
@@ -34,7 +40,7 @@ const EpiicUsers = () => {
 
          <div className="epiic-users-buttons"> 
        <button className="epiic-users-login-button"  onClick={handleCorporateLoginClick}> Login </button> 
-        <button className="epiic-users-register-button " onClick={handleCollegeRegisterClick}> Register </button> 
+        <button className="epiic-users-register-button " onClick={handleCorporateRegisterClick}> Register </button> 
 
          </div>
           </div>
@@ -52,7 +58,7 @@ const EpiicUsers = () => {
 
          <div className="epiic-users-buttons"> 
        <button className="epiic-users-login-button" > Login </button> 
-        <button className="epiic-users-register-button " onClick={handleCorporateRegisterClick}> Register </button> 
+        <button className="epiic-users-register-button " onClick={handleCollegeRegisterClick}> Register </button> 
 
          </div>
           </div>
@@ -67,7 +73,7 @@ const EpiicUsers = () => {
 
          <div className="epiic-users-buttons"> 
        <button className="epiic-users-login-button" > Login </button> 
-        <button className="epiic-users-register-button " > Register </button> 
+        <button className="epiic-users-register-button "  onClick={handleCandidateRegisterClick}> Register </button> 
 
          </div>
           </div>

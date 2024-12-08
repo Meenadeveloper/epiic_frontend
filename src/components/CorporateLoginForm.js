@@ -51,15 +51,15 @@ function CorporateLoginForm() {
                            </form>
 
                            <div className='form-control' style={{marginBottom:'10px'}}>
-                           <Link to="#" className='sign-link'>Sign Up/Not Registered Yet?</Link>
+                           <Link to="/corporate-basic-register" className='sign-link'>Sign Up/Not Registered Yet?</Link>
 
                             </div>
 
                             <div className='form-multi-link'>
-                           <Link to="/corporate-register" className='form-link'> Corporate  /</Link> 
-                           <Link to="#" className='form-link'> College  /</Link>
+                           <Link to="/corporate-basic-register" className='form-link'> Corporate  /</Link> 
+                           <Link to="/college-basic-register" className='form-link'> College  /</Link>
 
-                           <Link to="#" className='form-link'>  Candidater /</Link>
+                           <Link to="/candidate-basic-register" className='form-link'>  Candidater /</Link>
 
                            <Link to="#" className='form-link'> Speaker</Link>
 

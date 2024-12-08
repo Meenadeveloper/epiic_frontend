@@ -464,7 +464,7 @@ text-align: center;
   
   .register-label {
     margin-bottom: 10px;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 18px;
     padding-left: 10px;
     color: rgba(0, 0, 0, 1) !important;
@@ -740,9 +740,8 @@ text-align: center;
   background: #fff;
   border-radius: 20px;
   box-shadow: 0px 4px 4px 0px #00000040;
-  max-width: 100%;
-  min-width: 300px;
-  width: 360px;
+  width: 100%;
+  max-width: 370px;
   margin-top: 5px;
   max-height: 210px;
   overflow-y: auto;
@@ -862,7 +861,7 @@ text-align: center;
     outline: none;
     background: #ffff;
     color: rgba(0, 0, 0, 1);
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 700;
     cursor: pointer;
     box-shadow: 3px 4px 10px 0px #00000040;
@@ -1050,9 +1049,9 @@ width: 100%;
   transform: translate(-50%, -50%);
   background-color: white;
   z-index: 100;
-  padding: 20px;
+  padding: 30px 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  border-radius: 10px;
 }
 /* Close button styling */
 .success-popup-close-btn {
@@ -1064,10 +1063,175 @@ width: 100%;
   font-size: 20px;
   cursor: pointer;
 }
+.success-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  max-width: 330px;
+  margin: 0 auto;
+}
+.success-content h2{
+  font-family: Montserrat;
+font-size: 24px;
+font-weight: 700;
+line-height: 26px;
+color: #000000;
+text-align: center;
 
+}
+.success-content p{
+  font-family: Montserrat;
+font-size: 12px;
+font-weight: 700;
+line-height: 15px;
+color: rgba(0, 0, 0, 0.811);
+text-align: center;
+
+}
+.continue-btn{
+  width: 116px;
+  height: 36px;
+  border-radius: 20px;
+  background: #9DC284;
+  color: #fff;
+  box-shadow: 3px 4px 10px 0px #00000040;
+font-size: 14px;
+font-weight: 700;
+border: none;
+cursor: pointer;
+}
+.success-popup-close-btn {
+  cursor: pointer;
+}
 .success-popup-close-btn .material-icons {
-  font-size: 24px;
-  color: #000;
+  font-size: 30px;
+  color: #000000;
+  font-weight: 800;
+}
+.transparent-bg
+{
+  background: transparent;
+  border: 1px solid #000000;
+
+}
+.dropdown-container li.b-txt{
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid transparent;
+  color: rgba(0, 0, 0, 0.63);
+}
+.dropdown-container li.b-txt:hover{
+  background: rgba(255, 255, 255, 0.37);
+}
+
+/* radio input  */
+.register-radio-box
+{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+/* Hide the default radio input */
+.register-radio {
+  display: none;
+}
+
+/* Create custom radio button style */
+.radio-label.custom-radio {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  cursor: pointer;
+  position: relative;
+  font-size: 12px;
+  font-weight: 600;
+  color: #000000;
+  padding-left: 45px; /* Add space for custom radio button */
+  transition: background-color 0.3s ease;
+  border: 1px solid #000000;
+  border-radius: 25px;
+  width: fit-content;
+  margin-right: 20px;
+
+}
+
+/* Create a custom radio button circle with white background */
+.radio-label.custom-radio::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  border-radius: 50%; /* Round shape */
+  background-color: #fff; /* White background */
+  transition: background-color 0.3s ease;
+  box-shadow: 0px 4px 4px 0px #00000040;
+
+
+}
+
+/* Style for checked radio button (when input is checked) */
+.register-radio:checked + .radio-label.custom-radio::before {
+  background-color: #fff; /* Background color when checked */
+}
+
+/* Add inner dot for checked state */
+.register-radio:checked + .radio-label.custom-radio::after {
+  content: '';
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 11px;
+  height: 11px;
+  background-color: #005bb5; /* Inner dot color when checked */
+  border-radius: 50%;
+}
+
+/* Hover effect for the radio label */
+.radio-label.custom-radio:hover::before {
+  border-color: #fff; /* Change border color on hover */
+}
+
+/* Optional: Hover effect for the label background */
+.radio-label.custom-radio:hover {
+  background-color: rgba(248, 249, 249, 0.416); /* Light background color on hover */
+}
+.college-register{
+  max-width: 1130px;
+  width: 100%;
+  background: #FFFFFFBF;
+  box-shadow: 2px 4px 10px 0px #00000040;
+
+}
+.reg-form-content-box{
+  max-width: 895px;
+  width: 100%;
+  margin: 0 auto;
+}
+.form-sub-head{
+  text-align: center;
+    padding: 20px 10px;
+    color: #000000;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 26px;
+    text-align: justified;
+    
+    
+}
+.trasparent-dropdown-box{
+  display: flex;
+  flex-direction: column;
+
+}
+.transparent-bg{
+  position: initial;
 }
 @media (max-width: 768px) {
   .register-row {
@@ -1105,5 +1269,9 @@ width: 100%;
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 5px;
+  }
+  .success-popup {
+    transform: translate(-50%, -200%);
+    border: 10px solid transparent;
   }
 }
