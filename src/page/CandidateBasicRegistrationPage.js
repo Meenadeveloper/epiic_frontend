@@ -5,45 +5,45 @@ import Purple from "../assets/images/college_basic_purple.png";
 import CandidateBasicRegisterForm from "../components/CandidateBasicRegisterForm";
 function CandidateBasicRegistrationPage() {
     const BlueBox = {
-        top: "600.42px",
-        left: "-106.32px",
+        top: "52.27px",
+        left: "840px",
         position: "absolute",
       };
       const ColorBlue = {
-        width: "584.24px",
-        height: "690.13px",
-        opacity: 0.8,
-        transform: "rotate(-158.45deg)", // Use transform to handle rotation
+        width: "574.76px",
+        height: "745.28px",
+        opacity: "1",
+        transform: "rotate(23.94deg)", // Use transform to handle rotation
         filter: "blur(200px)",
       };
       const YellowBox = {
-        top: "-200.89px",
-        left: "-100.5px",
+        top: "562.21px",
+        left: "395px",
         position: "absolute",
       };
     
       const ColorYellow = {
-        width: "669.25px !important",
-        height: "400.25px !important",
-        filter: "blur(300px)",
+        width: "658.39px",
+        height: "400.75px",
+        filter: "blur(170px)",
     
-        opacity: 0.8,
+        opacity: "1",
         transform: "rotate(27.04deg)",
       };
       const PurpleBox = {
-        top: "-130.92px",
-        left: "773px",
+        top: "15.91px",
+        left: "-45px",
         position: "absolute",
         // background: "rgba(159, 93, 152, 1)",
 
       };
       const ColorPurple = {
         width: "585.86px",
-        height: "805.1px",
-        filter: "blur(250px)",
+        height: "569.43px",
+        filter: "blur(140px)",
     
-        opacity: 0.8, // No 'px' for opacity
-        transform: "rotate(-158.45deg)",
+        opacity: "1", // No 'px' for opacity
+        transform: "rotate(23deg)",
       };
 
 

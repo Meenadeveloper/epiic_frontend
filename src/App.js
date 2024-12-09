@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import CollegeBasicRegistrationPage from './page/CollegeBasicRegistrationPage';
 import CandidateBasicRegistrationPage from './page/CandidateBasicRegistrationPage';
 import CandidateRegistrationPage from './page/CandidateRegistrationPage';
+import CollegeLoginPage from './page/CollegeLoginPage';
+import CandidateLoginPage from './page/CandidateLoginPage';
 
 function App() {
   return (
@@ -24,8 +26,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/corporate-login" element={<CorporateLogin />} />
         <Route path="/corporate-basic-register" element={<CorporateBasicRegistrationPage />} />
+        
+        <Route path="/college-login" element={<CollegeLoginPage />} />
         <Route path="/corporate-registration" element={<CorporateRegistrationPage />} />   
         <Route path="/college-basic-register" element={<CollegeBasicRegistrationPage />} />   
+
+        <Route path="/candidate-login" element={<CandidateLoginPage />} />
         <Route path="/candidate-basic-register" element={<CandidateBasicRegistrationPage />} />  
         <Route path="/candidate-registeration" element={<CandidateRegistrationPage />} />        
       

@@ -1,47 +1,47 @@
 
-function InstituteTypeInput() {
+function GenderInput() {
   return (
     <>
       <div className="register-form-control">
-        <label className="register-label">Choose Institution Type</label>
+        <label className="register-label">Gender</label>
         <div className="register-radio-box">
           <div className="radio-field">
             <input
               type="radio"
-              name="instituteType"
-              id="university"
+              name="male"
+              id="male"
               className="register-radio"
             />
-            <label htmlFor="university" className="radio-label custom-radio">
-              University
+            <label htmlFor="Male" className="radio-label custom-radio">
+            Male
             </label>
           </div>
           <div className="radio-field">
             <input
               type="radio"
-              name="instituteType"
-              id="college"
+              name="female"
+              id="Female"
               className="register-radio"
             />
-            <label htmlFor="college" className="radio-label custom-radio">
-              College
+            <label htmlFor="Female" className="radio-label custom-radio">
+            Female
             </label>
           </div>
           <div className="radio-field">
             <input
               type="radio"
-              name="instituteType"
-              id="institutions"
+              name="other"
+              id="Other"
               className="register-radio"
             />
-            <label htmlFor="institutions" className="radio-label custom-radio">
-              Institutions
+            <label htmlFor="Other" className="radio-label custom-radio">
+            Other
             </label>
           </div>
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default InstituteTypeInput;
+export default GenderInput
