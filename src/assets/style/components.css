@@ -297,6 +297,8 @@ select::placeholder {
   color: rgb(65, 64, 64);
   font-size: 12px;
   font-weight: 600;
+  font-family: 'Montserrat', sans-serif !important;
+
 }
 .form-link-box{
   width: 100%;

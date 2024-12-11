@@ -10,7 +10,7 @@ function AddressView({ address }) {
                         <span>Address 1*  :</span> 
                         </div>
                         <div className='address-view-data'>
-                        <p>{address.address}</p>
+                        <p>{address.address1}</p>
                         </div> 
                </div>
 

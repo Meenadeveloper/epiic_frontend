@@ -1,181 +1,89 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import CorporateTextInput from './corporate/CorporateTextInput';
+import DestrictInput from './corporate/DestrictInput';
+import StateInput from './corporate/StateInput';
 
-function AddressField({ onSave }) {
- // Using an array to store the address fields
- const [address, setAddress] = useState([{
-  address1: "",
-  state: "",
-  district: "",
-  pincode: "",
-  tags: "",
-}]);
+function AddressField({ addressSave }) {
+  const [address, setAddress] = useState({
+    address1: '',
+    state: '',
+    district: '',
+    pincode: '',
+    tags: '',
+  });
 
- const handleChange = (e) => {
-  const { name, value } = e.target;
-  setAddress((prevAddress) => ({
-    ...prevAddress,
-    [name]: value,
-  }));
-};
+  
+  const [errors, setErrors] = useState({});
 
-const handleSave = () => {
-  // Your save logic here, such as passing data to a parent component or saving it in state
-  onSave(address); // Pass the address data back to the parent component
-};
+  // Pincode pattern (e.g., 6 digits)
+  const pincodePattern = /^[0-9]{6}$/;
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAddress((prevAddress) => ({
+      ...prevAddress,
+      [name]: value, // Update the specific field in the address object
+    }));
+  };
 
- 
+  const handleValidation = () => {
+    let newErrors = {};
+
+    // Required field validation
+    if (!address.address1) newErrors.address1 = 'Address Line 1 is required';
+    if (!address.state) newErrors.state = 'State is required';
+    if (!address.district) newErrors.district = 'District is required';
+
+    // Pincode validation
+    if (!pincodePattern.test(address.pincode)) {
+      newErrors.pincode = 'Pincode must be a 6-digit number';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
+
+  const handleSave = () => {
+    if (handleValidation()) {
+      if (typeof addressSave === "function") {
+        addressSave(address); // Ensure addressSave is a function before calling
+      } else {
+        console.error("addressSave is not a valid function");
+      }
+    }
+  };
+  const [selectedState, setSelectedState] = useState(null);
+
+  const handleStateSelect = (stateId, stateName) => {
+    console.log("Parent received:", stateId, stateName);
+    setSelectedState({ id: stateId, name: stateName });
+  };
+
   return (
-    <>
-        <div className="corporate-border">
-          <div className='register-full-row'>
-            <label className='register-label'>Address 1*</label>
-            <textarea
-  className="textarea-input"
-  rows="3"
-  placeholder="Lorem ipsum"
-  name="address1"
-  value={address.address1}
-  onChange={handleChange}
-/>   
-          
-           </div>
+    <div className="corporate-border">
+     
+     <CorporateTextInput/>
+ 
+              <div className='register-row'>
+                    <div className='register-col'>
+                    <StateInput onStateSelect={handleStateSelect} />
+                     </div>
 
-           <div className='register-row'>
-            <div className='register-col'>
-               <div className="register-form-control">
-                     <label className='register-label'>Select State</label>
-                     <div className="dropdown-container">
-                     <div className="search-box-container">
-                     <input
-                          type='text'
-                          
-                        
-                    className="register-input drodown-input"
-                    placeholder="Search"
-                    name="state"
-          value={address.state}
-          onChange={handleChange}
-                        />
-                        <i className="material-icons search-icon">search</i>
-                        <i
-              className="material-icons dropdown-icon" >
-              arrow_drop_down
-            </i>
-                       </div>
-                       {/* dropdown options */}
-                       {/* <div className="dropdown-option-box" >
-                       <ul className="dropdown-container">
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                       </ul>
+                     <div className='register-col'>
+                    
+                      <DestrictInput onStateSelect={handleStateSelect} />
+                     </div>
+                  </div>
 
-                       </div> */}
-                       </div>
-                        
-                        <p className='error'></p>
-                </div>     
-            </div>
 
-             <div className='register-col'>
-              <div className="register-form-control">
-                        <label className='register-label'>District</label>
-                        <div className="dropdown-container">
-                     <div className="search-box-container">
-                     <input
-                          type='text'
-                         
-                    className="register-input drodown-input"
-                    placeholder="Search"
-                    name="district"
-          value={address.district}
-          onChange={handleChange}
-                        />
-                        <i className="material-icons search-icon">search</i>
-                        <i
-              className="material-icons dropdown-icon" >
-              arrow_drop_down
-            </i>
-                       </div>
-                       {/* dropdown options */}
-                       {/* <div className="dropdown-option-box" >
-                       <ul className="dropdown-container">
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                       </ul>
 
-                       </div> */}
-                       </div>
-                        <p className='error'></p>
-              </div>
-            </div>  
 
-         </div>
 
-         <div className='register-row'>
-            <div className='register-col'>
-               <div className="register-form-control">
-                     <label className='register-label'>Pin code</label>
-                        <input
-                          type='text'
-                className="register-input"
-                placeholder="Enter Pin code"
-                name="pincode"
-          value={address.pincode}
-          onChange={handleChange}
-                        />
-                        <p className='error'></p>
-                </div>     
-            </div>
-
-             <div className='register-col'>
-              <div className="register-form-control">
-                        <label className='register-label'>Tags</label>
-                        <div className="dropdown-container">
-                     <div className="search-box-container">
-                     <input
-                          type='text'
-                    className="register-input drodown-input"
-                    placeholder="Search"
-                    name="tags"
-          value={address.tags}
-          onChange={handleChange}
-                        />
-                        <i className="material-icons search-icon">search</i>
-                        <i
-              className="material-icons dropdown-icon" >
-              arrow_drop_down
-            </i>
-                       </div>
-                       {/* dropdown options */}
-                       {/* <div className="dropdown-option-box" >
-                       <ul className="dropdown-container">
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                       </ul>
-
-                       </div> */}
-                       </div>
-                        <p className='error'></p>
-              </div>
-            </div>  
-
-         </div>
-         <div className='d-center'>
-         <button type="button" class="save-btn" onClick={handleSave}>Save</button>
-         </div>
-        </div>
-
-       
-      
-    </>
-  )
+      <button type="button" className="save-btn" onClick={handleSave}>
+        Save
+      </button>
+    </div>
+  );
 }
 
-export default AddressField
+export default AddressField;
