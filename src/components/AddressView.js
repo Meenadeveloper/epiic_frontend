@@ -43,7 +43,7 @@ function AddressView({ address }) {
                         <span>Tags  :</span>
                         </div>
                         <div className='address-view-data'>
-                        <p>{address.tags}</p>
+                        <p>{address.tag}</p>
                         </div> 
                </div>
             </div>

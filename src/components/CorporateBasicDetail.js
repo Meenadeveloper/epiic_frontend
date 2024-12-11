@@ -1,4 +1,4 @@
-import AddressField from "./AddressField"
+import AddressManager from "./AddressManager"
 import CountryInput from "./CountryInput"
 import EmailOtp from "./EmailOtp"
 import PhoneOtp from "./PhoneOtp"
@@ -124,7 +124,7 @@ function CorporateBasicDetail({
              
         </div>
 
-        <AddressField/>
+     <AddressManager/>
       </div>
     </>
   )

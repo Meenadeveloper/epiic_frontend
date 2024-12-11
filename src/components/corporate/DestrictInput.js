@@ -1,10 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function DistrictInput({ stateId }) {
+function DistrictInput({ 
+  stateId,
+  onDistrictSelect,
+  selectedDistrictId,
+  selectedDistrictName,
+  name,
+  error,
+
+}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [districts, setDistricts] = useState([]); // List of districts fetched from API
   const [filteredDistricts, setFilteredDistricts] = useState([]); // Filtered list based on search input
   const [inputValue, setInputValue] = useState(''); // Input field value
+  const [districtIdValue, setDistrictIdValue] = useState(''); // For state ID (hidden)
+
   const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
@@ -76,30 +86,46 @@ function DistrictInput({ stateId }) {
     }
   };
 
-  const handleDistrictSelect = (districtName) => {
+  const handleDistrictSelect = (districtId, districtName) => {
     setInputValue(districtName); // Set input value to selected district
+    setDistrictIdValue(districtId); 
+    if (onDistrictSelect) {
+      onDistrictSelect(districtId, districtName); // Pass selected state ID and name to parent
+    }
     setIsDropdownOpen(false); // Close dropdown
   };
 
   return (
+
+    <>
     <div className="register-form-control">
       <label className="register-label">District</label>
       <div className="dropdown-container trasparent-dropdown-box" ref={dropdownRef}>
         <div className="search-box-container">
           <input
             type="text"
-            name="district"
-            className="register-input dropdown-input"
+            name={name} 
+            className="register-input drodown-input"
             placeholder="Search"
-            value={inputValue} // Controlled input value
+            value={selectedDistrictName || ""}// Controlled input value
             onChange={handleInputChange} // Handle input change to filter districts
             onFocus={() => setIsDropdownOpen(true)} // Open dropdown when focused
+          />
+
+                <input
+            type="hidden"
+            name={name} 
+            value={selectedDistrictId || ""}// Controlled input value
+            
           />
           <i className="material-icons search-icon">search</i>
           <i className="material-icons dropdown-icon" onClick={toggleDropdown}>
             arrow_drop_down
           </i>
         </div>
+
+         {/* Display error message if exists */}
+      {error && <p className="error selectbox-error">{error}</p>}
 
         {/* Dropdown content */}
         {isDropdownOpen && (
@@ -115,20 +141,22 @@ function DistrictInput({ stateId }) {
                     <li
                       key={district.id}
                       className="dropdown-list"
-                      onClick={() => handleDistrictSelect(district.district_name)}
+                      onClick={() => handleDistrictSelect(district.id, district.district_name)}
                     >
                       {district.district_name}
                     </li>
                   )
                 )
               ) : (
-                <li className="dropdown-list">No districts found</li>
+                <li className="dropdown-list unselect">Select State</li>
               )}
             </ul>
           </div>
         )}
       </div>
     </div>
+    </>
+    
   );
 }
 

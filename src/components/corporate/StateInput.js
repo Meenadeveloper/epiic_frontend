@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function StateInput({ onStateSelect }) {
+function StateInput({ onStateSelect ,error ,name}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [states, setStates] = useState([]); // List of all states fetched from API
   const [filteredStates, setFilteredStates] = useState([]); // Filtered list based on search input
   const [inputValue, setInputValue] = useState(''); // Input field value
+  const [stateIdValue, setStateIdValue] = useState(''); // For state ID (hidden)
   const dropdownRef = useRef(null);
 
   // Toggle dropdown visibility
@@ -74,7 +75,8 @@ function StateInput({ onStateSelect }) {
 
   // Handle state selection
   const handleStateSelect = (stateId, stateName) => {
-    setInputValue(stateName); // Set input value to the selected state name
+    setInputValue(stateName); // Set state name in visible input
+    setStateIdValue(stateId);  // Set state ID in hidden input
     console.log("Selected state ID:", stateId); // Log the selected state ID for debugging
     if (onStateSelect) {
       onStateSelect(stateId, stateName); // Pass selected state ID and name to parent
@@ -89,19 +91,26 @@ function StateInput({ onStateSelect }) {
         <div className="search-box-container">
           <input
             type="text"
-            name="state"
-            className="register-input dropdown-input"
+            name={name}
+            className="register-input drodown-input"
             placeholder="Search"
             value={inputValue} // Controlled input value
             onChange={handleInputChange} // Handle input change to filter states
             onFocus={() => setIsDropdownOpen(true)} // Open dropdown when focused
+          />
+          {/* Hidden input field to store state ID */}
+          <input
+            type="hidden"
+            name={name} 
+            value={stateIdValue} // Hidden input to hold the state ID
           />
           <i className="material-icons search-icon">search</i>
           <i className="material-icons dropdown-icon" onClick={toggleDropdown}>
             arrow_drop_down
           </i>
         </div>
-
+ {/* Display error message if exists */}
+ {error && <p className="error selectbox-error">{error}</p>}
         {/* Dropdown content */}
         {isDropdownOpen && (
           <div className="dropdown-option-box">
@@ -116,7 +125,7 @@ function StateInput({ onStateSelect }) {
                     <li
                       key={state.state_id}
                       className="dropdown-list"
-                      onClick={() => handleStateSelect(state.state_id, state.state_name)} // Pass state_id and state_name
+                      onClick={() => handleStateSelect(state.id, state.state_name)} // Pass state_id and state_name
                     >
                       {state.state_name}
                     </li>

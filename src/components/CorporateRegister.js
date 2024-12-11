@@ -1,7 +1,5 @@
 import AboutField from "./AboutField";
 import AdditionalInformation from "./AdditionalInformation";
-import AddressField from "./AddressField";
-import AddressManager from "./AddressManager";
 import CorporateBasicDetail from "./CorporateBasicDetail";
 import LogoInput from "./LogoInput";
 

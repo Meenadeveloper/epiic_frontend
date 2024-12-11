@@ -37,7 +37,7 @@ function CandidateLoginForm() {
                               </div>
 
                               <div className='form-control'>
-                                <label for='email' className='input-label'>Password</label>
+                                <label for='password' className='input-label'>Password</label>
                                 <input type='password'placeholder='Must be atleast 8 characters' className='input-text' />
                                 {/* error text */}
                                 {/* <p className='error'>error</p> */}

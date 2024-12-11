@@ -1235,6 +1235,21 @@ cursor: pointer;
 .transparent-bg{
   position: initial;
 }
+.unselect{
+  cursor:not-allowed !important;
+}
+.textbox-error{
+  width: 100%;
+    max-width: 100%;
+}
+.selectbox-error{
+  margin-top: 6px;
+}
+.address-box
+{
+  width: 100%;
+  max-width: 970px;
+}
 @media (max-width: 768px) {
   .register-row {
     grid-template-columns: 1fr; /* Switch to single column on smaller screens */
