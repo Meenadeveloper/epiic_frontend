@@ -7,7 +7,7 @@ import StateInput from './corporate/StateInput';
 import PincodeInput from './corporate/PincodeInput';
 import TagsInput from './corporate/TagsInput';
 
-function AddressField({ index, address, onSave }) {
+function AddressField({ index, address, onSave , addressesLength}) {
   const [corporateText, setCorporateText] = useState(address.corporateText || '');
   const [pincode, setPincode] = useState(address.pincode || '');
   const [selectedTag, setSelectedTag] = useState(address.tag || '');
@@ -61,7 +61,7 @@ function AddressField({ index, address, onSave }) {
         corporateText,
         selectedDistrictId,
         selectedDistrictName,
-        state: selectedStateName,
+        selectedStateName,
         pincode,
         tag: selectedTag,
       });
@@ -91,6 +91,7 @@ function AddressField({ index, address, onSave }) {
   return (
     <div className="corporate-border">
       <CorporateTextInput
+       label={`Address ${addressesLength}*`} // Dynamically show the length
         value={corporateText}
         onChange={setCorporateText}
         name={`address[${index}]`}
@@ -100,7 +101,8 @@ function AddressField({ index, address, onSave }) {
         <div className="register-col">
           <StateInput
             onStateSelect={handleStateSelect}
-            selectedStateId={selectedStateId}
+            selectedStateName={selectedStateName}
+           selectedStateId={selectedStateId}
             name={`state[${index}]`}
             error={errors.state}
           />
@@ -109,8 +111,8 @@ function AddressField({ index, address, onSave }) {
           <DestrictInput
             stateId={selectedStateId}
             onDistrictSelect={handleDistrictSelect}
-            selectedDistrictId={selectedDistrictId}
-            selectedDistrictName={selectedDistrictName} // Pass the pre-selected value
+            selectedDistrictName={selectedDistrictName}
+            selectedDistrictId={selectedDistrictId} // Pass the pre-selected value
             name={`district[${index}]`}
             error={errors.district}
           />

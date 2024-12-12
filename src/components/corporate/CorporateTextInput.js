@@ -1,5 +1,5 @@
 
-function CorporateTextInput({ value, onChange, error , name}) {
+function CorporateTextInput({ label, value, onChange, error , name}) {
   // Handle input change
   const handleChange = (event) => {
     onChange(event.target.value); // Pass value back to parent
@@ -7,7 +7,7 @@ function CorporateTextInput({ value, onChange, error , name}) {
 
   return (
     <div className="register-full-row">
-      <label className="register-label">Address*</label>
+      <label className="register-label">{label}</label>
       <textarea
         className="textarea-input"
         rows="3"

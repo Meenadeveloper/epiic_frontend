@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function TagsInput({ onTagSelect, error, clearError, name ,selectedTag}) {
-  // List of static tags with IDs
-  const tagOptions = [
+function EmployeesCount({ formData = {}, formErrors = {}, handleChange = () => {} }) {
+  // List of static employee options with IDs
+  const employeeOptions = [
     { id: 1, name: 'Primary' },
     { id: 2, name: 'Corporate Office' },
     { id: 3, name: 'HO' },
@@ -12,9 +12,9 @@ function TagsInput({ onTagSelect, error, clearError, name ,selectedTag}) {
   // State to track dropdown visibility
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); // Reference to the dropdown container
-  const [inputValue, setInputValue] = useState(''); // Input field value
-  const [tagIdValue, setTagIdValue] = useState(''); // For tag ID (hidden)
-  const [filteredTags, setFilteredTags] = useState(tagOptions); // Filtered tags
+  const [inputValue, setInputValue] = useState(formData.noofemployees || ''); // Use formData for inputValue
+  const [employeeIdValue, setEmployeeIdValue] = useState(formData.noofemployeesId || ''); // Use formData for employeeIdValue
+  const [filteredEmployees, setFilteredEmployees] = useState(employeeOptions); // Filtered employees
 
   // Toggle dropdown visibility
   const toggleDropdown = () => {
@@ -43,52 +43,55 @@ function TagsInput({ onTagSelect, error, clearError, name ,selectedTag}) {
     const value = event.target.value;
     setInputValue(value);
 
-    // Filter tags based on the input value
+    // Filter employees based on the input value
     if (value === '') {
-      setFilteredTags(tagOptions); // Show all options if input is empty
+      setFilteredEmployees(employeeOptions); // Show all options if input is empty
     } else {
-      const filtered = tagOptions.filter(tag =>
-        tag.name.toLowerCase().includes(value.toLowerCase())
+      const filtered = employeeOptions.filter(option =>
+        option.name.toLowerCase().includes(value.toLowerCase())
       );
-      setFilteredTags(filtered);
+      setFilteredEmployees(filtered);
     }
 
     // Open the dropdown when typing starts
     setIsDropdownOpen(true);
   };
 
-  // Handle tag selection
-  const handleTagSelect = (tagId, tagName) => {
-    setInputValue(tagName); // Set tag name in visible input
-    setTagIdValue(tagId); // Set tag ID in hidden input
-    console.log("Selected tag ID:", tagId, "Selected tag name:", tagName); // Log the selected tag ID and name for debugging
-    if (onTagSelect) {
-      onTagSelect(tagId, tagName); // Pass selected tag ID and name to parent
-    }
-    if (clearError) {
-      clearError(); // Clear error when tag is selected
-    }
+  // Handle employee selection
+  const handleEmployeeSelect = (employeeId, employeeName) => {
+    setInputValue(employeeName); // Set employee name in visible input
+    setEmployeeIdValue(employeeId); // Set employee ID in hidden input
+    console.log("Selected employee ID:", employeeId, "Selected employee name:", employeeName); // Log the selected employee ID and name for debugging
+
     setIsDropdownOpen(false); // Close the dropdown after selection
+
+    // Update the formData (if needed for form submission)
+    handleChange({
+      target: { name: 'noofemployees', value: employeeName }
+    });
+    handleChange({
+      target: { name: 'noofemployeesId', value: employeeId }
+    });
   };
 
   return (
     <>
       <div className="register-form-control">
-        <label className='register-label'>Tags</label>
-        <div className="dropdown-container" ref={dropdownRef}>
+        <label className='register-label'>No. of Employees in Organisation</label>
+        <div className= {`"dropdown-container ${formErrors.noofemployees ? 'error-input' : ''}`}  ref={dropdownRef}>
           <div className="search-box-container">
             <input
               type='text'
-              name={name} 
-              className="register-input drodown-input"
+              name='noofemployees'
+              className={`register-input drodown-input ${formErrors.noofemployees ? 'err-input-field' : ''}`}
               placeholder='Search'
-              value={selectedTag}
+              value={inputValue}
               onChange={handleInputChange} // Track input changes
             />
             <input
               type='hidden'
-              name={name} 
-              value={tagIdValue}
+              name='noofemployeesId'
+              value={employeeIdValue}
             />
             <i className="material-icons search-icon">search</i>
             <i
@@ -97,23 +100,23 @@ function TagsInput({ onTagSelect, error, clearError, name ,selectedTag}) {
             </i>
           </div>
           {/* Conditionally display the error message if passed */}
-          {error && <p className="error selectbox-error">{error}</p>}
+          {formErrors?.noofemployees && <p className="error selectbox-error">{formErrors.noofemployees}</p>}
           {/* Conditionally render the dropdown options */}
           {isDropdownOpen && (
             <div className="dropdown-option-box">
               <ul className="dropdown-list">
-                {filteredTags.length > 0 ? (
-                  filteredTags.map(tag => (
+                {filteredEmployees.length > 0 ? (
+                  filteredEmployees.map(employee => (
                     <li
-                      key={tag.id}
+                      key={employee.id} // Use employee.id here
                       className='dropdown-list-item'
-                      onClick={() => handleTagSelect(tag.id, tag.name)}
+                      onClick={() => handleEmployeeSelect(employee.id, employee.name)} // Pass employee.id and employee.name
                     >
-                      {tag.name}
+                      {employee.name} {/* Display employee name */}
                     </li>
                   ))
                 ) : (
-                  <li className='dropdown-list-item no-options'>No tags found</li>
+                  <li className='dropdown-list-item no-options'>No employees found</li>
                 )}
               </ul>
             </div>
@@ -124,4 +127,4 @@ function TagsInput({ onTagSelect, error, clearError, name ,selectedTag}) {
   );
 }
 
-export default TagsInput;
+export default EmployeesCount;

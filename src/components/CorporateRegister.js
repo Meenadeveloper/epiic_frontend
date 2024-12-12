@@ -17,7 +17,16 @@ function CorporateRegister() {
     designation: "",
     website:"",
     country:"",
-    logo: "",
+    aboutus:"",
+    noofemployees:"",
+    gst:"",
+    turnover: "",
+    turnoverId: "",
+    natureofindustry:"",
+    classifiedindustry:"",
+    subsector:"",
+    specialization:"",
+    logo: null, // To store the file in formData
   });
   const [formErrors, setFormErrors] = useState({
    firstName: "",
@@ -27,33 +36,96 @@ function CorporateRegister() {
     designation: "",
     website:"",
     country:"",
+    aboutus:"",
+    noofemployees:"",
+    gst:"",
+    turnover: "",
+    turnoverId: "",
+    natureofindustry:"",
+    classifiedindustry:"",
+    subsector:"",
+    specialization:"",
     logo: "",
   });
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // New state for phone verification
- // Handle form data change
- const handleChange = (e) => {
-  const { name, value } = e.target;
+  const gstPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[0-9A-Z]{1}$/;
+  const [gstsuccessMessage, setGstsuccessMessage] = useState(false);
+
+  const handleChange = (e) => {
+    if (!e.target) return; // Make sure e.target exists
+    const { name, value } = e.target;
+  
+    // Update form data dynamically
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value.trim(), // Trim value to avoid leading/trailing spaces
+    }));
+  
+    // Update errors dynamically
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: value.trim()
+        ? ""
+        : `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`,
+    }));
+  
+    // Simple GST pattern check (You can use a more complex one as needed)
+    const gstPattern = /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[0-9]{1}[A-Za-z]{1}[0-9]{1}$/;
+  
+    // GST validation check only if name is 'gst'
+    if (name === "gst") {
+      if (!value.trim()) {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          gst: "GST number required",
+        }));
+        setGstsuccessMessage(false);
+      } else if (gstPattern.test(value)) {
+        setGstsuccessMessage(true);
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          gst: "",
+        })); // Clear any error
+      } else {
+        setGstsuccessMessage(false);
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          gst: "Invalid GST number",
+        }));
+      }
+    }
+  
+    // Validate the number of employees (Only numbers allowed)
+    if (name === "noofemployees") {
+      if (!value.trim()) {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          noofemployees: "No of employees is required.",
+        }));
+      } else if (!/^\d+$/.test(value)) {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          noofemployees: "Only numbers are allowed.",
+        }));
+      } else {
+        setFormErrors((prevErrors) => ({
+          ...prevErrors,
+          noofemployees: "", // Clear error if valid number
+        }));
+      }
+    }
+  
+    
+  };
+  
   
 
-  // Update errors dynamically
-  setFormErrors((prevErrors) => ({
-    ...prevErrors,
-    [name]: value.trim() ? "" : `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`, // Dynamic error message
-  }));
-
-  setFormData((prevData) => ({
-    ...prevData,
-    [name]: value,
-  }));
-};
-
  // Handle file input change (for logo)
- const handleFileChange = (e) => {
-  const { name, files } = e.target;
+ const parenthandleFileChange = (file) => {
   setFormData((prevData) => ({
     ...prevData,
-    [name]: files[0], // Assuming single file upload
+    logo: file, // Update logo with the selected file
   }));
 };
 
@@ -86,6 +158,47 @@ function CorporateRegister() {
   }
   if (!formData.country.trim()) {
     errors.country = "Country is required.";
+    isValid = false;
+  }
+  if (!formData.aboutus.trim()) {
+    errors.aboutus = "About us is required.";
+    isValid = false;
+  }
+  if (!formData.noofemployees.trim()) {
+    errors.noofemployees = "No of employees is required.";
+    isValid = false;
+} else if (!/^\d+$/.test(formData.noofemployees)) {
+    errors.noofemployees = "Only numbers are allowed.";
+    isValid = false;
+}
+  if (!formData.gst.trim()) {
+    errors.gst = "GST No is required.";
+    isValid = false;
+  }
+  
+  else if (!gstPattern.test(formData.gst)) {
+    errors.gst = "Invalid GST No. Please enter a valid GST number.";
+    isValid = false;
+  }
+  if (!formData.turnover.trim()) {
+    errors.turnover = "Turn Over organisation is required.";
+    isValid = false;
+  }
+  if (!formData.natureofindustry.trim()) {
+    errors.natureofindustry = "Nature of Industry is required.";
+    isValid = false;
+  }
+  if (!formData.classifiedindustry.trim()) {
+    errors.classifiedindustry = "Classified Industry is required.";
+    isValid = false;
+  }
+
+  if (!formData.subsector.trim()) {
+    errors.subsector = "Sub sector is required.";
+    isValid = false;
+  }
+  if (!formData.specialization.trim()) {
+    errors.specialization = "Specialization is required.";
     isValid = false;
   }
  
@@ -167,9 +280,20 @@ const handleSubmit = (e) => {
                   setIsPhoneVerified={setIsPhoneVerified}
                 />
                  
-                    <AboutField/>
-                    <AdditionalInformation/>
-                    <LogoInput/>
+                    <AboutField
+                     formData={formData}
+                     formErrors={formErrors}
+                     handleChange={handleChange}
+                    />
+                    <AdditionalInformation
+                    formData={formData}
+                    formErrors={formErrors}
+                    handleChange={handleChange}
+                    gstsuccessMessage={gstsuccessMessage}
+                    />
+                    <LogoInput
+                    parenthandleFileChange={parenthandleFileChange}
+                    />
                     <div className="d-center">
                     <button type="submit" className="save-btn">Submit</button>
                     </div>

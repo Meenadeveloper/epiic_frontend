@@ -1,5 +1,16 @@
+import GST from "./corporate/GST"
+import NoOfEmployees from "./corporate/NoOfEmployees"
+import TurnOverOrganization from "./corporate/TurnOverOrganization"
 
-function AdditionalInformation() {
+function AdditionalInformation(
+  {
+    formData,
+    formErrors,
+    handleChange,
+    gstsuccessMessage
+
+  }
+) {
   return (
     <>
       <div className="corporate-basic-box">
@@ -9,48 +20,22 @@ function AdditionalInformation() {
         <div className="corporate-borderless">
         <div className='register-row'>
             <div className='register-col'>
-               <div className="register-form-control">
-                     <label className='register-label'>GST</label>
-                        <input
-                          type='text'
-                          name='gst'
-                          className="register-input"
-                          placeholder='Enter Name'
-                        />
-                        <p className='error'></p>
-                </div>     
+               <GST
+                formData={formData}
+                formErrors={formErrors}
+                handleChange={handleChange}
+                gstsuccessMessage={gstsuccessMessage}
+               />     
             </div>
 
              <div className='register-col'>
-              <div className="register-form-control">
-                        <label className='register-label'>No. of Employess in Organisation</label>
-                        <div className="dropdown-container">
-                     <div className="search-box-container">
-                     <input
-                          type='text'
-                          name='tags'
-                          className="register-input drodown-input"
-                          placeholder='Lorem ipsum'
-                        />
-                        <i className="material-icons search-icon">search</i>
-                        <i
-              className="material-icons dropdown-icon" >
-              arrow_drop_down
-            </i>
-                       </div>
-                       {/* dropdown options */}
-                       <div className="dropdown-option-box" >
-                       <ul className="dropdown-container">
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                       </ul>
+             
 
-                       </div>
-                       </div>
-                        <p className='error'></p>
-              </div>
+             <NoOfEmployees
+              formData={formData}
+              formErrors={formErrors}
+              handleChange={handleChange}
+             />
             </div>  
 
          </div>
@@ -58,35 +43,14 @@ function AdditionalInformation() {
            
 
              <div className='register-col'>
-              <div className="register-form-control">
-                        <label className='register-label'>Turnover of the Organisation</label>
-                        <div className="dropdown-container">
-                     <div className="search-box-container">
-                     <input
-                          type='text'
-                          name='turnover'
-                          className="register-input drodown-input"
-                          placeholder='Lorem ipsum'
-                        />
-                        <i className="material-icons search-icon">search</i>
-                        <i
-              className="material-icons dropdown-icon" >
-              arrow_drop_down
-            </i>
-                       </div>
-                       {/* dropdown options */}
-                       {/* <div className="dropdown-option-box" >
-                       <ul className="dropdown-container">
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                       </ul>
+             
 
-                       </div> */}
-                       </div>
-                        <p className='error'></p>
-              </div>
+              <TurnOverOrganization
+              formData={formData}
+              formErrors={formErrors}
+              handleChange={handleChange}
+              
+              />
             </div>
 
             <div className='register-col'>

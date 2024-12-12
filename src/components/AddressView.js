@@ -1,5 +1,5 @@
 
-function AddressView({ address }) {
+function AddressView({ address , addressesLength }) {
   return (
     <>
       <div className='address-view-box'>
@@ -7,10 +7,10 @@ function AddressView({ address }) {
             <div className='address-view-content'>
                <div className='address-view-item'>
                        <div className='address-view-data'>
-                        <span>Address 1*  :</span> 
+                        <span>{`Address ${addressesLength}*     :`}</span> 
                         </div>
                         <div className='address-view-data'>
-                        <p>{address.address1}</p>
+                        <p className="address-text">{address.corporateText }</p>
                         </div> 
                </div>
 
@@ -19,7 +19,7 @@ function AddressView({ address }) {
                         <span>State  :</span>
                         </div>
                         <div className='address-view-data'>
-                        <p>{address.state}</p>
+                        <p>{address.selectedStateName}</p>
                         </div> 
                </div>
                <div className='address-view-item'>
@@ -27,7 +27,7 @@ function AddressView({ address }) {
                         <span>District  :</span>
                         </div>
                         <div className='address-view-data'>
-                        <p>{address.district}</p>
+                        <p>{address.selectedDistrictName}</p>
                         </div> 
                </div>
                <div className='address-view-item'>

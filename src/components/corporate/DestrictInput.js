@@ -17,6 +17,18 @@ function DistrictInput({
 
   const dropdownRef = useRef(null);
 
+// Set the input value and state ID when selected state is passed (for edit mode)
+useEffect(() => {
+  if (selectedDistrictName && selectedDistrictId) {
+    setInputValue(selectedDistrictName);
+    setDistrictIdValue(selectedDistrictId);
+    
+    // Log the selected state name and ID
+    console.log("Selected District Name:", selectedDistrictName);
+    console.log("Selected District ID:", selectedDistrictId);
+  }
+}, [selectedDistrictName, selectedDistrictId]);
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
     if (!isDropdownOpen) {
@@ -107,7 +119,7 @@ function DistrictInput({
             name={name} 
             className="register-input drodown-input"
             placeholder="Search"
-            value={selectedDistrictName || ""}// Controlled input value
+            value={inputValue || ""}// Controlled input value
             onChange={handleInputChange} // Handle input change to filter districts
             onFocus={() => setIsDropdownOpen(true)} // Open dropdown when focused
           />
@@ -115,7 +127,7 @@ function DistrictInput({
                 <input
             type="hidden"
             name={name} 
-            value={selectedDistrictId || ""}// Controlled input value
+            value={districtIdValue || ""}// Controlled input value
             
           />
           <i className="material-icons search-icon">search</i>

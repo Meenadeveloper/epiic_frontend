@@ -974,7 +974,8 @@ width: 100%;
 .address-data{
   color: #000000;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
+  font-family: 'montserrat';
 }
 .address-item .dropdown-icon{
   position: unset;
@@ -994,26 +995,27 @@ width: 100%;
   text-wrap-mode: nowrap;
 }
 .address-view-data p{
-  font-size: 16px;
+  font-size: 14px;
+  font-family: 'montserrat';
   font-weight: 400;
   color: #484646;
-  white-space: wrap;        /* Prevent the text from wrapping */
-  overflow: hidden;           /* Hide the overflow text */
-  text-overflow: ellipsis;     /* Show ellipsis (...) for overflow text */
+  word-wrap: break-word; /* Ensures the text wraps within the container */
+  overflow-wrap: break-word; /* Additional support for wrapping text */
 }
-
+.address-text
+{
+  word-break: break-all;
+}
 .address-view-content {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns:  repeat(auto-fill, minmax(280px, 1fr)); /* Auto-fit columns based on available space */
   gap: 20px;
-  flex-wrap: wrap;
 }
 
 .address-view-item {
   flex-grow: 1;              /* Allow the item to grow */
   flex-shrink: 0;            /* Prevent the item from shrinking too much */
-  min-width: 250px;          /* Set a minimum width to prevent items from becoming too small */
-  max-width: auto;           /* Let the item size adjust based on content */
+width: 100%;           /* Let the item size adjust based on content */
   display: flex;
   align-items: center;
   gap: 20px;
@@ -1239,8 +1241,8 @@ cursor: pointer;
   cursor:not-allowed !important;
 }
 .textbox-error{
-  width: 100%;
-    max-width: 100%;
+  width: 100% !important;
+    max-width: 100% !important;
 }
 .selectbox-error{
   margin-top: 6px;
@@ -1249,6 +1251,57 @@ cursor: pointer;
 {
   width: 100%;
   max-width: 970px;
+}
+.address-button-box{
+  display: flex;
+    gap: 15px;
+    flex-wrap: nowrap;
+}
+.edit-btn, .delete-btn{
+  font-size: 14px;
+  font-weight: 400;
+}
+.gst-input{
+  position: relative;
+}
+.gst-input.active::before{
+content: '';
+position: absolute;
+width: 25px;
+height: 25px;
+right: -30px; /* Align to the right side */
+top: 50%; /* Center vertically */
+transform: translateY(-50%);
+z-index: 99;
+background-image: url('../images/gstsuccess.svg');
+background-size: cover;
+}
+.file-name-box
+{
+  position: relative;
+  width: 200px;
+  text-align: center;
+}
+.clear-btn{
+  position: absolute;
+  right: -30px;
+  top: -20px;
+  background: red;
+  border: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #fff;
+  display: flex
+;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  cursor: pointer;
+}
+.clear-btn span{
+  color: #fff;
+  font-size: 24px;
 }
 @media (max-width: 768px) {
   .register-row {

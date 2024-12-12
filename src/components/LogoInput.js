@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { ReactComponent as FileUpload } from '../assets/images/Upload to Cloud.svg'; // Adjusted name for React import
+import { ReactComponent as FileUpload } from '../assets/images/Upload to Cloud.svg';
 
-function LogoInput() {
+function LogoInput({ parenthandleFileChange }) {
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isDragOver, setIsDragOver] = useState(false); // New state to track drag over
+  const [isDragOver, setIsDragOver] = useState(false);
 
   // Handle file validation and setting
   const handleFile = (selectedFile) => {
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
     const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+    console.log(selectedFile);  // Log the file object to the console
 
     if (!allowedExtensions.includes(fileExtension)) {
       setErrorMessage('Invalid file type. Please upload JPG, JPEG, or PNG files only.');
@@ -20,6 +21,7 @@ function LogoInput() {
     } else {
       setErrorMessage('');
       setFile(selectedFile);
+      parenthandleFileChange(selectedFile); // Pass the file to the parent
     }
   };
 
@@ -34,63 +36,70 @@ function LogoInput() {
     event.preventDefault();
     const selectedFile = event.dataTransfer.files[0];
     handleFile(selectedFile);
-    setIsDragOver(false); // Reset drag state when file is dropped
+    setIsDragOver(false);
   };
 
   // Handle drag over event
   const handleDragOver = (event) => {
     event.preventDefault();
-    setIsDragOver(true); // Set drag state to true when dragging over
+    setIsDragOver(true);
   };
 
   // Handle drag leave event
   const handleDragLeave = () => {
-    setIsDragOver(false); // Reset drag state when leaving the drop zone
+    setIsDragOver(false);
+  };
+
+  // Clear file function (optional feature)
+  const handleClearFile = () => {
+    setFile(null);
+    setErrorMessage('');
+    parenthandleFileChange(null); // Clear the file in parent
   };
 
   return (
-    <>
-      <div className="register-full-row" >
-        <label className="register-label"> Upload Logo (Optional)</label>
-        <div
-          className={`logo-input-container ${isDragOver ? 'drag-over' : ''}`} // Conditionally apply class
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-        >
-          {/* Hidden input for choosing file */}
-          <input
-            type="file"
-            className="logo-file-input"
-            onChange={handleFileChange}
-            style={{ display: 'none' }} // Hide the default input for styling
-            id="file-input"
-            accept=".jpg,.jpeg,.png" // File types allowed
-          />
-          <div className="logo-file-upload-content">
-            <FileUpload className="file-upload-img" />
-            {file ? (
-              <p>{file.name}</p> // Display selected file name
-            ) : (
-              <span>JPG, PNG or PDF, smaller than 5 MB</span>
-            )}
-            <p>Drag or drop file here or</p>
-            {/* Button to trigger file input */}
-            <button type="button"
-              className="file-btn"
-              onClick={() => document.getElementById('file-input').click()}
-            >
-              Choose file
-            </button>
-          </div>
+    <div className="register-full-row">
+      <label className="register-label">Upload Logo (Optional)</label>
+      <div
+        className={`logo-input-container ${isDragOver ? 'drag-over' : ''}`}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+      >
+        <input
+          type="file"
+          className="logo-file-input"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+          id="file-input"
+          accept=".jpg,.jpeg,.png"
+          name='logo'
+        />
+        <div className="logo-file-upload-content">
+          <FileUpload className="file-upload-img" />
+          {file ? (
+            <div className='file-name-box'>
+              <p>{file.name}</p>
+              <button type="button" onClick={handleClearFile} className="clear-btn"><span class="material-icons">close</span>
+              </button>
+            </div>
+          ) : (
+            <span>JPG, PNG or PDF, smaller than 5 MB</span>
+          )}
+          <p>Drag or drop file here or</p>
+          <button
+            type="button"
+            className="file-btn"
+            onClick={() => document.getElementById('file-input').click()}
+          >
+            Choose file
+          </button>
         </div>
-        <div className='file-error'>
-        {errorMessage && <p className="error ">{errorMessage}</p>}
-
-        </div>
-
       </div>
-    </>
+      <div className="file-error">
+        {errorMessage && <p className="error">{errorMessage}</p>}
+      </div>
+    </div>
   );
 }
 

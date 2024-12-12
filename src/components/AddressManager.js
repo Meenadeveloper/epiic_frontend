@@ -46,14 +46,21 @@ const AddressManager = () => {
                 onEdit={() => handleEdit(index)}
                 onDelete={() => handleDelete(index)}
                 onView={() => handleViewToggle(index)}  // Toggle view on click
+                addressesLength={addresses.length}  // Pass the length of the addresses array
               />
-              {viewVisibleIndex === index && <AddressView address={address} />} {/* Show AddressView if selected */}
+              {viewVisibleIndex === index && 
+                       <AddressView 
+                        address={address} 
+                        addressesLength={addresses.length}
+                        
+                        />} {/* Show AddressView if selected */}
             </div>
           ) : (
             <AddressField
               index={index}
               address={address} // Pass current address to pre-fill form
               onSave={(addressData) => handleAddressSave(index, addressData)}
+              addressesLength={addresses.length} // Pass the address length to AddressField
             />
           )}
         </div>
