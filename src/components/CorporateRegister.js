@@ -20,8 +20,7 @@ function CorporateRegister() {
     aboutus:"",
     noofemployees:"",
     gst:"",
-    turnover: "",
-    turnoverId: "",
+    turnover:"",
     natureofindustry:"",
     classifiedindustry:"",
     subsector:"",
@@ -39,8 +38,7 @@ function CorporateRegister() {
     aboutus:"",
     noofemployees:"",
     gst:"",
-    turnover: "",
-    turnoverId: "",
+    turnover:"",
     natureofindustry:"",
     classifiedindustry:"",
     subsector:"",
@@ -55,19 +53,17 @@ function CorporateRegister() {
   const handleChange = (e) => {
     if (!e.target) return; // Make sure e.target exists
     const { name, value } = e.target;
-  
+    
     // Update form data dynamically
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value.trim(), // Trim value to avoid leading/trailing spaces
+      [name]: value,
     }));
   
     // Update errors dynamically
     setFormErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: value.trim()
-        ? ""
-        : `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`,
+      [name]: value.trim() ? "" : `${name.charAt(0).toUpperCase() + name.slice(1)} is required.`,
     }));
   
     // Simple GST pattern check (You can use a more complex one as needed)
@@ -95,30 +91,36 @@ function CorporateRegister() {
         }));
       }
     }
-  
-    // Validate the number of employees (Only numbers allowed)
-    if (name === "noofemployees") {
+if(name==="turnover"){
+  if (!value.trim()) {
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      turnover: "Turn Over Organization is required",
+    }));
+  }
+  else if(!value.trim()){
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      turnover: "",
+    })); // Clear any error
+  }
+}
+    if(name==="noofemployees"){
       if (!value.trim()) {
+      
         setFormErrors((prevErrors) => ({
           ...prevErrors,
           noofemployees: "No of employees is required.",
         }));
-      } else if (!/^\d+$/.test(value)) {
-        setFormErrors((prevErrors) => ({
-          ...prevErrors,
-          noofemployees: "Only numbers are allowed.",
-        }));
-      } else {
-        setFormErrors((prevErrors) => ({
-          ...prevErrors,
-          noofemployees: "", // Clear error if valid number
-        }));
-      }
+    } else if (!/^\d+$/.test(value)) {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        noofemployees: "Only numbers are allowed.",
+      }));
+        
     }
-  
-    
+    }
   };
-  
   
 
  // Handle file input change (for logo)
@@ -181,7 +183,7 @@ function CorporateRegister() {
     isValid = false;
   }
   if (!formData.turnover.trim()) {
-    errors.turnover = "Turn Over organisation is required.";
+    errors.turnover = "Turn Over Organization is required.";
     isValid = false;
   }
   if (!formData.natureofindustry.trim()) {
