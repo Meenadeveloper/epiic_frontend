@@ -843,6 +843,7 @@ text-align: center;
     padding-bottom: 20px;
     max-width: 900px;
     margin: 0 auto;
+    font-family: 'Montserrat';
 }
 .textarea-input{
   padding: 10px 20px;
@@ -853,6 +854,7 @@ text-align: center;
     border: 1px solid #000000;
     font-size: 12px;
     height: 100%;
+    font-family: 'Montserrat';
 }
 .save-btn{
  
@@ -1302,6 +1304,24 @@ background-size: cover;
 .clear-btn span{
   color: #fff;
   font-size: 24px;
+}
+.css-1xc3v61-indicatorContainer {
+  color: #2b2b2b !important;
+  cursor: pointer;
+}
+.select-down-arrow{
+  cursor: pointer;
+}
+
+.drop-down-search-icon{
+  top: 10px !important;
+  width: 20px !important;
+  height: 20px !important;
+  color: #000000 !important;
+}
+.css-1pd82g5-placeholder{
+  font-family: 'Montserrat';
+  color: rgba(0, 0, 0, 0.603) !important;
 }
 @media (max-width: 768px) {
   .register-row {

@@ -1,6 +1,10 @@
 import GST from "./corporate/GST"
 import NoOfEmployees from "./corporate/NoOfEmployees"
 import TurnOverOrganization from "./corporate/TurnOverOrganization"
+import NatureOfIndustry from './corporate/NatureOfIndustry';
+import ClassificationOfIndustry from "./Candidate/ClassificationOfIndustry";
+import SubSector from "./Candidate/SubSector";
+import Specialization from "./corporate/Specialization";
 
 function AdditionalInformation(
   {
@@ -54,35 +58,11 @@ function AdditionalInformation(
             </div>
 
             <div className='register-col'>
-              <div className="register-form-control">
-                        <label className='register-label'>Nature of Industry</label>
-                        <div className="dropdown-container">
-                     <div className="search-box-container">
-                     <input
-                          type='text'
-                          name='natureoforganisation'
-                          className="register-input drodown-input"
-                          placeholder='Lorem ipsum'
-                        />
-                        <i className="material-icons search-icon">search</i>
-                        <i
-              className="material-icons dropdown-icon" >
-              arrow_drop_down
-            </i>
-                       </div>
-                       {/* dropdown options */}
-                       {/* <div className="dropdown-option-box" >
-                       <ul className="dropdown-container">
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                        <li>Tamil nadu</li>
-                       </ul>
-
-                       </div> */}
-                       </div>
-                        <p className='error'></p>
-              </div>
+             <NatureOfIndustry
+              formData={formData}
+              formErrors={formErrors}
+              handleChange={handleChange}
+             />
             </div>  
 
          </div>
@@ -90,67 +70,19 @@ function AdditionalInformation(
            
 
            <div className='register-col'>
-            <div className="register-form-control">
-                      <label className='register-label'>Classification of Industry</label>
-                      <div className="dropdown-container">
-                   <div className="search-box-container">
-                   <input
-                        type='text'
-                        name='classificationofindustry'
-                        className="register-input drodown-input"
-                        placeholder='Lorem ipsum'
-                      />
-                      <i className="material-icons search-icon">search</i>
-                      <i
-            className="material-icons dropdown-icon" >
-            arrow_drop_down
-          </i>
-                     </div>
-                     {/* dropdown options */}
-                     {/* <div className="dropdown-option-box" >
-                     <ul className="dropdown-container">
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                     </ul>
-
-                     </div> */}
-                     </div>
-                      <p className='error'></p>
-            </div>
+           <ClassificationOfIndustry
+              formData={formData}
+              formErrors={formErrors}
+              handleChange={handleChange}
+           />
           </div>
 
              <div className='register-col'>
-            <div className="register-form-control">
-                      <label className='register-label'>Classification of Industry</label>
-                      <div className="dropdown-container">
-                   <div className="search-box-container">
-                   <input
-                        type='text'
-                        name='classificationofindustry'
-                        className="register-input drodown-input"
-                        placeholder='Lorem ipsum'
-                      />
-                      <i className="material-icons search-icon">search</i>
-                      <i
-            className="material-icons dropdown-icon" >
-            arrow_drop_down
-          </i>
-                     </div>
-                     {/* dropdown options */}
-                     {/* <div className="dropdown-option-box" >
-                     <ul className="dropdown-container">
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                     </ul>
-
-                     </div> */}
-                     </div>
-                      <p className='error'></p>
-            </div>
+           <SubSector
+            formData={formData}
+              formErrors={formErrors}
+              handleChange={handleChange}
+           />
           </div>  
 
        </div>
@@ -158,35 +90,12 @@ function AdditionalInformation(
            
 
            <div className='register-col'>
-            <div className="register-form-control">
-                      <label className='register-label'>Tags</label>
-                      <div className="dropdown-container">
-                   <div className="search-box-container">
-                   <input
-                        type='text'
-                        name='tags'
-                        className="register-input drodown-input"
-                        placeholder='Search'
-                      />
-                      <i className="material-icons search-icon">search</i>
-                      <i
-            className="material-icons dropdown-icon" >
-            arrow_drop_down
-          </i>
-                     </div>
-                     {/* dropdown options */}
-                     {/* <div className="dropdown-option-box" >
-                     <ul className="dropdown-container">
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                      <li>Tamil nadu</li>
-                     </ul>
+           <Specialization
+             formData={formData}
+              formErrors={formErrors}
+              handleChange={handleChange}
 
-                     </div> */}
-                     </div>
-                      <p className='error'></p>
-            </div>
+           />
           </div>  
 
        </div>

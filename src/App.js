@@ -14,8 +14,7 @@ import CollegeBasicRegistrationPage from './page/CollegeBasicRegistrationPage';
 import CandidateBasicRegistrationPage from './page/CandidateBasicRegistrationPage';
 import CandidateRegistrationPage from './page/CandidateRegistrationPage';
 import CollegeLoginPage from './page/CollegeLoginPage';
-import CandidateLoginPage from './page/CandidateLoginPage';
-
+import CandidateLoginPage from './page/CandidateLoginPage';import axios from 'axios';
 function App() {
   return (
     <>

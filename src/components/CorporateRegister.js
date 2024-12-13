@@ -91,20 +91,7 @@ function CorporateRegister() {
         }));
       }
     }
-if(name==="turnover"){
-  if (!value.trim()) {
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      turnover: "Turn Over Organization is required",
-    }));
-  }
-  else if(!value.trim()){
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      turnover: "",
-    })); // Clear any error
-  }
-}
+
     if(name==="noofemployees"){
       if (!value.trim()) {
       

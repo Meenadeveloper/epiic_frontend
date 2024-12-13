@@ -11,7 +11,7 @@ function CountryInput({ formData, formErrors, handleChange }) {
   useEffect(() => {
     const fetchStates = async () => {
       try {
-        const url = process.env.REACT_APP_STATE_API_URL;
+        const url = process.env.REACT_APP_COMMON_API_URL;
         console.log("Requesting from URL:", url);
 
         const response = await fetch(url);
@@ -20,7 +20,7 @@ function CountryInput({ formData, formErrors, handleChange }) {
           const data = await response.json();
           console.log("Received data:", data);
 
-          const stateNames = data.states.map((state) => state.state_name);
+          const stateNames = data.country.map((state) => state.country_name);
           setStates(stateNames);
           setFilteredStates(stateNames);
         } else {
