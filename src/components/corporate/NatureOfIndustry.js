@@ -109,19 +109,19 @@ function NatureOfIndustry({ formData, formErrors, handleChange }) {
       };
     
       // Custom Input component with Search Icon
-      const CustomInput = (props) => {
-        return (
-          <div className="custom-input-container">
-            {!isFocused && <SearchIcon className="search-icon drop-down-search-icon" />}
-            <components.Input
-              {...props}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
-              onMouseEnter={() => props.selectProps.onFocus()} // Add hover functionality
-            />
-          </div>
-        );
-      };
+      // const CustomInput = (props) => {
+      //   return (
+      //     <div className="custom-input-container">
+      //       {!isFocused && <SearchIcon className="search-icon drop-down-search-icon" />}
+      //       <components.Input
+      //         {...props}
+      //         onFocus={() => setIsFocused(true)}
+      //         onBlur={() => setIsFocused(false)}
+      //         onMouseEnter={() => props.selectProps.onFocus()} // Add hover functionality
+      //       />
+      //     </div>
+      //   );
+      // };
     
       // Custom styles for CreatableSelect
       const customStyles = {

@@ -262,13 +262,21 @@ const handleSubmit = async (e) => {
 
         setFormData({
           firstName: "",
-          lastName: "",
-          email: "",
-          organisation: "",
-          designation: "",
-          website: "",
-          country: "",
-          logo: "",
+    lastName: "",
+    email: "",
+    organisation: "",
+    designation: "",
+    website:"",
+    country:"",
+    aboutus:"",
+    noofemployees:"",
+    gst:"",
+    turnover:"",
+    natureofindustry:"",
+    classifiedindustry:"",
+    subsector:"",
+    specialization:"",
+    logo: "",
         });
         navigate("/corporate-dashboard"); 
       }
