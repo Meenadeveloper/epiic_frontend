@@ -105,13 +105,7 @@ function CorporateRegister() {
           ...prevErrors,
           noofemployees: "No of employees is required.",
         }));
-    } else if (!/^\d+$/.test(value)) {
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        noofemployees: "Only numbers are allowed.",
-      }));
-        
-    }
+    } 
     }
   };
   
@@ -161,9 +155,6 @@ function CorporateRegister() {
   }
   if (!formData.noofemployees.trim()) {
     errors.noofemployees = "No of employees is required.";
-    isValid = false;
-} else if (!/^\d+$/.test(formData.noofemployees)) {
-    errors.noofemployees = "Only numbers are allowed.";
     isValid = false;
 }
   if (!formData.gst.trim()) {
@@ -223,7 +214,8 @@ useEffect(() => {
 // Handle form submission
 const handleSubmit = async (e) => {
   e.preventDefault();
- 
+  const token = localStorage.getItem("access_token");
+console.log("check token",token);
   if (!isEmailVerified) {
     toast.error("Please verify your email OTP.");
     return;
@@ -239,23 +231,54 @@ const handleSubmit = async (e) => {
 
   if (validateForm()) {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Session expired. Please log in again.");
-        navigate("/corporate-login"); // Redirect user to login page if token is missing
-        return;
-      }
+
+      const payload = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        mobile: formData.phone,
+        organization_name: formData.organisation, 
+        designation: formData.designation,
+        country_id: formData.country,               // Fixed to map correctly to 'country' field
+        website: formData.website,                  // Fixed to map correctly to 'website' field
+        about_us: formData.aboutus,                 // Correct mapping for 'about_us'
+        gst: formData.gst,                          // Correct mapping for 'gst'
+        no_of_employee: formData.noofemployees,     // Corrected from duplicated 'designation'
+        turnover: formData.turnover,                // Correct mapping for 'turnover'
+        
+        classification_industry_id: formData.classifiedindustry,  // Fixed typo and field mapping
+        nature_industry: [                          // Corrected to use array format for nature_industry
+          formData.natureofindustry,                // Assuming these fields map to individual selections
+        ],
+        sub_sector: [                               // Corrected to use array format for sub_sector
+          formData.subsector,
+        ],
+        
+        company_logo: formData.logo,                // Correct mapping for 'company_logo'
+      };
+      
+
+      const token = localStorage.getItem("access_token");
+       alert(token);
+      // if (!token) {
+      //   toast.error("Session expired. Please log in again.");
+      //   navigate("/corporate-login"); // Redirect user to login page if token is missing
+      //   return;
+      // }
 
       // Use the environment variable for the API URL
       const apiUrl = process.env.REACT_APP_CORPORATE_COMPLETE_REGISTER_API;
       console.log("post complete register url",apiUrl );
       console.log("Authorization token:", token);
+      const params = new URLSearchParams(payload).toString();
+      const fullUrl = `${apiUrl}?${params}`;
+
+      console.log("Full URL for form submission:", fullUrl);
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       };
-
-      const response = await axios.post(apiUrl, formData, { headers });
+  // Submit form data via axios POST request
+  const response = await axios.post(apiUrl, payload, { headers });
 
       if (response.status === 200) {
         toast.success("Form submitted successfully!");
@@ -264,6 +287,7 @@ const handleSubmit = async (e) => {
           firstName: "",
     lastName: "",
     email: "",
+    phone:"",
     organisation: "",
     designation: "",
     website:"",

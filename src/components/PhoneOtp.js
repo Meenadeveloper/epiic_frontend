@@ -204,6 +204,7 @@ function PhoneOtp({isPhoneVerified,setIsPhoneVerified}) {
           <PhoneInput
             international
             defaultCountry="IN"
+            name="phone"
             value={phoneNumber}
             onChange={handlePhoneChange}
             className={`register-input ${isVerified ? 'success-input-field' : ''} ${errorMessage ? 'err-input-field' : ''}`}
