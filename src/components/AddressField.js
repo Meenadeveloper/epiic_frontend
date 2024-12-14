@@ -7,7 +7,15 @@ import StateInput from './corporate/StateInput';
 import PincodeInput from './corporate/PincodeInput';
 import TagsInput from './corporate/TagsInput';
 
-function AddressField({ index, address, onSave , addressesLength}) {
+function AddressField({
+   index,
+   address,
+    onSave , 
+   addressesLength,
+   isAddressFilled,
+  setIsAddressFilled
+    
+    }) {
   const [corporateText, setCorporateText] = useState(address.corporateText || '');
   const [pincode, setPincode] = useState(address.pincode || '');
   const [selectedTag, setSelectedTag] = useState(address.tag || '');
@@ -56,6 +64,7 @@ function AddressField({ index, address, onSave , addressesLength}) {
   };
 
   const handleSave = () => {
+
     if (validateFields()) {
       onSave({
         corporateText,
@@ -65,6 +74,8 @@ function AddressField({ index, address, onSave , addressesLength}) {
         pincode,
         tag: selectedTag,
       });
+      setIsAddressFilled(true); // Update parent component state
+
     } else {
       toast.error('Please fill in all required fields correctly.');
     }

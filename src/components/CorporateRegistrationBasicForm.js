@@ -1,78 +1,58 @@
 import React, { useState } from 'react';
-import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'; // Required for styling
 import { toast } from 'react-toastify'; // Import only the toast
 import 'react-toastify/dist/ReactToastify.css';
-import MailOtp from './MailOtp'; // Import the MailOtp component
-import MobileOtp from './MobileOtp'; // Import the MobileOtp component
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import SuccessPopup from './SuccessPopup';
+import RegisterEmailOtp from './corporate/RegisterEmailOtp';
+import RegisterPhoneOtp from './corporate/RegisterPhoneOtp';
 
 function CorporateRegistrationBasicForm() {
   const navigate = useNavigate(); // Initialize useNavigate
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-
-  const [phoneNumber, setPhoneNumber] = useState(''); // State for the phone number
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(false); // New state for phone verification
   const [isChecked, setIsChecked] = useState(false); // State for terms and conditions checkbox
   const [formErrors, setFormErrors] = useState({}); // State for form errors
   const [formValues, setFormValues] = useState({
     firstName: '',
     lastName: '',
     email: '',
-     otp: '',
+    phone:'',
     password: '',
     confirmPassword: '',
     designation: '',
-    organisation: ''
+    organisation: '',
   });
 
-  const [verifySuccessMessage, setVerifySuccessMessage] = useState('');
-  const [verifySuccessMail, setVerifySuccessMail] = useState('');
+ 
  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
 
-     // Real-time validation for email
-     if (name === 'email') {
-      if (verifySuccessMail !== value) {
-        setVerifySuccessMessage('');
-        setActiveOtp(null);
-      } else {
-        setVerifySuccessMessage('OTP verified successfully'); 
-        setActiveOtp('mail');
-      }
+  
+  };
 
-      // Reset OTP verification and success message when the email changes
-    setIsOtpValid(false); // Remove success state
-    setOtpSent(false); // Reset OTP sent status
-    //setActiveOtp(null); // Hide OTP box
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      email: '', // Clear email-specific error messages
+   // Function to update only the email field
+   const updateEmailInParent = (newEmail) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      email: newEmail, // Update only the email field
     }));
-    
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!value) {
-        
-        setFormErrors((prevErrors) => ({
-          ...prevErrors,
-          email: 'Email is required',
-        }));
-      } else if (!emailRegex.test(value)) {
-        setFormErrors((prevErrors) => ({
-          ...prevErrors,
-          email: 'Invalid email format',
-        }));
-      } else {
-        setFormErrors((prevErrors) => ({ ...prevErrors, email: '' })); // Clear error if valid
-      }
+     // Log the new email value to check if it is passed correctly
+     console.log('Updated email in parent:', newEmail);
+  };
 
-       // Clear the success message when email field changes
-    if (successMessage) {
-      setSuccessMessage('');
-    }
-    }
+   // Function to update only the email field
+   const updatePhoneInParent = (newPhone) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      phone: newPhone, // Update only the phone field
+    }));
+     // Log the new phone value to check if it is passed correctly
+     console.log('Updated email in parent:', newPhone);
   };
 
   const handleCheckboxChange = (e) => {
@@ -85,21 +65,8 @@ function CorporateRegistrationBasicForm() {
     }
   };
 
-  const handlePhoneNumberChange = (value) => {
-    setPhoneNumber(value);
-    if (value) {
-      setFormErrors((prevErrors) => {
-        const { phoneNumber, ...rest } = prevErrors; // Remove phone number error
-        return rest;
-      });
-    }
-  };
-  
-
   const validateForm = () => {  
     let errors = {};
-     // Trim the phone number to remove extra spaces
-  const trimmedPhoneNumber = phoneNumber.trim();
 
     // Validate first name and last name
     if (!formValues.firstName) {
@@ -119,15 +86,11 @@ function CorporateRegistrationBasicForm() {
 
    // Validate phone number with pattern
   const phoneRegex = /^\+91\d{10}$/;
-  if (!trimmedPhoneNumber) {
-    errors.phoneNumber = 'Mobile number is required';
-  } else if (!phoneRegex.test(trimmedPhoneNumber)) {
-    errors.phoneNumber = 'Mobile number must be in the format "+91XXXXXXXXXX"';
+  if (!formValues.phone) {
+    errors.phone = 'Mobile number is required';
+  } else if (!phoneRegex.test(formValues.phone)) {
+    errors.phone = 'Mobile number must be in the format "+91XXXXXXXXXX"';
   }
-
-  // Add trimmed phone number back to the state to ensure consistency
-  setPhoneNumber(trimmedPhoneNumber);
-
 
     // Validate password length
     if (formValues.password.length < 8) {
@@ -157,18 +120,25 @@ if (!formValues.organisation) {
   };
 
   
-
 const handleSubmit = async (e) => {
   e.preventDefault();
-  
+ if (!isEmailVerified) {
+     toast.error("Please verify your email OTP.");
+     return;
+   }
+   if (!isPhoneVerified) {
+       toast.error("Please verify your phone OTP.");
+       return;
+     }
   if (validateForm()) {
+
     try {
       const payload = {
         name: `${formValues.firstName} ${formValues.lastName}`,
         organization_name: formValues.organisation,
         email: formValues.email,
         password: formValues.password,
-        mobile: phoneNumber,
+        mobile: formValues.phone,
         designation: formValues.designation,
       };
 
@@ -182,16 +152,23 @@ const handleSubmit = async (e) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
         const data = await response.json();
+        // Store token and form data in localStorage (or sessionStorage)
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('form_data', JSON.stringify(formValues));
+        console.log('User data:', data); // Log all the user data
+        console.log('Token:', data.access_token); // Log the token
+
         toast.success(data.message || 'Form submitted successfully!', {
           position: "top-right",
           className: 'toast-success',  // Use custom CSS class for success
         });
         console.log('Response:', data);
-
+              
        // Show the popup upon successful form submission
        setShowSuccessPopup(true);
       } else {
@@ -215,80 +192,6 @@ const handleSubmit = async (e) => {
     });
   }
 };
-
-
-  const [activeOtp, setActiveOtp] = useState(null); // State to track which OTP component to show
-  const [otpSent, setOtpSent] = useState(false); // To track if OTP has been sent
-
-  const [isOtpValid, setIsOtpValid] = useState(false); // Track if OTP is valid (for green border)
-
-  
-  const [successMessage, setSuccessMessage] = useState('');
-  const [isOtpEntered, setIsOtpEntered] = useState(false); // Track if OTP input is being typed
-
-  const handleOtpInput = () => {
-    setSuccessMessage(''); // Clear the success message when user enters OTP
-  };
-
-  const handleMailOtpClick = async () => {
-    // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formValues.email) {
-      setFormErrors({ email: 'Email is required' });
-
-      return;
-    } else if (!emailRegex.test(formValues.email)) {
-      setFormErrors({ email: 'Invalid Email Id' });
-
-      return;
-    }
-
-    const email = formValues.email;
-    const apiUrl = process.env.REACT_APP_OTP_MAIL_REQUEST_URL; // Use REACT_APP_ prefix
-    console.log("API URL for mail OTP request:", apiUrl);
-
-    try {
-      // Make the API request
-      const response = await fetch(`${apiUrl}?mail=${encodeURIComponent(email)}`, {
-        method: 'POST', // Use POST method
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mail: email }) // Sending email in the request body
-      });
-
-      // Check if the response is OK before trying to parse it
-      if (!response.ok) {
-        const errorData = await response.json(); // Parse the error response
-        const errorMessage = errorData.error?.mail?.[0] || 'Failed to send OTP'; // Extract specific error message
-        throw new Error(errorMessage);
-      }
-
-      // If no error occurred, parse the success response
-      const responseData = await response.json(); // Get the JSON response from the API
-      console.log("API Response Data:", responseData);
-
-      // Success case: Set success message and display it in UI
-      setSuccessMessage(responseData.message );
-      console.log('OTP sent successfully:', responseData);
-
-      // Mark OTP as sent
-      setOtpSent(true);
-
-      // Show OTP verification input
-      setActiveOtp('mail');
-    } catch (error) {
-      console.error('Error sending OTP:', error);
-      setFormErrors({ email: error.message });  // Show the error message near the form field
-      setSuccessMessage('');
-      setVerifySuccessMessage('');
-    }
-  };
-  
-  
-  
-
-  const handleMobileOtpClick = () => {
-    setActiveOtp('mobile'); // Show the MobileOtp component
-  };
 
   return (
     <>
@@ -318,6 +221,8 @@ const handleSubmit = async (e) => {
                 <form className='register-form' onSubmit={handleSubmit}>
                   <div className='register-row'>
                     <div className='register-col'>
+                      
+
                       <div className={`register-form-control ${formErrors.firstName ? 'error-input' : ''}`}>
                         <label className='register-label'>First Name</label>
                         <input
@@ -347,89 +252,20 @@ const handleSubmit = async (e) => {
                       </div>
                     </div>
                   </div>
-
-                  {/* Email row */}
-                  <div className='register-row'>
-                    <div className='register-col'>
-                      <div className={`register-form-control ${formErrors.email ? 'error-input' : ''}`}>
-                        <label className='register-label'>Email ID</label>
-                        <input
-                          type='text'
-                          name='email'
-                          className={`register-input ${formErrors.email ? 'err-input-field' : ''} ${isOtpValid ? 'success-input-field' : ''}`}
-                          placeholder='Enter work mail ID'
-                          value={formValues.email}
-                          onChange={handleInputChange}
-                        />
-                        {formErrors.email && <p className='error'>{formErrors.email}</p>}
-                        {successMessage && !verifySuccessMessage && (
-                          <p className="success">{successMessage}</p>
-                        )}
-                        {verifySuccessMessage && <p className="success">{verifySuccessMessage}</p>}
-                      </div>
-                    </div>
-
-                    <div className='register-col'>
-                      <div className='register-form-control otp-box'>
-                      {!otpSent && activeOtp !== 'mail' && (
-                        <button
-                          type="button"
-                            className="otp-btn"
-                            onClick={handleMailOtpClick}
-                             >
-                          Send OTP
-                        </button>
-                      )}
-
-                        {/* Render the MailOtp component */}
-                     {activeOtp === 'mail' && 
-                     
-                     <MailOtp
-                     email={formValues.email}
-                     setIsOtpValid={setIsOtpValid}
-                     resetVerification={!isOtpValid}
-                     setVerifySuccessMessage={setVerifySuccessMessage}
-                     setVerifySuccessMail={setVerifySuccessMail}
-                     onOtpInput={handleOtpInput}
-              />
-                     }
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Mobile Number row with country code */}
-                  <div className='register-row'>
-                    <div className='register-col'>
-                      <div className={`register-form-control ${formErrors.phoneNumber ? 'error-input' : ''}`}>
-                        <label className='register-label'>Mobile Number</label>
-                        <PhoneInput
-                          international
-                          defaultCountry='IN'
-                          value={phoneNumber}
-                          onChange={handlePhoneNumberChange}
-                          className={`register-input mobile-input ${formErrors.phoneNumber ? 'err-input-field' : ''}`}
-                          placeholder={phoneNumber ? '' : 'Enter mobile number'}
-                        />
-                        {formErrors.phoneNumber && <p className='error'>{formErrors.phoneNumber}</p>}
-                      </div>
-                    </div>
-
-                    <div className='register-col'>
-                      <div className='register-form-control otp-box'>
-                      {activeOtp !== 'mobile' && (
-                        <button
-                type="button"
-                className="otp-btn"
-                onClick={handleMobileOtpClick}
-              >
-                          Send OTP
-                        </button>
-                      )}
-                      {/* Render the MobileOtp component */}
-                       {activeOtp === 'mobile' && <MobileOtp />}
-                      </div>
-                    </div>
-                  </div>
+                  <RegisterEmailOtp
+                     formValues={formValues}
+                      isEmailVerified={isEmailVerified}
+                      setIsEmailVerified={setIsEmailVerified}
+                      setEmailInParent={updateEmailInParent} // Pass the function to the child
+                      />
+                   
+                   <RegisterPhoneOtp
+                   formValues={formValues}
+                    isPhoneVerified={isPhoneVerified}
+                    setIsPhoneVerified={setIsPhoneVerified}
+                    setPhoneInParent={updatePhoneInParent}// Pass the function to the child
+                               
+                   />
 
                   {/* Password row */}
                   <div className='register-row'>

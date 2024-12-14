@@ -2,12 +2,13 @@ import AboutField from "./AboutField";
 import AdditionalInformation from "./AdditionalInformation";
 import CorporateBasicDetail from "./CorporateBasicDetail";
 import LogoInput from "./LogoInput";
-
-import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
 
 function CorporateRegister() {
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
    
     firstName: "",
@@ -47,6 +48,11 @@ function CorporateRegister() {
   });
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // New state for phone verification
+  const [isAddressFilled, setIsAddressFilled] = useState(false); // New state for address verification
+
+  const [userData, setUserData] = useState(null);
+  const [token, setToken] = useState(null);
+
   const gstPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[0-9A-Z]{1}$/;
   const [gstsuccessMessage, setGstsuccessMessage] = useState(false);
 
@@ -201,10 +207,23 @@ function CorporateRegister() {
   return isValid;
 };
 
+useEffect(() => {
+  // Retrieve the token and form data from localStorage
+  const token = localStorage.getItem('access_token');
+  const formData = JSON.parse(localStorage.getItem('form_data'));
+
+  if (token) {
+    setToken(token);
+  }
+  if (formData) {
+    setUserData(formData);
+  }
+}, []);
+
 // Handle form submission
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
-  // Check if all OTPs are verified
+ 
   if (!isEmailVerified) {
     toast.error("Please verify your email OTP.");
     return;
@@ -213,25 +232,56 @@ const handleSubmit = (e) => {
     toast.error("Please verify your phone OTP.");
     return;
   }
+  if (!isAddressFilled) {
+    toast.error("Please fill all Address fields.");
+    return;
+  }
+
   if (validateForm()) {
-    // Proceed with form submission logic (e.g., API call)
-    toast.success("Form submitted successfully");
-    console.log(formData);
-    // Optionally reset form after successful submission
-    setFormData({
-      firstName: "",
-    lastName: "",
-    email: "",
-    organisation: "",
-    designation: "",
-    website:"",
-    country:"",
-    logo: "",
-    });
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Session expired. Please log in again.");
+        navigate("/corporate-login"); // Redirect user to login page if token is missing
+        return;
+      }
+
+      // Use the environment variable for the API URL
+      const apiUrl = process.env.REACT_APP_CORPORATE_COMPLETE_REGISTER_API;
+      console.log("post complete register url",apiUrl );
+      console.log("Authorization token:", token);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+
+      const response = await axios.post(apiUrl, formData, { headers });
+
+      if (response.status === 200) {
+        toast.success("Form submitted successfully!");
+
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          organisation: "",
+          designation: "",
+          website: "",
+          country: "",
+          logo: "",
+        });
+        navigate("/corporate-dashboard"); 
+      }
+    } catch (error) {
+      toast.error("There was an error submitting the form. Please try again.");
+      console.error("Form submission error:", error);
+    }
   } else {
     toast.error("Please fill in all required fields.");
   }
 };
+
+
   return (
     <>
       <div className='register-container'>
@@ -267,6 +317,8 @@ const handleSubmit = (e) => {
                   setIsEmailVerified={setIsEmailVerified}
                   isPhoneVerified={isPhoneVerified}
                   setIsPhoneVerified={setIsPhoneVerified}
+                  isAddressFilled={isAddressFilled}
+                  setIsAddressFilled={setIsAddressFilled}
                 />
                  
                     <AboutField

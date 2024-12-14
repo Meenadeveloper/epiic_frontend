@@ -10,7 +10,10 @@ function CorporateBasicDetail({
   isEmailVerified,
   setIsEmailVerified,
   isPhoneVerified,
-  setIsPhoneVerified
+  setIsPhoneVerified,
+  isAddressFilled,
+  setIsAddressFilled
+
 }) {
   return (
     <>
@@ -124,7 +127,10 @@ function CorporateBasicDetail({
              
         </div>
 
-     <AddressManager/>
+     <AddressManager
+      isAddressFilled={isAddressFilled}
+      setIsAddressFilled={setIsAddressFilled}
+     />
       </div>
     </>
   )

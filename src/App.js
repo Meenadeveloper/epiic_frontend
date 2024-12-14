@@ -15,6 +15,7 @@ import CandidateBasicRegistrationPage from './page/CandidateBasicRegistrationPag
 import CandidateRegistrationPage from './page/CandidateRegistrationPage';
 import CollegeLoginPage from './page/CollegeLoginPage';
 import CandidateLoginPage from './page/CandidateLoginPage';import axios from 'axios';
+import CorporateDashboard from './page/corporate/CorporateDashboard';
 function App() {
   return (
     <>
@@ -25,6 +26,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/corporate-login" element={<CorporateLogin />} />
         <Route path="/corporate-basic-register" element={<CorporateBasicRegistrationPage />} />
+        <Route path="/corporate-dashboard" element={<CorporateDashboard />} />
+
         
         <Route path="/college-login" element={<CollegeLoginPage />} />
         <Route path="/corporate-registration" element={<CorporateRegistrationPage />} />   

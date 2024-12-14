@@ -39,8 +39,10 @@ npm install react-router-dom
 npm install axios
 
 <!-- select component package  -->
-npm install react-select
-npm install axios
+npm install react-select@latest
+npm install axios@latest
+npm install @emotion/react
+
 
 
 # Getting Started with Create React App

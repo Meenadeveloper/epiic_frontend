@@ -3,7 +3,10 @@ import AddressField from "./AddressField";
 import AddressShortView from "./AddressShortView";
 import AddressView from './AddressView';
 
-const AddressManager = () => {
+const AddressManager = ({
+  isAddressFilled,
+  setIsAddressFilled
+}) => {
   const [addresses, setAddresses] = useState([{ id: 0, tags: "", district: "", state: "", saved: false }]);
   const [viewVisibleIndex, setViewVisibleIndex] = useState(null); // State to track which address is currently viewed
 
@@ -61,6 +64,8 @@ const AddressManager = () => {
               address={address} // Pass current address to pre-fill form
               onSave={(addressData) => handleAddressSave(index, addressData)}
               addressesLength={addresses.length} // Pass the address length to AddressField
+              isAddressFilled={isAddressFilled}
+              setIsAddressFilled={setIsAddressFilled}
             />
           )}
         </div>
