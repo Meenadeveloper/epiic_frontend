@@ -1346,6 +1346,51 @@ background-size: cover;
   background-color: #f0f0f0; /* Set the color of the scrollbar track */
   border-radius: 10px !important;
 }
+.college-heading{
+  padding: 20px 10px !important;
+  font-weight: 600 !important;
+}
+.college-data-txt{
+  font-family: Montserrat;
+font-size: 18px;
+font-weight: 700;
+line-height: 26px;
+text-align: left;
+color: #000000;
+
+
+}
+.college-data-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Creates 4 equal columns */
+  gap: 20px; /* Adds space between the grid items */
+}
+
+.college-data-item {
+  padding: 10px;
+  
+}
+
+.college-data-txt {
+  font-size: 16px;
+  color: #333;
+  text-wrap-mode: nowrap;
+}
+
+
+
+@media (max-width: 900px) {
+  /* On smaller screens (900px or less), use 2 columns */
+  .college-data-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .college-data-txt {
+    font-size: 16px;
+    color: #333;
+    text-wrap-mode: wrap;
+  }
+}
+
 
 @media (max-width: 768px) {
   .register-row {
@@ -1387,5 +1432,16 @@ background-size: cover;
   .success-popup {
     transform: translate(-50%, -200%);
     border: 10px solid transparent;
+  }
+}
+
+@media (max-width: 560px) {
+  /* On very small screens (600px or less), use 1 column */
+  .college-data-container {
+    grid-template-columns: 1fr;
+  }
+  .college-data-item {
+    padding: 0px  10px ;
+    
   }
 }

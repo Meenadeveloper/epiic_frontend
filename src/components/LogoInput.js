@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { ReactComponent as FileUpload } from '../assets/images/Upload to Cloud.svg';
 
-function LogoInput({ parenthandleFileChange }) {
+function LogoInput({ 
+  parenthandleFileChange,
+  formData,
+  formErrors,
+  handleChange,
+  name
+ }) {
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
@@ -73,7 +79,8 @@ function LogoInput({ parenthandleFileChange }) {
           style={{ display: 'none' }}
           id="file-input"
           accept=".jpg,.jpeg,.png"
-          name='logo'
+          name={name}
+          value={formData.college_logo}
         />
         <div className="logo-file-upload-content">
           <FileUpload className="file-upload-img" />
@@ -98,6 +105,8 @@ function LogoInput({ parenthandleFileChange }) {
       </div>
       <div className="file-error">
         {errorMessage && <p className="error">{errorMessage}</p>}
+        {formErrors.college_logo && <p className="error">{formErrors.college_logo}</p>} {/* Display error message if any */}
+
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-function RegisterEmailOtp({ isEmailVerified, setIsEmailVerified,formValues= {}, setEmailInParent,  }) {
-    const [email, setEmail] = useState(formValues.email || '');
+function CollegeEmailOtp({ isEmailVerified, setIsEmailVerified,formData= {}, setEmailInParent,  }) {
+  
+    const [email, setEmail] = useState(formData.email || '');
     const [verifiedEmail, setVerifiedEmail] = useState(''); // Store the verified email
     const [otp, setOtp] = useState(['', '', '', '']); 
     const [timer, setTimer] = useState(300); // Timer for OTP expiration (5 minutes)
@@ -158,8 +159,8 @@ function RegisterEmailOtp({ isEmailVerified, setIsEmailVerified,formValues= {}, 
       }
     };
 
-
-  return (
+  
+    return (
     <>
        <div className="register-row">
        <div className="register-col">
@@ -255,4 +256,4 @@ function RegisterEmailOtp({ isEmailVerified, setIsEmailVerified,formValues= {}, 
   )
 }
 
-export default RegisterEmailOtp
+export default CollegeEmailOtp

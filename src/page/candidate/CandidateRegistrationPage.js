@@ -1,9 +1,9 @@
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import Blue from "../assets/images/college_basic_blue.png";
 import Yellow from "../assets/images/college_basic_yellow.png";
 import Purple from "../assets/images/college_basic_purple.png";
-import CollegeBasicRegisterForm from "../components/CollegeBasicRegisterForm";
-function CollegeBasicRegistrationPage() {
+import CandidateRegisterForm from "../../components/CandidateRegisterForm";
+function CandidateRegistrationPage() {
     const BlueBox = {
         top: "600.42px",
         left: "-106.32px",
@@ -45,6 +45,7 @@ function CollegeBasicRegistrationPage() {
         opacity: 0.8, // No 'px' for opacity
         transform: "rotate(-158.45deg)",
       };
+
   return (
     <>
       <div class="body-bg" style={{overflowY:'scroll'}}>
@@ -62,12 +63,11 @@ function CollegeBasicRegistrationPage() {
 
         <div className="page-wrapper" style={{overflowY:'unset'}}>
           <Header />
-          <CollegeBasicRegisterForm/>
+          <CandidateRegisterForm/>
         </div>
       </div>
-      
     </>
   )
 }
 
-export default CollegeBasicRegistrationPage
+export default CandidateRegistrationPage
