@@ -1,9 +1,9 @@
 
-function PlacementOfficeName({ additionalData, formErrors, handleChange, name }) {
+function EmployeeCode({ additionalData, formErrors, handleChange, name }) {
   return (
     <>
-      <div className="register-form-control">
-      <label className="register-label">Placement Officer Name </label>
+       <div className="register-form-control">
+      <label className="register-label">Employee Code <span className="optional-txt">( Optional )</span> </label>
       <input
         type="text"
         name={name}  // Dynamically set name
@@ -18,4 +18,4 @@ function PlacementOfficeName({ additionalData, formErrors, handleChange, name })
   )
 }
 
-export default PlacementOfficeName
+export default EmployeeCode

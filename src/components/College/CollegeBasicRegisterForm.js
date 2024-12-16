@@ -90,26 +90,8 @@ function CollegeBasicRegisterForm() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const generateUniqueID = () => {
-    const currentID = formData.college_id;
-    const newID = incrementID(currentID || 'COL63046');
-    setFormData((prevData) => ({
-      ...prevData,
-      college_id: newID,
-    }));
-  };
-
-  const incrementID = (college_id) => {
-    const prefix = college_id.match(/[A-Za-z]+/)[0];
-    const numericPart = college_id.match(/\d+/)[0];
-    const incrementedNumber = (parseInt(numericPart, 10) + 1).toString();
-    return `${prefix}${incrementedNumber.padStart(numericPart.length, '0')}`;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    generateUniqueID(); 
-
     if (validateForm()) {
       try {
         const payload = {
@@ -120,7 +102,6 @@ function CollegeBasicRegisterForm() {
           mobile: formData.mobile,
           designation: formData.designation,
         };
-
         const url = process.env.REACT_APP_EPIIC_CORPORATE_BASIC_REGISTER_URL;
         const params = new URLSearchParams(payload).toString();
         const fullUrl = `${url}?${params}`;
@@ -137,13 +118,16 @@ function CollegeBasicRegisterForm() {
           const data = await response.json();
           localStorage.setItem('access_token', data.access_token);
           localStorage.setItem('form_data', JSON.stringify(formData));
-
+          // Reset form fields using document.querySelector
+        document.querySelector('form').reset();
           toast.success(data.message || 'Form submitted successfully!', {
             position: 'top-right',
             className: 'toast-success',
           });
         } else {
           const errorData = await response.json();
+        // Reset form fields using document.querySelector
+        document.querySelector('form').reset();
           toast.error(errorData.message || 'Failed to submit form. Please try again.', {
             position: 'top-right',
             className: 'toast-error',
@@ -198,7 +182,7 @@ function CollegeBasicRegisterForm() {
                   <h2>COLLEGE REGISTRATION</h2>
                 </div>
                 <form className="register-form" onSubmit={handleSubmit}>
-                  <input type="hidden" name="college_id" value={formData.college_id} />
+                  {/* <input type="hidden" name="college_id" value={formData.college_id} /> */}
 
                   <div className="register-row">
                     <div className="register-col">

@@ -1,9 +1,8 @@
 
-function PlacementOfficeName({ additionalData, formErrors, handleChange, name }) {
+function TotalStudentStrength({ additionalData, formErrors, handleChange, name }) {
   return (
     <>
-      <div className="register-form-control">
-      <label className="register-label">Placement Officer Name </label>
+       <div className="register-form-control">
       <input
         type="text"
         name={name}  // Dynamically set name
@@ -18,4 +17,4 @@ function PlacementOfficeName({ additionalData, formErrors, handleChange, name })
   )
 }
 
-export default PlacementOfficeName
+export default TotalStudentStrength

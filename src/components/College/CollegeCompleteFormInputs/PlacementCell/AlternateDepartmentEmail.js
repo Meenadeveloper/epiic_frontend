@@ -1,9 +1,9 @@
 
-function PlacementOfficeName({ additionalData, formErrors, handleChange, name }) {
+function AlternateDepartmentEmail({ additionalData, formErrors, handleChange, name }) {
   return (
     <>
       <div className="register-form-control">
-      <label className="register-label">Placement Officer Name </label>
+      <label className="register-label">Alternate Department Email </label>
       <input
         type="text"
         name={name}  // Dynamically set name
@@ -18,4 +18,4 @@ function PlacementOfficeName({ additionalData, formErrors, handleChange, name })
   )
 }
 
-export default PlacementOfficeName
+export default AlternateDepartmentEmail

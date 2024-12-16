@@ -1350,6 +1350,14 @@ background-size: cover;
   padding: 20px 10px !important;
   font-weight: 600 !important;
 }
+.college-sub-heading{
+  padding-top: 30px;
+  color: #000000;
+  text-align: center;
+  padding-bottom: 30px;
+  font-weight: 600 !important;
+
+}
 .college-data-txt{
   font-family: Montserrat;
 font-size: 18px;
@@ -1359,6 +1367,14 @@ text-align: left;
 color: #000000;
 
 
+}
+.error-display-txt{
+  font-family: Montserrat;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 26px;
+  text-align: left;
+  color: #000000;
 }
 .college-data-container {
   display: grid;
@@ -1376,7 +1392,17 @@ color: #000000;
   color: #333;
   text-wrap-mode: nowrap;
 }
+.center-label{
+  display: flex;
+  justify-content: center;
+}
+.optional-txt{
+  font-family: Montserrat;
+font-size: 16px;
+font-weight: 600;
+color: rgba(0, 0, 0, 0.621);
 
+}
 
 
 @media (max-width: 900px) {

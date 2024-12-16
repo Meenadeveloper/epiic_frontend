@@ -1,9 +1,8 @@
 
-function PlacementOfficeName({ additionalData, formErrors, handleChange, name }) {
+function IntermediateYear({ additionalData, formErrors, handleChange, name }) {
   return (
     <>
       <div className="register-form-control">
-      <label className="register-label">Placement Officer Name </label>
       <input
         type="text"
         name={name}  // Dynamically set name
@@ -18,4 +17,4 @@ function PlacementOfficeName({ additionalData, formErrors, handleChange, name })
   )
 }
 
-export default PlacementOfficeName
+export default IntermediateYear

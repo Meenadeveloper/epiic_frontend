@@ -1,16 +1,16 @@
 
-function PlacementOfficeName({ additionalData, formErrors, handleChange, name }) {
+function Pincode({ additionalData, formErrors, handleChange, name }) {
   return (
     <>
-      <div className="register-form-control">
-      <label className="register-label">Placement Officer Name </label>
+       <div className="register-form-control">
+      <label className="register-label">Pincode</label>
       <input
         type="text"
         name={name}  // Dynamically set name
         className="register-input"
         value={additionalData[name]}  // Dynamically access formData by the 'name' prop
         onChange={handleChange}  // Handle change event
-        placeholder="Lorem Ipsum"
+        placeholder="Enter Pincode"
       />
       {formErrors[name] && <p className="error">{formErrors[name]}</p>}  {/* Display error message if any */}
     </div>
@@ -18,4 +18,4 @@ function PlacementOfficeName({ additionalData, formErrors, handleChange, name })
   )
 }
 
-export default PlacementOfficeName
+export default Pincode
