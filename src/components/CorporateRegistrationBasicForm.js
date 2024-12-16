@@ -24,6 +24,7 @@ function CorporateRegistrationBasicForm() {
     confirmPassword: '',
     designation: '',
     organisation: '',
+    
   });
 
  

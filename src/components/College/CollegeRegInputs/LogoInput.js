@@ -80,8 +80,7 @@ function LogoInput({
           id="file-input"
           accept=".jpg,.jpeg,.png"
           name={name}
-          value={formData.logo || ''}
-         
+          value={formData.college_logo}
         />
         <div className="logo-file-upload-content">
           <FileUpload className="file-upload-img" />
@@ -105,6 +104,8 @@ function LogoInput({
         </div>
       </div>
       <div className="file-error">
+        {errorMessage && <p className="error">{errorMessage}</p>}
+        {formErrors.college_logo && <p className="error">{formErrors.college_logo}</p>} {/* Display error message if any */}
 
       </div>
     </div>

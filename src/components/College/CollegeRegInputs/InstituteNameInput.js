@@ -12,9 +12,7 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false); // Track focus state
   const [turnoverRanges, setTurnoverRanges] = useState([]); // State for college data from API
-  const apiUrl = process.env.REACT_APP_COLLEGE_API_URL;
-  const fullUrl = `${apiUrl}?district_id=${districtId}`;
-  console.log('Fetching college data from:', fullUrl);
+  
 
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_COLLEGE_API_URL;

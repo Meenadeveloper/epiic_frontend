@@ -88,10 +88,13 @@ function CollegeEmailOtp({ isEmailVerified, setIsEmailVerified,formData= {}, set
         setTimer(300); // Reset timer on OTP sent
         setCanResend(false); // Disable resend button until timer expires
       } catch (error) {
+        console.log(error);
+
         setErrorMessage(
-          error.response?.data?.message || 'Error sending OTP. Please try again.'
+          error.response?.data?.error?.mail || 'Error sending OTP. Please try again.'
         );
-        setSuccessMessage(''); // Clear success message on error
+        setSuccessMessage(''); // Clear success message on erro
+
       }
     };
   

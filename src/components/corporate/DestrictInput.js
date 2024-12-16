@@ -119,15 +119,15 @@ useEffect(() => {
             name={name} 
             className="register-input drodown-input"
             placeholder="Search"
-            value={inputValue || ""}// Controlled input value
+            value={inputValue}// Controlled input value
             onChange={handleInputChange} // Handle input change to filter districts
             onFocus={() => setIsDropdownOpen(true)} // Open dropdown when focused
           />
 
                 <input
             type="hidden"
-            name={name} 
-            value={districtIdValue || ""}// Controlled input value
+            name="district" 
+            value={districtIdValue }// Controlled input value
             
           />
           <i className="material-icons search-icon">search</i>

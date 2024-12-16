@@ -13,7 +13,8 @@ function AddressField({
     onSave , 
    addressesLength,
    isAddressFilled,
-  setIsAddressFilled
+  setIsAddressFilled,
+  setAddresses 
     
     }) {
   const [corporateText, setCorporateText] = useState(address.corporateText || '');
@@ -25,11 +26,12 @@ function AddressField({
   const [selectedDistrictName, setSelectedDistrictName] = useState(address.districtName || '');
   const [errors, setErrors] = useState({});
   const [tagError, setTagError] = useState('');
-
+ 
   // Function to handle state selection
   const handleStateSelect = (stateId, stateName) => {
     setSelectedStateId(stateId);
     setSelectedStateName(stateName);
+    
   };
 
   // Function to handle district selection
@@ -67,9 +69,11 @@ function AddressField({
 
     if (validateFields()) {
       onSave({
-        corporateText,
+       address:corporateText,
+       corporateText,
         selectedDistrictId,
         selectedDistrictName,
+        selectedStateId,
         selectedStateName,
         pincode,
         tag: selectedTag,
@@ -89,8 +93,8 @@ function AddressField({
   // Populate state when address prop changes
   useEffect(() => {
     if (address) {
-      setCorporateText(address.corporateText || '');
-      setPincode(address.pincode || '');
+      setCorporateText(address.corporateText || corporateText);
+      setPincode(address.pincode || pincode);
       setSelectedTag(address.tag || '');
       setSelectedStateId(address.stateId || '');
       setSelectedStateName(address.stateName || '');
@@ -99,33 +103,51 @@ function AddressField({
     }
   }, [address]);
 
+  const handleAddressUpdate = (id, field, value) => {
+    setAddresses(prevAddresses => 
+      prevAddresses.map(address => 
+        address.id === id ? { ...address, [field]: value } : address
+      )
+    );
+  };
+
   return (
     <div className="corporate-border">
       <CorporateTextInput
        label={`Address ${addressesLength}*`} // Dynamically show the length
         value={corporateText}
         onChange={setCorporateText}
-        name={`address[${index}]`}
+        name="address"
         error={errors.corporateText}
       />
       <div className="register-row">
         <div className="register-col">
           <StateInput
-            onStateSelect={handleStateSelect}
+             onStateSelect={(stateId, stateName) => {
+    handleAddressUpdate(address.id, 'state', stateId);
+    handleAddressUpdate(address.id, 'stateName', stateName);
+    handleAddressUpdate(address.id, 'stateId', stateId);
+  }}
             selectedStateName={selectedStateName}
            selectedStateId={selectedStateId}
-            name={`state[${index}]`}
+            name="stateName"
             error={errors.state}
+           
           />
         </div>
         <div className="register-col">
           <DestrictInput
             stateId={selectedStateId}
-            onDistrictSelect={handleDistrictSelect}
+            onDistrictSelect={(districtId, districtName) => {
+    handleAddressUpdate(address.id, 'district', districtId);
+    handleAddressUpdate(address.id, 'districtName', districtName);
+    handleAddressUpdate(address.id, 'districtId', districtId);
+  }}
             selectedDistrictName={selectedDistrictName}
             selectedDistrictId={selectedDistrictId} // Pass the pre-selected value
-            name={`district[${index}]`}
+            name="districtName"
             error={errors.district}
+            
           />
         </div>
       </div>
@@ -135,7 +157,7 @@ function AddressField({
             value={pincode}
             onChange={setPincode}
             error={errors.pincode}
-            name={`pincode[${index}]`}
+            name="pincode"
           />
         </div>
         <div className="register-col">
@@ -144,7 +166,7 @@ function AddressField({
             selectedTag={selectedTag} // Pass the pre-selected value
             error={tagError}
             clearError={() => setTagError('')}
-            name={`tag[${index}]`}
+            name="tag"
           />
         </div>
       </div>

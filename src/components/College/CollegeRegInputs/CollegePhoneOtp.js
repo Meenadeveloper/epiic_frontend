@@ -116,7 +116,7 @@ function CollegePhoneOtp({isPhoneVerified,setIsPhoneVerified,formData= {},setPho
         console.error("Error sending OTP:", error.response || error.message);
     
         setErrorMessage(
-          error.response?.data?.message || 'Error sending OTP. Please try again.'
+          error.response?.data?.errors?.mobile || 'Error sending OTP. Please try again.'
         );
         setSuccessMessage('');
         setIsVerified('');

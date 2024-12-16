@@ -11,7 +11,7 @@ import InstituteTypeInput from './CollegeRegInputs/InstituteTypeInput';
 import InstituteNameInput from './CollegeRegInputs/InstituteNameInput';
 import FirstNameInput from './CollegeRegInputs/FirstNameInput';
 import LastNameInput from './CollegeRegInputs/LastNameInput';
-import LogoInput from '../LogoInput';
+import LogoInput from './CollegeRegInputs/LogoInput';
 import EmailInput from './CollegeRegInputs/EmailInput';
 import PhoneInput from './CollegeRegInputs/PhoneInput';
 import PasswordInput from './CollegeRegInputs/PasswordInput';
@@ -128,7 +128,7 @@ function CollegeBasicRegisterForm() {
           const errorData = await response.json();
         // Reset form fields using document.querySelector
         document.querySelector('form').reset();
-          toast.error(errorData.message || 'Failed to submit form. Please try again.', {
+          toast.error(errorData.errors || 'Failed to submit form. Please try again.', {
             position: 'top-right',
             className: 'toast-error',
           });

@@ -7,17 +7,19 @@ const AddressManager = ({
   isAddressFilled,
   setIsAddressFilled
 }) => {
-  const [addresses, setAddresses] = useState([{ id: 0, tags: "", district: "", state: "", saved: false }]);
+  const [addresses, setAddresses] = useState([{ id: 0, address:"",tag: "", district: "", state: "",pincode:"", saved: false }]);
   const [viewVisibleIndex, setViewVisibleIndex] = useState(null); // State to track which address is currently viewed
 
   const handleAddMore = () => {
-    setAddresses([...addresses, { id: addresses.length, tags: "", district: "", state: "", saved: false }]);
+    setAddresses([...addresses, { id: addresses.length, address:"" ,tag: "", district: "", state: "",pincode:"",  saved: false }]);
   };
 
   const handleAddressSave = (index, addressData) => {
     const updatedAddresses = addresses.map((address, i) =>
       i === index ? { ...address, ...addressData, saved: true } : address
     );
+     // Log the updated address data
+    console.log("Updated Address:", updatedAddresses[index]);
     setAddresses(updatedAddresses);
     console.log("Saved Address:", addressData);
   };
@@ -26,6 +28,7 @@ const AddressManager = ({
     const updatedAddresses = addresses.map((address, i) =>
       i === index ? { ...address, saved: false } : address
     );
+    console.log("edit address",updatedAddresses);
     setAddresses(updatedAddresses);
   };
 
@@ -62,6 +65,7 @@ const AddressManager = ({
             <AddressField
               index={index}
               address={address} // Pass current address to pre-fill form
+              setAddresses={setAddresses}
               onSave={(addressData) => handleAddressSave(index, addressData)}
               addressesLength={addresses.length} // Pass the address length to AddressField
               isAddressFilled={isAddressFilled}

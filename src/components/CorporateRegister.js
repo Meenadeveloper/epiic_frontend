@@ -365,7 +365,9 @@ console.log("check token",token);
                     gstsuccessMessage={gstsuccessMessage}
                     />
                     <LogoInput
-                    parenthandleFileChange={parenthandleFileChange}
+                    formData={formData}
+                    formErrors={formErrors}
+                    handleChange={handleChange}
                     />
                     <div className="d-center">
                     <button type="submit" className="save-btn">Submit</button>

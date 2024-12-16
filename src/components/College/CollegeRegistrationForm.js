@@ -247,7 +247,7 @@ const navigate = useNavigate();
           navigate('/college-registration', { state: { formData } });
         } else {
           const errorData = await response.json();
-          console.error('Server error details:', errorData);
+          console.error('Server error details113:', errorData);
   
           // Display the response error in the respective form fields
           setFormErrors({
@@ -255,11 +255,20 @@ const navigate = useNavigate();
             ...errorData.errors  // Assuming the server returns error messages in an "errors" object
           });
   
-          // Display a general error message using toast
-          toast.error(errorData.errors , {
-            position: 'top-right',
-            className: 'toast-error',
-          });
+          // Display error messages for each field using toast notifications
+  Object.keys(errorData.errors).forEach((key) => {
+    const fieldErrors = errorData.errors[key]; // This will be an array of error messages
+
+    if (Array.isArray(fieldErrors)) {
+      fieldErrors.forEach(errorMessage => {
+        // Show each error message using toast
+        toast.error(errorMessage, {
+          position: 'top-right',
+          className: 'toast-error',
+        });
+      });
+    }
+  });
         }
       } catch (error) {
         // Handle any errors during the request

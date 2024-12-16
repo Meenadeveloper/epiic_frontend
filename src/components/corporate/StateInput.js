@@ -109,7 +109,7 @@ useEffect(() => {
           {/* Hidden input field to store state ID */}
           <input
             type="hidden"
-            name={name}
+            name="state"
             value={stateIdValue}  // Hidden input to hold the state ID
           />
           <i className="material-icons search-icon">search</i>
