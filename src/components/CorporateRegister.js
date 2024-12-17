@@ -9,11 +9,13 @@ import { toast } from "react-toastify";
 
 function CorporateRegister() {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
    
     firstName: "",
     lastName: "",
     email: "",
+    mobile:"",
     organisation: "",
     designation: "",
     website:"",
@@ -49,7 +51,14 @@ function CorporateRegister() {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // New state for phone verification
   const [isAddressFilled, setIsAddressFilled] = useState(false); // New state for address verification
+// State to store address data
+const [addressData, setAddressData] = useState([]);
 
+// Callback function to receive address data from AddressManager
+const handleAddressDataChange = (addresses) => {
+  setAddressData(addresses);
+  console.log("Updated Address Data in Parent:", addresses);
+};
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState(null);
 
@@ -211,9 +220,63 @@ useEffect(() => {
   }
 }, []);
 
+
+
+
 // Handle form submission
 const handleSubmit = async (e) => {
   e.preventDefault();
+
+  // Prepare data for submission, extracting only the stateId and districtId
+  const dataToSubmit = addressData.map((address) => ({
+    state: address.stateId,        // Use stateId instead of state name
+    district: address.districtId,  // Use districtId instead of district name
+    pincode: address.pincode,      // Submit pincode if required
+    address: address.address,      // Submit address if required
+    tag: address.tag,
+  }));
+
+  console.log("Submitting Data:", dataToSubmit);
+// Update the submittedData array by adding new data
+setAddressData(prevData => {
+  const updatedData = [...prevData, dataToSubmit];
+
+  // Log the format of the updated array
+  console.log("Updated Submitted Data Array:", updatedData);
+  // Return the updated array to update the state
+  return updatedData;
+});
+
+const payload = {
+  name: `${formData.firstName} ${formData.lastName}`,
+  email: formData.email,
+  mobile: formData.mobile,
+  organization_name: formData.organisation, 
+  designation: formData.designation,
+  country_id: formData.country,               // Fixed to map correctly to 'country' field
+  website: formData.website,                  // Fixed to map correctly to 'website' field
+  about_us: formData.aboutus,                 // Correct mapping for 'about_us'
+  gst: formData.gst,                          // Correct mapping for 'gst'
+  no_of_employee: formData.noofemployees,     // Corrected from duplicated 'designation'
+  turnover: formData.turnover,                // Correct mapping for 'turnover'
+  classfication_industry_id:formData.classifiedindustry,
+  specialisation:formData.specialization,
+  tags:formData.turnover,
+  nature_industry:formData.turnover,
+  company_logo:formData.turnover,
+
+ // Add updated address data here
+  address:  addressData.map((address) => ({
+    state: address.stateId,        // Use stateId instead of state name
+    district: address.districtId,  // Use districtId instead of district name
+    pincode: address.pincode,      // Submit pincode if required
+    address: address.address,      // Submit address if required
+    tag: address.tag,
+  })),
+};
+
+console.log("form datata",payload)
+
   const token = localStorage.getItem("access_token");
 console.log("check token",token);
   if (!isEmailVerified) {
@@ -229,7 +292,7 @@ console.log("check token",token);
     return;
   }
 
-  if (validateForm()) {
+  if (!validateForm()) {
     try {
 
       const payload = {
@@ -244,18 +307,10 @@ console.log("check token",token);
         gst: formData.gst,                          // Correct mapping for 'gst'
         no_of_employee: formData.noofemployees,     // Corrected from duplicated 'designation'
         turnover: formData.turnover,                // Correct mapping for 'turnover'
-        
-        classification_industry_id: formData.classifiedindustry,  // Fixed typo and field mapping
-        nature_industry: [                          // Corrected to use array format for nature_industry
-          formData.natureofindustry,                // Assuming these fields map to individual selections
-        ],
-        sub_sector: [                               // Corrected to use array format for sub_sector
-          formData.subsector,
-        ],
-        
-        company_logo: formData.logo,                // Correct mapping for 'company_logo'
+       // Add updated address data here
+        address: dataToSubmit, 
       };
-      
+      console.log("form datata",payload)
 
       const token = localStorage.getItem("access_token");
        alert(token);
@@ -351,6 +406,7 @@ console.log("check token",token);
                   setIsPhoneVerified={setIsPhoneVerified}
                   isAddressFilled={isAddressFilled}
                   setIsAddressFilled={setIsAddressFilled}
+                  onAddressChange={handleAddressDataChange}
                 />
                  
                     <AboutField

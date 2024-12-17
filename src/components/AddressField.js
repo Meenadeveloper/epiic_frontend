@@ -71,8 +71,10 @@ function AddressField({
       onSave({
        address:corporateText,
        corporateText,
+        district:selectedDistrictId,
         selectedDistrictId,
         selectedDistrictName,
+        state:selectedStateId,
         selectedStateId,
         selectedStateName,
         pincode,
@@ -95,7 +97,7 @@ function AddressField({
     if (address) {
       setCorporateText(address.corporateText || corporateText);
       setPincode(address.pincode || pincode);
-      setSelectedTag(address.tag || '');
+      setSelectedTag(address.tag || selectedTag);
       setSelectedStateId(address.stateId || '');
       setSelectedStateName(address.stateName || '');
       setSelectedDistrictId(address.districtId || '');

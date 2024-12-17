@@ -87,8 +87,9 @@ function RegisterEmailOtp({ isEmailVerified, setIsEmailVerified,formValues= {}, 
         setTimer(300); // Reset timer on OTP sent
         setCanResend(false); // Disable resend button until timer expires
       } catch (error) {
+        // console.log("email otp error response",error)
         setErrorMessage(
-          error.response?.data?.message || 'Error sending OTP. Please try again.'
+          error.response?.data?.error?.mail 
         );
         setSuccessMessage(''); // Clear success message on error
       }
@@ -120,8 +121,9 @@ function RegisterEmailOtp({ isEmailVerified, setIsEmailVerified,formValues= {}, 
         setSuccessMessage(response.data.message || 'OTP resent successfully.');
         setErrorMessage(''); // Clear error message on resend success
       } catch (error) {
+        console.log("email otp error response",error)
         setErrorMessage(
-          error.response?.data?.message || 'Error resending OTP. Please try again.'
+          error.response?.data?.error?.email 
         );
         setSuccessMessage(''); // Clear success message on resend error
       }

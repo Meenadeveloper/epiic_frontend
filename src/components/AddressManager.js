@@ -5,13 +5,16 @@ import AddressView from './AddressView';
 
 const AddressManager = ({
   isAddressFilled,
-  setIsAddressFilled
+  setIsAddressFilled,
+  onAddressChange
 }) => {
   const [addresses, setAddresses] = useState([{ id: 0, address:"",tag: "", district: "", state: "",pincode:"", saved: false }]);
   const [viewVisibleIndex, setViewVisibleIndex] = useState(null); // State to track which address is currently viewed
 
   const handleAddMore = () => {
-    setAddresses([...addresses, { id: addresses.length, address:"" ,tag: "", district: "", state: "",pincode:"",  saved: false }]);
+    const newAddresses = [...addresses, { id: addresses.length, address: "", tag: "", district: "", state: "", pincode: "", saved: false }];
+    setAddresses(newAddresses);
+    onAddressChange(newAddresses); // Update parent when addresses change
   };
 
   const handleAddressSave = (index, addressData) => {
@@ -21,6 +24,7 @@ const AddressManager = ({
      // Log the updated address data
     console.log("Updated Address:", updatedAddresses[index]);
     setAddresses(updatedAddresses);
+    onAddressChange(updatedAddresses); 
     console.log("Saved Address:", addressData);
   };
 

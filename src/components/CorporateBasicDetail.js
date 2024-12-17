@@ -12,7 +12,8 @@ function CorporateBasicDetail({
   isPhoneVerified,
   setIsPhoneVerified,
   isAddressFilled,
-  setIsAddressFilled
+  setIsAddressFilled,
+  onAddressChange
 
 }) {
   return (
@@ -130,6 +131,7 @@ function CorporateBasicDetail({
      <AddressManager
       isAddressFilled={isAddressFilled}
       setIsAddressFilled={setIsAddressFilled}
+      onAddressChange={onAddressChange}
      />
       </div>
     </>
