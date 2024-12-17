@@ -13,7 +13,16 @@ function CorporateBasicDetail({
   setIsPhoneVerified,
   isAddressFilled,
   setIsAddressFilled,
-  onAddressChange
+  onAddressChange,
+  setEmailInParent, // Pass the function to the child
+  setPhoneInParent,
+  useremail,
+  userMobile,
+  userCountry,
+  selectedCountryName,
+  selectedCountryId,
+  onCountrySelect,
+
 
 }) {
   return (
@@ -61,12 +70,16 @@ function CorporateBasicDetail({
         <EmailOtp
           isEmailVerified={isEmailVerified}
           setIsEmailVerified={setIsEmailVerified}
+          setEmailInParent={setEmailInParent}
+          useremail={useremail} 
         />
 
          {/* mobile otp */}
          <PhoneOtp
           isPhoneVerified={isPhoneVerified}
           setIsPhoneVerified={setIsPhoneVerified}
+          setPhoneInParent={setPhoneInParent}
+          userMobile={userMobile}
          />
 
          <div className='register-row'>
@@ -108,6 +121,10 @@ function CorporateBasicDetail({
         formData={formData}     // Passing formData
         formErrors={formErrors} // Passing formErrors
         handleChange={handleChange} // Passing handleChange for form updates
+        selectedCountryName={selectedCountryName}
+        selectedCountryId={selectedCountryId}
+        onCountrySelect={onCountrySelect}
+        userCountry={userCountry}
       />
            </div>
            <div className='register-col'>

@@ -6,7 +6,6 @@ function LogoInput({
   formData,
   formErrors,
   handleChange,
-  name
  }) {
   const [file, setFile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -79,9 +78,7 @@ function LogoInput({
           style={{ display: 'none' }}
           id="file-input"
           accept=".jpg,.jpeg,.png"
-          name={name}
-          value={formData.logo || ''}
-         
+          name="logo"
         />
         <div className="logo-file-upload-content">
           <FileUpload className="file-upload-img" />

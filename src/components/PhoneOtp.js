@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import axios from 'axios';
 
-function PhoneOtp({isPhoneVerified,setIsPhoneVerified}) {
+function PhoneOtp({isPhoneVerified,setIsPhoneVerified,setPhoneInParent,userMobile}) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verifiedPhoneNumber, setVerifiedPhoneNumber] = useState('');
   const [otp, setOtp] = useState(['', '', '', '']);
@@ -47,6 +47,7 @@ function PhoneOtp({isPhoneVerified,setIsPhoneVerified}) {
     // Ensure newPhone is a string and trim any extra spaces from the phone number
   const sanitizedPhone = (newPhone || '').trim();  // Default to an empty string if newPhone is undefined
   setPhoneNumber(sanitizedPhone);
+  setPhoneInParent(sanitizedPhone);
   console.log(sanitizedPhone)
     setErrorMessage('');
     setSuccessMessage('');
@@ -196,6 +197,13 @@ function PhoneOtp({isPhoneVerified,setIsPhoneVerified}) {
     }
   };
 
+  useEffect(()=>{
+     if(userMobile){
+      setPhoneNumber(userMobile);
+     }
+  
+    },[userMobile]);
+
   return (
     <div className="register-row">
       <div className="register-col">
@@ -204,7 +212,7 @@ function PhoneOtp({isPhoneVerified,setIsPhoneVerified}) {
           <PhoneInput
             international
             defaultCountry="IN"
-            name="phone"
+            name="mobile"
             value={phoneNumber}
             onChange={handlePhoneChange}
             className={`register-input ${isVerified ? 'success-input-field' : ''} ${errorMessage ? 'err-input-field' : ''}`}

@@ -6,30 +6,85 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
+import CreatableTags from "./corporate/CreatableTags";
 
-function CorporateRegister() {
+ function CorporateRegister() {
   const navigate = useNavigate();
+  const token123 = localStorage.getItem('access_token');
+const fullUrl = process.env.REACT_APP_CORPORATE_PROFILE; // Ensure your .env file has the correct URL
+const headers = {
+  Authorization: `Bearer ${token123}`,
+  "Content-Type": "application/json",
+};
 
-  const [formData, setFormData] = useState({
-   
-    firstName: "",
-    lastName: "",
-    email: "",
-    mobile:"",
-    organisation: "",
-    designation: "",
-    website:"",
-    country:"",
-    aboutus:"",
-    noofemployees:"",
-    gst:"",
-    turnover:"",
-    natureofindustry:"",
-    classifiedindustry:"",
-    subsector:"",
-    specialization:"",
-    logo: null, // To store the file in formData
-  });
+// Initialize formData with useState
+const [formData, setFormData] = useState({
+  firstName: "", // Default value
+  lastName: "",
+  email: "",
+  mobile: "",
+  organisation: "",
+  designation: "",
+  website: "",
+  countryName: "",
+  countryId:"",
+  aboutus: "",
+  noofemployees: "",
+  noofemployeesId:"",
+  gst: "",
+  turnover: "",
+  natureofindustry: "",
+  classfication_industry_id: "",
+  subsectorId: "",
+  specialization: "",
+  logo: null, // To store the file in formData
+});
+const [userEmail, setUserEmail] = useState(null); // State for userEmail
+const [userMobile, setUserMobile] = useState(null);
+
+useEffect(() => {
+  // API call to prefill the form data
+  axios.get(fullUrl, { headers })
+    .then((response) => {
+      if (response.status === 200) {
+        console.log("Response", response.data);
+        // Assuming response.data.user contains the form values
+        const userData = response.data.user.corporate;
+        setFormData(prevState => ({
+          ...prevState,
+          firstName: userData.name || "", // Prefill with API data or default value
+          organisation:userData.organization_name || "",
+          designation:userData.designation || "",
+          email:userData.email || "",
+          mobile:userData.mobile_no || "",
+          
+          // Add other form fields if needed
+        }));
+
+          // Update userEmail state
+          setUserEmail(userData.email); // Set the email in state
+           // Try to access the mobile number
+           setUserMobile(userData.mobile_no);
+       
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      toast.error("Failed to prefill form data.");
+    });
+}, []); // Empty dependency array to run on mount only
+useEffect(() => {
+  if (userEmail !== null) {
+    console.log('Updated userEmail state:', userEmail);
+  }
+}, [userEmail]); // Runs every time userEmail changes
+
+useEffect(() => {
+  if (userMobile !== null) {
+    console.log('Updated userMobile state:', userMobile);
+  }
+}, [userMobile]); // This will run whenever userMobile changes
+
   const [formErrors, setFormErrors] = useState({
    firstName: "",
     lastName: "",
@@ -37,7 +92,7 @@ function CorporateRegister() {
     organisation: "",
     designation: "",
     website:"",
-    country:"",
+    countryName:"",
     aboutus:"",
     noofemployees:"",
     gst:"",
@@ -126,7 +181,17 @@ const handleAddressDataChange = (addresses) => {
     logo: file, // Update logo with the selected file
   }));
 };
+ const [selectedCountryId, setSelectedCountryId] = useState('');
+  const [selectedCountryName, setSelectedCountryName] = useState('');
 
+  const handleCountrySelect = (countryId, countryName) => {
+    setSelectedCountryId(countryId);
+    setSelectedCountryName(countryName);
+
+     // Log the selected country details
+  console.log('Selected parent Country ID:', countryId);
+  console.log('Selected parent Country Name:', countryName);
+  };
 
  // Validate form data
  const validateForm = () => {
@@ -154,7 +219,7 @@ const handleAddressDataChange = (addresses) => {
     errors.website = "Website is required.";
     isValid = false;
   }
-  if (!formData.country.trim()) {
+  if (!formData.countryName.trim()) {
     errors.country = "Country is required.";
     isValid = false;
   }
@@ -210,17 +275,31 @@ const handleAddressDataChange = (addresses) => {
 useEffect(() => {
   // Retrieve the token and form data from localStorage
   const token = localStorage.getItem('access_token');
-  const formData = JSON.parse(localStorage.getItem('form_data'));
-
+  //const formData = JSON.parse(localStorage.getItem('form_data'));
   if (token) {
     setToken(token);
   }
-  if (formData) {
-    setUserData(formData);
-  }
 }, []);
 
+// Function to update only the email field
+const updateEmailInParent = (newEmail) => {
+  setFormData((formData) => ({
+    ...formData,
+    email: newEmail, // Update only the email field
+  }));
+   // Log the new email value to check if it is passed correctly
+   console.log('Updated email in parent:', newEmail);
+};
 
+// Function to update only the email field
+const updatePhoneInParent = (newPhone) => {
+  setFormData((formData) => ({
+    ...formData,
+    mobile: newPhone, // Update only the phone field
+  }));
+   // Log the new phone value to check if it is passed correctly
+   console.log('Updated phone in parent:', newPhone);
+};
 
 
 // Handle form submission
@@ -253,17 +332,19 @@ const payload = {
   mobile: formData.mobile,
   organization_name: formData.organisation, 
   designation: formData.designation,
-  country_id: formData.country,               // Fixed to map correctly to 'country' field
+  countryName:selectedCountryName,      
+  country_id:selectedCountryId,          // Fixed to map correctly to 'country' field
   website: formData.website,                  // Fixed to map correctly to 'website' field
   about_us: formData.aboutus,                 // Correct mapping for 'about_us'
   gst: formData.gst,                          // Correct mapping for 'gst'
-  no_of_employee: formData.noofemployees,     // Corrected from duplicated 'designation'
+  no_of_employee: formData.noofemployeesId,     // Corrected from duplicated 'designation'
   turnover: formData.turnover,                // Correct mapping for 'turnover'
-  classfication_industry_id:formData.classifiedindustry,
+  classfication_industry_id:formData.classfication_industry_id,
   specialisation:formData.specialization,
   tags:formData.turnover,
   nature_industry:formData.turnover,
-  company_logo:formData.turnover,
+  company_logo:formData.logo,
+  subsectorId:formData.subsectorId,
 
  // Add updated address data here
   address:  addressData.map((address) => ({
@@ -407,6 +488,15 @@ console.log("check token",token);
                   isAddressFilled={isAddressFilled}
                   setIsAddressFilled={setIsAddressFilled}
                   onAddressChange={handleAddressDataChange}
+                  setEmailInParent={updateEmailInParent} // Pass the function to the child
+                  setPhoneInParent={updatePhoneInParent}// Pass the function to the child
+                  useremail = {userEmail}
+                  userMobile={userMobile}
+                
+                        onCountrySelect={handleCountrySelect}
+                        selectedCountryName={selectedCountryName}
+                        selectedCountryId={selectedCountryId}
+                       
                 />
                  
                     <AboutField
@@ -420,10 +510,12 @@ console.log("check token",token);
                     handleChange={handleChange}
                     gstsuccessMessage={gstsuccessMessage}
                     />
+                  
                     <LogoInput
                     formData={formData}
                     formErrors={formErrors}
                     handleChange={handleChange}
+                    parenthandleFileChange={parenthandleFileChange}
                     />
                     <div className="d-center">
                     <button type="submit" className="save-btn">Submit</button>

@@ -1,139 +1,154 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-function CountryInput({ formData, formErrors, handleChange }) {
-  const [focused, setFocused] = useState(false);
+function CountryInput({ formData, formErrors,selectedCountryName, selectedCountryId,onCountrySelect }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [inputValue, setInputValue] = useState(formData.country || '');  // Set the initial value to formData.country
-  const [states, setStates] = useState([]);
-  const [filteredStates, setFilteredStates] = useState([]);
+  const [country, setCountry] = useState([]);
+  const [filteredCountry, setFilteredCountry] = useState([]);
+  const [inputValue, setInputValue] = useState('');  // Set the initial value to formData.country
+    const [countryIdValue, setcountryIdValue] = useState(''); // Hidden input for state ID
   const dropdownRef = useRef(null);
 
+// Set the input value and country ID when selected state is passed (for edit mode)
+useEffect(() => {
+  if (selectedCountryName && selectedCountryId) {
+    setInputValue(selectedCountryName);
+    setcountryIdValue(selectedCountryId);
+    
+    // Log the selected state name and ID
+    console.log("Selected Country Name:", selectedCountryName);
+    console.log("Selected Country ID:", selectedCountryId);
+  }
+}, [selectedCountryName, selectedCountryId]);
+
+// Toggle dropdown visibility
+const toggleDropdown = () => {
+  setIsDropdownOpen(prevState => !prevState);
+  if (!isDropdownOpen) {
+    setFilteredCountry(country); // Show all states when dropdown is opened
+  }
+};
+
+// Close dropdown if clicked outside
+const handleClickOutside = (event) => {
+  if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    setIsDropdownOpen(false);
+  }
+};
+
   useEffect(() => {
-    const fetchStates = async () => {
+    const fetchCountry = async () => {
       try {
-        const url = process.env.REACT_APP_COMMON_API_URL;
-        console.log("Requesting from URL:", url);
-
-        const response = await fetch(url);
-        const contentType = response.headers.get('Content-Type');
-        if (contentType && contentType.includes('application/json')) {
-          const data = await response.json();
-          console.log("Received data:", data);
-
-          const stateNames = data.country.map((state) => state.country_name);
-          setStates(stateNames);
-          setFilteredStates(stateNames);
+        const response = await fetch(process.env.REACT_APP_COMMON_API_URL);
+        const data = await response.json();
+        if (data && data.country) {
+          setCountry(data.country); // Set the fetched states
+          setFilteredCountry(data.country); // Initially, show all states
         } else {
-          console.error('Expected JSON but got:', contentType);
-          const textResponse = await response.text();
-          console.log('Response content:', textResponse);
+          console.error('Invalid data structure:', data);
         }
       } catch (error) {
         console.error('Error fetching states:', error);
       }
     };
 
-    fetchStates();
+    fetchCountry();
   }, []);
 
-  // Handle dropdown visibility toggle
-  const handleDropdownClick = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
+  // Listen for click events outside the dropdown to close it
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
 
-  // Handle selecting a state from the dropdown
-  const handleSelectItem = (item) => {
-    setInputValue(item);
-    setIsDropdownOpen(false);
 
-    // Update the formData for the country field
-    handleChange({
-      target: {
-        name: 'country',
-        value: item,
-      },
-    });
+ // Handle input change and filter states
+ const handleInputChange = (event) => {
+  const value = event.target.value;
+  setInputValue(value);
 
-    
-  };
 
-  // Handle input changes and filter states
-  const handleSearchChange = (e) => {
-    const query = e.target.value.toLowerCase();
-    setInputValue(query);
-    const filtered = states.filter((state) =>
-      state.toLowerCase().includes(query)
-    );
-    setFilteredStates(filtered);
+ // Filter states based on the input value
+ if (value === '') {
+  setFilteredCountry(country); // Show all states if input is empty
+} else {
+  const filtered = country.filter((country) =>
+    country.country_name.toLowerCase().includes(value.toLowerCase())
+  );
+  setFilteredCountry(filtered.length ? filtered : [{ state_name: 'No states found' }]);
+}
+};
 
-    // Show the dropdown when there is input
-    setIsDropdownOpen(query.length > 0);
-  };
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
+    // Handle state selection
+    const handleCountrySelect = (countryId, countryName) => {
+      setInputValue(countryName); // Set state name in visible input
+      setcountryIdValue(countryId);  // Set state ID in hidden input
+      onCountrySelect(countryId, countryName); // Pass selected state to parent
+      setIsDropdownOpen(false); // Close the dropdown after selection
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
+ 
   return (
-    <div className={`register-form-control ${formErrors.country ? 'error-input' : ''}`}>
+
+<>
+
+<div className={`register-form-control ${formErrors.countryName ? 'error-input' : ''}`}>
       <label className="register-label">Country</label>
-      <div className="dropdown-container">
+      <div className="dropdown-container trasparent-dropdown-box" ref={dropdownRef}>
         <div className="search-box-container">
           <input
-            type="search"
-            name="country"
-            className={`register-input drodown-input ${formErrors.country ? 'err-input-field' : ''}`}
+            type="text"
+            name="countryName"
+            className={`register-input drodown-input ${formErrors.countryName ? 'err-input-field' : ''}`}
             placeholder="Search"
-            value={inputValue}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            onChange={handleSearchChange}
+            value={inputValue} // Controlled input value
+            onChange={handleInputChange} // Handle input change
+            onFocus={() => setIsDropdownOpen(true)} // Open dropdown on focus
           />
-          {!inputValue && !focused && (
-            <i className="material-icons search-icon">search</i>
-          )}
-          <i
-            className="material-icons dropdown-icon"
-            onClick={handleDropdownClick}
-          >
+          {/* Hidden input field to store state ID */}
+          <input
+            type="hidden"
+            name="countryId"
+            value={countryIdValue}  // Hidden input to hold the state ID
+          />
+          <i className="material-icons search-icon">search</i>
+          <i className="material-icons dropdown-icon" onClick={toggleDropdown}>
             arrow_drop_down
           </i>
         </div>
-
+        {/* Display error message if exists */}
+        {formErrors.countryName && <p className="error">{formErrors.countryName}</p>} {/* Display error message if exists */}
+        {/* Dropdown content */}
         {isDropdownOpen && (
-          <div className="dropdown-option-box" ref={dropdownRef}>
+          <div className="dropdown-option-box">
             <ul className="dropdown-container">
-              {filteredStates.length > 0 ? (
-                filteredStates.map((state, index) => (
-                  <li
-                    key={index}
-                    className="dropdown-list"
-                    onClick={() => handleSelectItem(state)}
-                  >
-                    {state}
-                  </li>
+              {filteredCountry.length > 0 ? (
+                filteredCountry.map((country) => (
+                  country.country_name === 'No Country found' ? (
+                    <li key="no-Country-found" className="dropdown-list">
+                      No Country found
+                    </li>
+                  ) : (
+                    <li
+                      key={country.id}
+                      className="dropdown-list"
+                      onClick={() => handleCountrySelect(country.id, country.country_name)} // Pass state_id and state_name
+                    >
+                      {country.country_name}
+                    </li>
+                  )
                 ))
               ) : (
-                <li className="dropdown-list not-found">
-                  <em>Not Found</em>
-                </li>
+                <li className="dropdown-list">No states found</li>
               )}
             </ul>
           </div>
         )}
       </div>
-
-      {formErrors.country && <p className="error">{formErrors.country}</p>} {/* Display error message if exists */}
     </div>
+
+
+</>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function EmailOtp({ isEmailVerified, setIsEmailVerified }) {
+function EmailOtp({ isEmailVerified, setIsEmailVerified ,setEmailInParent,useremail}) {
   const [email, setEmail] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState(''); // Store the verified email
   const [otp, setOtp] = useState(['', '', '', '']); // OTP input fields
@@ -15,7 +15,6 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified }) {
 
   const API_OTP_REQUEST_URL = process.env.REACT_APP_OTP_MAIL_REQUEST_URL;
   const API_OTP_VERIFY_URL = process.env.REACT_APP_OTP_MAIL_VERIFY_URL;
-
   useEffect(() => {
     if (timer > 0 && !canResend) {
       const interval = setInterval(() => {
@@ -40,6 +39,7 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified }) {
   const handleChangeEmail = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
+    setEmailInParent(newEmail); // Update the parent when the email changes
      setErrorMessage('');
     setSuccessMessage('');
     setVerifySuccessMessage('');
@@ -158,6 +158,13 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified }) {
     setIsEmailVerified(false);
     }
   };
+
+  useEffect(()=>{
+   if(useremail){
+    setEmail(useremail);
+   }
+
+  },[useremail]);
 
   return (
     <div className="register-row">

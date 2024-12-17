@@ -52,7 +52,7 @@ function ClassificationOfIndustry({ formData, formErrors, handleChange }) {
               target: { name: 'classifiedindustry', value: '' },
             });
             handleChange({
-              target: { name: 'classifiedindustryId', value: '' },
+              target: { name: 'classfication_industry_id', value: '' },
             });
             return;
           }
@@ -67,7 +67,7 @@ function ClassificationOfIndustry({ formData, formErrors, handleChange }) {
           });
           handleChange({
             target: {
-              name: 'classifiedindustryId',
+              name: 'classfication_industry_id',
               value: option.value,
             },
           });
@@ -87,7 +87,7 @@ function ClassificationOfIndustry({ formData, formErrors, handleChange }) {
         });
       
         handleChange({
-          target: { name: 'classifiedindustryId', value: newOption.value },
+          target: { name: 'classfication_industry_id', value: newOption.value },
         });
         };
       
