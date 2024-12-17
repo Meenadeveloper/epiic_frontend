@@ -5,13 +5,15 @@ import NatureOfIndustry from './corporate/NatureOfIndustry';
 import ClassificationOfIndustry from "./Candidate/ClassificationOfIndustry";
 import SubSector from "./Candidate/SubSector";
 import Specialization from "./corporate/Specialization";
+import CreatableTags from "./corporate/CreatableTags";
 
 function AdditionalInformation(
   {
     formData,
     formErrors,
     handleChange,
-    gstsuccessMessage
+    gstsuccessMessage,
+    handleTagsChange
 
   }
 ) {
@@ -101,6 +103,11 @@ function AdditionalInformation(
        </div>
        <div className='register-full-row'>
             <label className='register-label'>Tags (optional)</label>
+            <CreatableTags
+             formData={formData}
+             formErrors={formErrors}
+             handleTagsChange={handleTagsChange}
+            />
              <textarea  className="textarea-input"
                   rows="4"  placeholder='Lorem ipsum'>
                             </textarea>   

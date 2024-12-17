@@ -1403,7 +1403,27 @@ font-weight: 600;
 color: rgba(0, 0, 0, 0.621);
 
 }
+.tag-input-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
+.custom__control {
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.custom__multi-value {
+  background-color: #f0f0f0;
+  border-radius: 16px;
+  margin: 5px;
+}
+.custom__multi-value:nth-child(1) {
+ 
+  display: none;
+}
 
 @media (max-width: 900px) {
   /* On smaller screens (900px or less), use 2 columns */

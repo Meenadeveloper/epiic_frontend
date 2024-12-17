@@ -205,7 +205,7 @@ function ClassificationOfIndustry({ formData, formErrors, handleChange }) {
   components={{ DropdownIndicator: CustomDropdownIndicator }}
 />
 
-      {formErrors.classifiedindustry && <p className="error">{formErrors.classifiedindustry}</p>}
+      {formErrors.classfication_industry_id && <p className="error">{formErrors.classfication_industry_id}</p>}
     </div>
       
     </>

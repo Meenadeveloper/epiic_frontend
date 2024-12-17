@@ -7,7 +7,7 @@ import { ReactComponent as SearchIcon } from '../../assets/images/Search.svg'; /
 function SubSector({ formData, formErrors, handleChange }) {
   // States for selected option, input value, and API data
   const [selectedOption, setSelectedOption] = useState(
-    formData.turnover
+    formData.subsector
       ? [{ label: formData.subsector, value: formData.subsectorId }] // Ensure it's an array for multi-select
       : []
   );
@@ -28,7 +28,7 @@ function SubSector({ formData, formErrors, handleChange }) {
         return response.json();
       })
       .then((data) => {
-        console.log('Fetched Data:', data); // Log the data for debugging
+        // console.log('Fetched Data:', data); // Log the data for debugging
         setTurnoverRanges(data.subSector); // Update state with fetched data
       })
       .catch((error) => {

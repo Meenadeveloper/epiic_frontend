@@ -34,9 +34,13 @@ const [formData, setFormData] = useState({
   gst: "",
   turnover: "",
   natureofindustry: "",
+  natureofindustryId:"",
   classfication_industry_id: "",
+  subsector:"",
   subsectorId: "",
   specialization: "",
+  specializationId:"",
+  tags:"",
   logo: null, // To store the file in formData
 });
 const [userEmail, setUserEmail] = useState(null); // State for userEmail
@@ -98,7 +102,8 @@ useEffect(() => {
     gst:"",
     turnover:"",
     natureofindustry:"",
-    classifiedindustry:"",
+    natureofindustryId:"",
+    classfication_industry_id:"",
     subsector:"",
     specialization:"",
     logo: "",
@@ -219,7 +224,7 @@ const handleAddressDataChange = (addresses) => {
     errors.website = "Website is required.";
     isValid = false;
   }
-  if (!formData.countryName.trim()) {
+  if (!formData.classfication_industry_id.trim()) {
     errors.country = "Country is required.";
     isValid = false;
   }
@@ -341,7 +346,7 @@ const payload = {
   turnover: formData.turnover,                // Correct mapping for 'turnover'
   classfication_industry_id:formData.classfication_industry_id,
   specialisation:formData.specialization,
-  tags:formData.turnover,
+  tags:formData.tags,
   nature_industry:formData.turnover,
   company_logo:formData.logo,
   subsectorId:formData.subsectorId,
@@ -379,15 +384,22 @@ console.log("check token",token);
       const payload = {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
-        mobile: formData.phone,
+        mobile: formData.mobile,
         organization_name: formData.organisation, 
         designation: formData.designation,
-        country_id: formData.country,               // Fixed to map correctly to 'country' field
-        website: formData.website,                  // Fixed to map correctly to 'website' field
+        countryName:selectedCountryName,      
+        country_id:selectedCountryId,                // Fixed to map correctly to 'country' field
         about_us: formData.aboutus,                 // Correct mapping for 'about_us'
-        gst: formData.gst,                          // Correct mapping for 'gst'
-        no_of_employee: formData.noofemployees,     // Corrected from duplicated 'designation'
-        turnover: formData.turnover,                // Correct mapping for 'turnover'
+  gst: formData.gst,                          // Correct mapping for 'gst'
+  no_of_employee: formData.noofemployeesId,     // Corrected from duplicated 'designation'
+  turnover: formData.turnover,                // Correct mapping for 'turnover'
+  classfication_industry_id:formData.classfication_industry_id,
+  specialisation:formData.specializationId,
+  tags:formData.tags,
+  nature_industry:formData.natureofindustryId,
+  company_logo:formData.logo,
+  subsectorId:formData.subsectorId,
+  subsector:formData.subsector,
        // Add updated address data here
         address: dataToSubmit, 
       };
@@ -449,7 +461,12 @@ console.log("check token",token);
   }
 };
 
-
+const handleTagsChange = (tags) => {
+  setFormData((prev) => ({
+    ...prev,
+    tags // Update the form data with the new comma-separated tags string
+  }));
+};
   return (
     <>
       <div className='register-container'>
@@ -509,6 +526,7 @@ console.log("check token",token);
                     formErrors={formErrors}
                     handleChange={handleChange}
                     gstsuccessMessage={gstsuccessMessage}
+                    handleTagsChange={handleTagsChange}
                     />
                   
                     <LogoInput
