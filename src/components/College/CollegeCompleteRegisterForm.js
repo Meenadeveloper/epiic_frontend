@@ -14,11 +14,59 @@ import PlacementOfficeName from './CollegeCompleteFormInputs/PlacementCell/Place
 import AlternateDepartmentMobile from './CollegeCompleteFormInputs/PlacementCell/AlternateDepartmentMobile';
 import AlternateDepartmentEmail from './CollegeCompleteFormInputs/PlacementCell/AlternateDepartmentEmail';
 import EmployeeCode from './CollegeCompleteFormInputs/PlacementCell/EmployeeCode';
+import { getcollegeUserData } from './CollegeStore';
 
 function CollegeCompleteRegisterForm() {
   const [formData, setFormData] = useState(null);
+
+  useEffect(() => {
+    // Get the token using the getcollegeUserData function
+    const collegetoken = getcollegeUserData(); // This will fetch the token stored in localStorage
+
+    if (!collegetoken) {
+      toast.error("No token found. Please log in.");
+      return;
+    }
+
+    // Ensure the environment variable is correctly set
+    const fullUrl = process.env.REACT_APP_COLLEGE_PROFILE;
+
+    const headers = {
+      Authorization: `Bearer ${collegetoken}`, // Use the retrieved token
+      "Content-Type": "application/json",
+    };
+
+    // API call to prefill the form data
+    axios.get(fullUrl, { headers })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Response", response.data);
+          // Assuming response.data.user contains the form values
+          const userData = response.data.user.college;
+
+          setAdditionalData(prevState => ({
+            ...prevState,
+            college_id: userData.college_id || "", // Prefill with API data or default value
+            state_id: userData.state_id || "",
+            // Add other form fields if needed
+          }));
+
+        
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to prefill form data.");
+      });
+  }, []); // Empty dependency array means this effect runs once on component mount
+
+
+
+
+
   const [additionalData, setAdditionalData] = useState({
     college_id: '',
+    state_id:'',
     address: '',
     pincode:'',
   });
@@ -77,33 +125,7 @@ const validateForm = () => {
   return Object.keys(errors).length === 0;
 };
   const [error, setError] = useState(null);
-  useEffect(() => {
-    // Retrieve form data from localStorage and set it if available
-    const storedFormData = localStorage.getItem('form_data');
-    if (storedFormData) {
-      try {
-        const parsedFormData = JSON.parse(storedFormData);
-        // console.log('Form data from localStorage:', parsedFormData); // Log the formData
-        setFormData(parsedFormData);
-      } catch (err) {
-        console.error('Error parsing form data from localStorage:', err);
-        setError('Failed to load form data');
-      }
-    } else {
-      setError('No form data found in localStorage');
-    }
-  }, []);
-  // If there's an error, show the error message
-  if (error) {
-    console.error('Error:', error);
-    return <p className='error-display-txt'>{error}</p>;
-  }
-  // If formData is still null, show a loading message
-  if (!formData) {
-    return <p>Loading form data...</p>; // Wait until formData is set
-  }
-  // Log formData whenever it's loaded
-  // console.log('Loaded formData:', formData);
+  
   
 // Handle additional data input changes
 // const handleAdditionalDataChange = (field, value) => {
@@ -158,7 +180,7 @@ const handleSubmit = async (event) => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('access_token', data.access_token);
-        localStorage.setItem('form_data', JSON.stringify(formData));
+        // localStorage.setItem('form_data', JSON.stringify(formData));
         localStorage.setItem('additional_data', JSON.stringify(additionalData)); // Store additional data
 
         // Show success message and reset the form
@@ -222,31 +244,31 @@ const handleSubmit = async (event) => {
                   <h2 className='college-heading'>COLLEGE REGISTRATION</h2>
                 </div>
                 <form className="register-form" onSubmit={handleSubmit} >
-                  <input type='hidden' name='college_id' value={formData.college_id}/>
+                  <input type='hidden' name='college_id' value={additionalData.college_id}/>
                 <div className='college-data-container'>
                   <div className='college-data-item'>
                     <p className='college-data-txt'>State</p>
                   </div>
                   <div className='college-data-item'>
-                    <p className='college-data-txt'> {formData.stateName}</p>
+                    <p className='college-data-txt'>{additionalData.state_id} </p>
                   </div>
                   <div className='college-data-item'>
                     <p className='college-data-txt'>District</p>
                   </div>
                   <div className='college-data-item'>
-                    <p className='college-data-txt'>{formData.districtName}</p>
+                    <p className='college-data-txt'></p>
                   </div>
                   <div className='college-data-item'>
                     <p className='college-data-txt'>Institution Type</p>
                   </div>
                   <div className='college-data-item'>
-                    <p className='college-data-txt'>{formData.instituteType}</p>
+                    <p className='college-data-txt'></p>
                   </div>
                   <div className='college-data-item'>
                     <p className='college-data-txt'>Name of the Institution</p>
                   </div>
                   <div className='college-data-item'>
-                    <p className='college-data-txt'>{formData.collegeName}</p>
+                    <p className='college-data-txt'></p>
                   </div>
                 </div>
                 <div className="borderless-form-box">

@@ -1420,8 +1420,8 @@ color: rgba(0, 0, 0, 0.621);
   border-radius: 16px;
   margin: 5px;
 }
-.custom__multi-value:nth-child(1) {
- 
+/* Hide the remove button for the first selected value */
+.css-b8xa4z-multiValue :nth-child(1)  {
   display: none;
 }
 

@@ -31,8 +31,7 @@ const CreatableTags = ({ formData, handleTagsChange }) => {
   return (
     <div className="tag-input-container" style={{ maxWidth: '100%', height: '100px' }}>
       <CreatableSelect
-        isMulti
-        autoFocus 
+        isMulti 
         value={tags} // The tags should be passed as objects with label and value
         onChange={handleChange}
         options={[]} // No predefined options, tags are created by the user
@@ -50,8 +49,11 @@ const CreatableTags = ({ formData, handleTagsChange }) => {
         onKeyDown={handleKeyDown} // Listen for key press events (Enter or Tab)
         inputValue={inputValue}
         onInputChange={(newValue) => setInputValue(newValue)} // Update the inputValue when the user types
-        // placeholder={tags.length === 0 ? 'Add tags...' : ''} 
-        placeholder="enter tha tagss.."
+        placeholder={
+          tags.length === 0
+            ? 'Start adding your tags...'
+            : 'You can add more tags or press enter...'
+        } // Dynamic placeholder text based on tag count
         classNamePrefix="custom"
         styles={{
           container: (provided) => ({
@@ -95,6 +97,12 @@ const CreatableTags = ({ formData, handleTagsChange }) => {
             ...styles,
             maxHeight: '200px', // Set maximum height for the dropdown
             width: '100%', // Ensure the dropdown takes up full width
+          }),
+          placeholder: (provided) => ({
+            ...provided,
+            color: '#6b7280', // Custom placeholder color
+            fontStyle: 'italic', // Custom placeholder font style
+            fontSize: '12px', // Custom placeholder font size
           }),
         }}
       />

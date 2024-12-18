@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -15,6 +15,8 @@ import DesignationInput from './CollegeRegInputs/DesignationInput';
 import CollegeLogoInput from './CollegeRegInputs/CollegeLogoInput';
 import CollegeEmailOtp from './CollegeRegInputs/CollegeEmailOtp';
 import CollegePhoneOtp from './CollegeRegInputs/CollegePhoneOtp';
+import { storecollegeUserData } from './CollegeStore';
+import { isAuthenticated } from './CollegeAuth';
 
 function CollegeRegistrationForm() {
   // Inside your component, initialize useNavigate
@@ -218,9 +220,9 @@ const navigate = useNavigate();
           const data = await response.json();
   
           // Store tokens and form data in localStorage
-          localStorage.setItem('access_token', data.access_token);
-          localStorage.setItem('form_data', JSON.stringify(formData));
-  
+          // localStorage.setItem('access_token', data.access_token);
+          // localStorage.setItem('form_data', JSON.stringify(formData));
+          storecollegeUserData(data.access_token);
           // Display success message using toast
           toast.success(data.message || 'Form submitted successfully!', {
             position: 'top-right',
@@ -244,7 +246,7 @@ const navigate = useNavigate();
           });
   
           // Navigate to the 'college-register' page and pass formData as state
-          navigate('/college-registration', { state: { formData } });
+          // navigate('/college-registration', { state: { formData } });
         } else {
           const errorData = await response.json();
           console.error('Server error details113:', errorData);
@@ -287,7 +289,10 @@ const navigate = useNavigate();
     }
   };
   
-      
+  if(isAuthenticated()){
+  return <Navigate  to="/college-registration" />
+  }
+     
   return (
     <>
       <div className="register-container">
