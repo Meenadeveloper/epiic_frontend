@@ -290,8 +290,8 @@ const navigate = useNavigate();
   };
   
   if(isAuthenticated()){
-  return <Navigate  to="/college-registration" />
-  }
+    return <Navigate  to="/college-registration" />
+    }
      
   return (
     <>
