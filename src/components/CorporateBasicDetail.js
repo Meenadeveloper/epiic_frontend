@@ -17,6 +17,7 @@ function CorporateBasicDetail({
   setEmailInParent, // Pass the function to the child
   setPhoneInParent,
   useremail,
+  setIsprefilledEmail,
   userMobile,
   userCountry,
   selectedCountryName,
@@ -72,6 +73,7 @@ function CorporateBasicDetail({
           setIsEmailVerified={setIsEmailVerified}
           setEmailInParent={setEmailInParent}
           useremail={useremail} 
+          setIsprefilledEmail={setIsprefilledEmail}
         />
 
          {/* mobile otp */}

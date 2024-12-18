@@ -6,27 +6,21 @@ import { ReactComponent as SearchIcon } from '../../assets/images/Search.svg'; /
 
 function Specialization({ formData, formErrors, handleChange }) {
   // State for selected options, input value, and API data
-  const [selectedOptions, setSelectedOptions] = useState(
-    Array.isArray(formData.specialization)
-      ? formData.specialization.map((item) => ({
-          label: item.label,
-          value: item.value,
-        }))
-      : [] // Fallback to an empty array if formData.subsector is not an array
-  );
-  const [inputValue, setInputValue] = useState('');
-  const [isFocused, setIsFocused] = useState(false); // Track focus state
-  const [turnoverRanges, setTurnoverRanges] = useState([]); // State for turnover ranges from API
+ // States for selected option, input value, and API data
+     const [selectedOption, setSelectedOption] = useState(
+       formData.specialization
+         ? [{ label: formData.specialization, value: formData.specializationId }] // Ensure it's an array for multi-select
+         : []
+     );
+
+      const [inputValue, setInputValue] = useState('');
+      const [isFocused, setIsFocused] = useState(false); // Track focus state
+      const [turnoverRanges, setTurnoverRanges] = useState([]); // State for turnover ranges from API
+  
 
   // Fetching data from API on component mount
   useEffect(() => {
     const apiUrl = process.env.REACT_APP_COMMON_API_URL;
-
-    if (!apiUrl) {
-      console.error("API URL is missing");
-      return;
-    }
-
     console.log('API URL:', apiUrl); // This should now log the correct URL
     fetch(apiUrl)
       .then((response) => {
@@ -37,141 +31,156 @@ function Specialization({ formData, formErrors, handleChange }) {
         return response.json();
       })
       .then((data) => {
-        if (Array.isArray(data.specialisation)) {
-          setTurnoverRanges(data.specialisation); // Update state with fetched data
-        } else {
-          console.error('Expected an array for specialisation data');
-        }
+        // console.log('Fetched Data:', data); 
+        setTurnoverRanges(data.specialisation); // Update state with fetched data
       })
       .catch((error) => {
         console.error('Error fetching turnover ranges:', error);
       });
   }, []);
 
-  // Handle changes in the select input
+  useEffect(() => {
+       console.log('Selected Option:', selectedOption);
+       console.log('Input Value:', inputValue);
+     }, [selectedOption, inputValue]);
+  
+
+
+     // Handle changes in the select input
   const handleSelectChange = (options) => {
     console.log('Selected options:', options);
-
-    // If no options are selected, clear the state and form data
-    if (!options || options.length === 0) {
-      setSelectedOptions([]);
-      handleChange({
-        target: { name: 'specialization', value: [] },
-      });
-      handleChange({
-        target: { name: 'specializationId', value: [] },
-      });
-      return;
-    }
-
-    // Update selectedOptions and pass data to the parent component
-    setSelectedOptions(options);
-
-    const selectedLabels = options.map((option) => option.label);
-    const selectedValues = options.map((option) => option.value);
-
+    setSelectedOption(options || []); // Ensure it's always an array for multi-select
+    const selectedValues = options ? options.map((option) => option.value) : [];
     handleChange({
-      target: {
-        name: 'specialization',
-        value: selectedLabels,
-      },
+      target: { name: 'specialization', value: selectedValues.join(', ') }, // Pass comma-separated values
     });
     handleChange({
-      target: {
-        name: 'specializationId',
-        value: selectedValues,
-      },
+      target: { name: 'specializationId', value: selectedValues.join(', ') },
     });
   };
 
-  // Handle creation of new options
-  const handleCreateOption = (inputValue) => {
-    if (!inputValue) return; // Ensure the input is not empty
+// Handle creation of new options
+const handleCreateOption = (inputValue) => {
+  const sanitizedInput = typeof inputValue === 'string' ? inputValue.trim() : '';
+  if (!sanitizedInput) return;
 
-    const newOption = { value: inputValue.toLowerCase(), label: inputValue };
+  const newOption = { value: sanitizedInput.toLowerCase(), label: sanitizedInput };
+  setSelectedOption((prevOptions) => [...prevOptions, newOption]);
+  handleChange({
+    target: { name: 'specialization', value: [...selectedOption, newOption].map(option => option.label).join(', ') },
+  });
+  handleChange({
+    target: { name: 'specializationId', value: [...selectedOption, newOption].map(option => option.value).join(', ') },
+  });
+};
 
-    // Update the selected options state
-    setSelectedOptions((prevOptions) => {
-      const updatedOptions = [...prevOptions, newOption];
+ // Handle input value change for the search functionality
+ const handleInputChange = (value) => {
+  const sanitizedValue = typeof value === 'string' ? value.trim() : '';
+  setInputValue(sanitizedValue);
+};
+  
 
-      // Update the form data in the parent component
-      handleChange({
-        target: { name: 'specialization', value: updatedOptions.map(option => option.label).join(', ') },
-      });
-      handleChange({
-        target: { name: 'specializationId', value: updatedOptions.map(option => option.value).join(', ') },
-      });
-
-      return updatedOptions; // Return the updated options
-    });
-  };
-
-  // Handle input value change without trimming spaces or symbols
-  const handleInputChange = (value) => {
-    setInputValue(value); // Directly set the input value without trimming
-  };
-
-  // Custom DropdownIndicator with SVG
-  const CustomDropdownIndicator = (props) => {
-    return (
-      <components.DropdownIndicator {...props}>
-        <DownArrow width="15" height="15" fill="#000000" className="select-down-arrow" />
-      </components.DropdownIndicator>
-    );
-  };
-
-  // Custom styles for CreatableSelect
-  const customStyles = {
-    control: (provided) => ({
-      ...provided,
-      paddingLeft: '30px',
-      backgroundColor: 'transparent',
-      border: isFocused ? '1px solid #000000' : '1px solid #000000',
-      boxShadow: isFocused ? 'none' : 'none',
-      borderRadius: '20px',
-      height: '45px',
-      fontSize: '12px',
-      fontFamily: 'Montserrat',
-      fontWeight: 400,
-      color: '#000000',
-      transition: 'border 0.3s ease',
-      '&:focus': {
-        border: '1px solid #000000',
-        boxShadow: 'none',
-      },
-      '&:hover': {
-        border: '1px solid #000000',
-      },
+ // Custom DropdownIndicator with SVG
+   const CustomDropdownIndicator = (props) => {
+     return (
+       <components.DropdownIndicator {...props}>
+         <DownArrow width="15" height="15" fill="#000000" className="select-down-arrow" />
+       </components.DropdownIndicator>
+     );
+   };
+ 
+   // Custom Input component with Search Icon
+   const CustomInput = (props) => {
+     return (
+       <div className="custom-input-container">
+         {!isFocused && <SearchIcon className="search-icon drop-down-search-icon" />}
+         <components.Input
+           {...props}
+           onFocus={() => setIsFocused(true)}
+           onBlur={() => setIsFocused(false)}
+           onMouseEnter={() => props.selectProps.onFocus()} // Add hover functionality
+         />
+       </div>
+     );
+   };
+ 
+   // Custom styles for CreatableSelect
+   const customStyles = {
+     control: (provided) => ({
+       ...provided,
+       padding:'10px',
+       paddingLeft: '30px',
+       backgroundColor: 'transparent',
+       border: isFocused ? '1px solid #000000' : '1px solid #000000',
+       boxShadow: isFocused ? 'none' : 'none',
+       borderRadius: '20px',
+       height: '100%',
+       fontSize: '12px',
+       fontFamily: 'Montserrat',
+       fontWeight: 400,
+       color: '#000000',
+       transition: 'border 0.3s ease', // Smooth transition for border change
+       '&:focus': {
+         border: '1px solid #000000', // Set the hover border color to be the same as the default
+         boxShadow: 'none',
+       },
+       '&:hover': {
+         border: '1px solid #000000', // Set the hover border color to be the same as the default
+       },
+     }),
+     menu: (provided) => ({
+       ...provided,
+       backgroundColor: '#fff',
+       borderRadius: '20px',
+       boxShadow: '0px 4px 4px 0px #00000040',
+       marginTop: '5px',
+       maxHeight: '210px',
+       clipPath: 'inset(0 round 20px)',
+     }),
+     option: (provided, state) => ({
+       ...provided,
+       color: '#000000',
+       fontSize: '12px',
+       padding: '13px 20px',
+       borderBottom: '1px solid #ECECEC',
+       transition: 'all 0.5s ease',
+       cursor: 'pointer',
+       backgroundColor: state.isFocused ? '#f0f0f0' : '#fff',
+     }),
+     input: (provided) => ({
+       ...provided,
+       fontFamily: 'Montserrat',
+       color: '#000000',
+     }),
+     placeholder: (provided) => ({
+       ...provided,
+       fontFamily: 'Montserrat',
+     }),
+     
+    multiValue: (styles) => ({
+      ...styles,
+      backgroundColor: 'rgba(255, 255, 255, 1)', // White background for tags
+      boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', // Tag box shadow
+      borderRadius: '20px', // Rounded corners for tags
+      padding: '4px 8px', // Padding inside the tags
+      border: '0px solid #000', // Adding a border to the tag
     }),
-    menu: (provided) => ({
-      ...provided,
-      backgroundColor: '#fff',
-      borderRadius: '20px',
-      boxShadow: '0px 4px 4px 0px #00000040',
-      marginTop: '5px',
-      maxHeight: '210px',
-      clipPath: 'inset(0 round 20px)',
+    multiValueLabel: (styles) => ({
+      ...styles,
+      color: '#000000', // Black text color inside the tags
     }),
-    option: (provided, state) => ({
-      ...provided,
-      color: '#000000',
-      fontSize: '12px',
-      padding: '13px 20px',
-      borderBottom: '1px solid #ECECEC',
-      transition: 'all 0.5s ease',
+    multiValueRemove: (styles) => ({
+      ...styles,
+      color: '#000', // Black remove (x) icon
       cursor: 'pointer',
-      backgroundColor: state.isFocused ? '#f0f0f0' : '#fff',
+      ':hover': {
+        backgroundColor: '#f87171', // Red background on hover
+        color: '#fff', // White text color on hover
+      },
     }),
-    input: (provided) => ({
-      ...provided,
-      fontFamily: 'Montserrat',
-      color: '#000000',
-    }),
-    placeholder: (provided) => ({
-      ...provided,
-      fontFamily: 'Montserrat',
-    }),
-  };
+ 
+   };
 
   // Prepare options for the CreatableSelect component
   const selectOptions = turnoverRanges.map((range) => ({
@@ -181,31 +190,25 @@ function Specialization({ formData, formErrors, handleChange }) {
 
   return (
     <>
-      <div className="register-form-control">
-        <label className="register-label">Specialization</label>
-        <CreatableSelect
-          isClearable
-          isMulti
-          value={selectedOptions}
-          options={selectOptions}
-          onChange={(options) => {
-            console.log('Options onChange:', options); // Debugging log
-            handleSelectChange(options);
-          }}
-          onInputChange={(value) => {
-            console.log('Input value onInputChange:', value); // Debugging log
-            handleInputChange(value);
-          }}
-          onCreateOption={(inputValue) => {
-            console.log('Input value onCreateOption:', inputValue); // Debugging log
-            handleCreateOption(inputValue);
-          }}
-          placeholder="Select or create specialization"
-          styles={customStyles}
-          components={{ DropdownIndicator: CustomDropdownIndicator }}
-        />
-        {formErrors.specialization && <p className="error">{formErrors.specialization}</p>}
-      </div>
+ <div className="register-form-control">
+      <label className="register-label">Specialization</label>
+      <CreatableSelect
+        isMulti
+        value={selectedOption}
+        options={selectOptions}
+        onChange={handleSelectChange}
+        onInputChange={handleInputChange}
+        onCreateOption={handleCreateOption}
+        placeholder="Select industries"
+        styles={customStyles}
+        components={{ DropdownIndicator: CustomDropdownIndicator }}
+      
+      />
+
+      {formErrors.specialization && <p className="error">{formErrors.specialization}</p>}
+    </div>
+
+   
     </>
   );
 }

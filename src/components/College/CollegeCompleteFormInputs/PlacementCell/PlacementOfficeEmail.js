@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+function PlacementOfficeEmail({additionalData,handleChange,formErrors,name,setIsEmailVerified,setEmailInParent}) {
 
-function EmailOtp({ isEmailVerified, setIsEmailVerified ,setEmailInParent,useremail,setIsprefilledEmail}) {
-  const [email, setEmail] = useState('');
+ 
+  const [email, setEmail] = useState(additionalData.email || '');
   const [verifiedEmail, setVerifiedEmail] = useState(''); // Store the verified email
-  const [otp, setOtp] = useState(['', '', '', '']); // OTP input fields
+  const [otp, setOtp] = useState(['', '', '', '']); 
   const [timer, setTimer] = useState(300); // Timer for OTP expiration (5 minutes)
   const [canResend, setCanResend] = useState(false); // Flag to manage resend button
   const [errorMessage, setErrorMessage] = useState(''); // Error messages
   const [successMessage, setSuccessMessage] = useState(''); // Success messages
   const [verifySuccessMessage, setVerifySuccessMessage] = useState(''); // OTP verification success message
   const [isOtpSectionVisible, setIsOtpSectionVisible] = useState(false); // Show OTP input section
-  const [isVerified, setIsVerified] = useState(setIsprefilledEmail); // Verify if email is successfully verified
+  const [isVerified, setIsVerified] = useState(false); // Verify if email is successfully verified
 
   const API_OTP_REQUEST_URL = process.env.REACT_APP_OTP_MAIL_REQUEST_URL;
   const API_OTP_VERIFY_URL = process.env.REACT_APP_OTP_MAIL_VERIFY_URL;
-  
+
   useEffect(() => {
     if (timer > 0 && !canResend) {
       const interval = setInterval(() => {
@@ -45,11 +46,9 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified ,setEmailInParent,userem
     setSuccessMessage('');
     setVerifySuccessMessage('');
     
+       
     /// Reset OTP section visibility if email is different from verified email
-    if (newEmail == useremail) {
-      setIsVerified(true);
-      setIsEmailVerified(true);
-    } else if (newEmail !== verifiedEmail) {
+    if (newEmail !== verifiedEmail) {
       setIsOtpSectionVisible(false);
       setIsVerified(false);
       setIsEmailVerified(false);
@@ -90,11 +89,13 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified ,setEmailInParent,userem
       setTimer(300); // Reset timer on OTP sent
       setCanResend(false); // Disable resend button until timer expires
     } catch (error) {
-      // console.log("email otp error response",error)
+      console.log(error);
+
       setErrorMessage(
-        error.response?.data?.error?.mail 
+        error.response?.data?.error?.mail || 'Error sending OTP. Please try again.'
       );
-      setSuccessMessage(''); // Clear success message on error
+      setSuccessMessage(''); // Clear success message on erro
+
     }
   };
 
@@ -125,7 +126,7 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified ,setEmailInParent,userem
       setErrorMessage(''); // Clear error message on resend success
     } catch (error) {
       setErrorMessage(
-        error.response?.data?.error?.mail  || 'Error resending OTP. Please try again.'
+        error.response?.data?.message || 'Error resending OTP. Please try again.'
       );
       setSuccessMessage(''); // Clear success message on resend error
     }
@@ -162,25 +163,19 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified ,setEmailInParent,userem
     }
   };
 
-  useEffect(()=>{
-   if(useremail){
-    setEmail(useremail);
-    setIsVerified(true);
-    setIsEmailVerified(true);
-   }
 
-  },[useremail]);
 
   return (
+    <>
     <div className="register-row">
        <div className="register-col">
        <div
         className={`register-form-control ${errorMessage ? 'error-input' : ''}`}
       >
-        <label className="register-label">Email ID</label>
+        <label className="register-label">Placement Officer Email ID </label>
         <input
           type="email"
-          name="email"
+          name={name}
           className={`register-input ${
              isVerified ? 'success-input-field' : ''
           } ${errorMessage ? 'err-input-field' : ''}`}
@@ -262,7 +257,9 @@ function EmailOtp({ isEmailVerified, setIsEmailVerified ,setEmailInParent,userem
           </div>
         </div>     
     </div>
-  );
+      
+    </>
+  )
 }
 
-export default EmailOtp;
+export default PlacementOfficeEmail

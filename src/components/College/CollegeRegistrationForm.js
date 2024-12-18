@@ -244,7 +244,8 @@ const navigate = useNavigate();
             designation: '',
             college_logo: null,
           });
-  
+           // Programmatically navigate to the next page
+            navigate('/college-registration'); // Use navigate to redirect to the next page
           // Navigate to the 'college-register' page and pass formData as state
           // navigate('/college-registration', { state: { formData } });
         } else {
@@ -289,9 +290,9 @@ const navigate = useNavigate();
     }
   };
   
-  if(isAuthenticated()){
-    return <Navigate  to="/college-registration" />
-    }
+  // if(isAuthenticated()){
+  //   return <Navigate  to="/college-registration" />
+  //   }
      
   return (
     <>

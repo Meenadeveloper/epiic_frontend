@@ -28,7 +28,7 @@ function TurnOverOrganization({ formData, formErrors, handleChange }) {
         return response.json();
       })
       .then((data) => {
-        console.log('Fetched Data:', data); // Log the data for debugging
+        // console.log('Fetched Data:', data); // Log the data for debugging
         setTurnoverRanges(data.turnoverRange); // Update state with fetched data
       })
       .catch((error) => {

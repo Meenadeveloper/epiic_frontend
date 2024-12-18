@@ -59,30 +59,40 @@ const CreatableTags = ({ formData, handleTagsChange }) => {
           container: (provided) => ({
             ...provided,
             width: '100%',
-            height: '100px',
+            height: '90px',
+            background:'transparent',
           }),
           multiValue: (styles) => ({
             ...styles,
-            backgroundColor: '#e0e7ff', // Custom background color for tags
+            backgroundColor: 'rgba(255, 255, 255, 1)', // Custom background color for tags
+           boxShadow :' 0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+           borderRadius:'20px',
+           padding:'2px 4px',
+           
+
           }),
           multiValueLabel: (styles) => ({
             ...styles,
-            color: '#1e40af', // Custom color for tag text
+            color: 'rgba(0, 0, 0, 1)', // Custom color for tag text
           }),
           multiValueRemove: (styles) => ({
             ...styles,
-            color: '#1e40af',
+            color: 'rgba(0, 0, 0, 1)',
             ':hover': {
               backgroundColor: '#c7d2fe',
-              color: '#1e3a8a',
+              color: 'red',
             },
           }),
-          control: (styles) => ({
+          control: (styles, { isFocused }) => ({
             ...styles,
-            borderColor: '#93c5fd', // Border color for the input field
+            borderColor: isFocused ? '#000000' : '#000000',
+            borderRadius:'20px',
+            background:'transparent',
+            boxShadow: isFocused ? 'none' : 'none',
             ':hover': {
-              borderColor: '#2563eb', // Change border color on hover
+              borderColor: '#000000', // Change border color on hover
             },
+            
             height: '100%', // Make sure the height is consistent
           }),
           dropdownIndicator: (styles) => ({
@@ -101,8 +111,8 @@ const CreatableTags = ({ formData, handleTagsChange }) => {
           placeholder: (provided) => ({
             ...provided,
             color: '#6b7280', // Custom placeholder color
-            fontStyle: 'italic', // Custom placeholder font style
             fontSize: '12px', // Custom placeholder font size
+            textAlign:'left',
           }),
         }}
       />

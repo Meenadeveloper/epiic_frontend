@@ -150,6 +150,28 @@ function SubSector({ formData, formErrors, handleChange }) {
       ...provided,
       fontFamily: 'Montserrat',
     }),
+      
+    multiValue: (styles) => ({
+      ...styles,
+      backgroundColor: 'rgba(255, 255, 255, 1)', // White background for tags
+      boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)', // Tag box shadow
+      borderRadius: '20px', // Rounded corners for tags
+      padding: '4px 8px', // Padding inside the tags
+      border: '0px solid #000', // Adding a border to the tag
+    }),
+    multiValueLabel: (styles) => ({
+      ...styles,
+      color: '#000000', // Black text color inside the tags
+    }),
+    multiValueRemove: (styles) => ({
+      ...styles,
+      color: '#000', // Black remove (x) icon
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: '#f87171', // Red background on hover
+        color: '#fff', // White text color on hover
+      },
+    }),
   };
 
   const selectOptions = turnoverRanges.map((range) => ({

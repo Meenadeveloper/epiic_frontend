@@ -3,11 +3,13 @@ import CreatableSelect from 'react-select/creatable';
 import { components } from 'react-select';
 import { ReactComponent as DownArrow } from '../../../../assets/images/Sort Right.svg';
 import { ReactComponent as SearchIcon } from '../../../../assets/images/Search.svg'; // Import search icon
-function Tier({ additionalData, formErrors, handleChange }) {
- // States for selected option, input value, and API data
+
+
+function StreamInput({ additionalData, formErrors, handleChange }) {
+    // States for selected option, input value, and API data
       const [selectedOption, setSelectedOption] = useState(
-        additionalData.tier
-          ? { label: additionalData.tier, value: additionalData.tier_id }
+        additionalData.stream
+          ? { label: additionalData.stream, value: additionalData.streamId }
           : null
       );
       const [inputValue, setInputValue] = useState('');
@@ -28,7 +30,7 @@ function Tier({ additionalData, formErrors, handleChange }) {
           })
           .then((data) => {
             // console.log('Fetched Data:', data); // Log the data for debugging
-            setTurnoverRanges(data.type); // Update state with fetched data
+            setTurnoverRanges(data.stream); // Update state with fetched data
           })
           .catch((error) => {
             console.error('Error fetching turnover ranges:', error);
@@ -49,10 +51,10 @@ function Tier({ additionalData, formErrors, handleChange }) {
           setSelectedOption(null);
           setInputValue('');
           handleChange({
-            target: { name: 'tier', value: '' },
+            target: { name: 'stream', value: '' },
           });
           handleChange({
-            target: { name: 'tier_id', value: '' },
+            target: { name: 'streamId', value: '' },
           });
           return;
         }
@@ -61,13 +63,13 @@ function Tier({ additionalData, formErrors, handleChange }) {
         setInputValue(option.label); // Ensure `inputValue` reflects the selected option's label
         handleChange({
           target: {
-            name: 'tier',
+            name: 'stream',
             value: option.label,
           },
         });
         handleChange({
           target: {
-            name: 'tier_id',
+            name: 'streamId',
             value: option.value,
           },
         });
@@ -83,11 +85,11 @@ function Tier({ additionalData, formErrors, handleChange }) {
        const newOption = { value: sanitizedInput.toLowerCase(), label: sanitizedInput };
        setSelectedOption(newOption);
        handleChange({
-        target: { name: 'tier', value: newOption.label },
+        target: { name: 'stream', value: newOption.label },
       });
     
       handleChange({
-        target: { name: 'tier_id', value: newOption.value },
+        target: { name: 'streamId', value: newOption.value },
       });
       };
     
@@ -177,15 +179,12 @@ function Tier({ additionalData, formErrors, handleChange }) {
     
       const selectOptions = turnoverRanges.map((range) => ({
         value: String(range.id), // Ensure value is a string
-        label: String(range.tier_name), // Concatenate as a string
+        label: String(range.stream_name), // Concatenate as a string
       }));
-
-
   return (
     <>
-
-<div className="register-form-control">
-      <label className="register-label">Tier</label>
+      <div className="register-form-control">
+      <label className="register-label">Stream</label>
       <CreatableSelect
   isClearable
   value={selectedOption}
@@ -207,11 +206,11 @@ function Tier({ additionalData, formErrors, handleChange }) {
   components={{ DropdownIndicator: CustomDropdownIndicator }}
 />
 
-      {formErrors.tier_id && <p className="error">{formErrors.tier_id}</p>}
+      {formErrors.streamId && <p className="error">{formErrors.streamId}</p>}
     </div>
-
+      
     </>
   )
 }
 
-export default Tier
+export default StreamInput

@@ -18,6 +18,7 @@ import CorporateDashboard from './page/corporate/CorporateDashboard';
 import CollegeLoginPage from './page/college/CollegeLoginPage';
 import CollegeBasicRegistrationPage from './page/college/CollegeBasicRegistrationPage';
 import CollegeRegistrationPage from './page/college/CollegeRegistrationPage';
+import CollegeDashboard from './components/College/CollegeDashboard';
 function App() {
   return (
     <>
@@ -35,6 +36,8 @@ function App() {
         <Route path="/college-login" element={<CollegeLoginPage />} />
         <Route path="/college-basic-register" element={<CollegeBasicRegistrationPage />} />
         <Route path="/college-registration" element={<CollegeRegistrationPage />} />   
+        <Route path="/college-dashboard" element={<CollegeDashboard />} />   
+
 
 
         <Route path="/candidate-login" element={<CandidateLoginPage />} />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import Address from './CollegeCompleteFormInputs/AdditionalInformation/Address';
 import Pincode from './CollegeCompleteFormInputs/AdditionalInformation/Pincode';
@@ -14,10 +14,19 @@ import PlacementOfficeName from './CollegeCompleteFormInputs/PlacementCell/Place
 import AlternateDepartmentMobile from './CollegeCompleteFormInputs/PlacementCell/AlternateDepartmentMobile';
 import AlternateDepartmentEmail from './CollegeCompleteFormInputs/PlacementCell/AlternateDepartmentEmail';
 import EmployeeCode from './CollegeCompleteFormInputs/PlacementCell/EmployeeCode';
-import { getcollegeUserData } from './CollegeStore';
+import { getcollegeUserData, storecollegeUserData } from './CollegeStore';
+import StreamInput from './CollegeCompleteFormInputs/AdditionalInformation/StreamInput';
+import PlacementOfficeEmail from './CollegeCompleteFormInputs/PlacementCell/PlacementOfficeEmail';
+import PlacementOfficeMobile from './CollegeCompleteFormInputs/PlacementCell/PlacementOfficeMobile';
+import Rating from './CollegeCompleteFormInputs/AdditionalInformation/Rating';
+import Zone from './CollegeCompleteFormInputs/AdditionalInformation/Zone';
+import Tier from './CollegeCompleteFormInputs/AdditionalInformation/Tier';
+import GeneralEconomicClassStudent from './CollegeCompleteFormInputs/AdditionalInformation/GeneralEconomicClassStudent';
+import Accreditation from './CollegeCompleteFormInputs/AdditionalInformation/Accreditation';
+import { isAuthenticated } from './CollegeAuth';
 
 function CollegeCompleteRegisterForm() {
-  const [formData, setFormData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get the token using the getcollegeUserData function
@@ -46,8 +55,10 @@ function CollegeCompleteRegisterForm() {
 
           setAdditionalData(prevState => ({
             ...prevState,
-            college_id: userData.college_id || "", // Prefill with API data or default value
+            college_id: userData.id || "", // Prefill with API data or default value
             state_id: userData.state_id || "",
+            college_type:userData.college_type|| "",
+            collegeName:userData.name2||"",
             // Add other form fields if needed
           }));
 
@@ -60,21 +71,41 @@ function CollegeCompleteRegisterForm() {
       });
   }, []); // Empty dependency array means this effect runs once on component mount
 
-
-
-
-
   const [additionalData, setAdditionalData] = useState({
     college_id: '',
+    college_type:'',
+    collegeName:'',
     state_id:'',
     address: '',
     pincode:'',
+    rating_with_year:'',
+    rating_with_year_id:'',
+    streamId:'',
+    stream:'',
+    zone:'',
+    zoneId:'',
+    tier:'',
+    tier_id:'',
+    economic_class_of_students:'',
+    economic_class_of_studentsId:'',
+    accreditation:'',
+    accreditationId:'',
+    first_year_student_count:'',
+    second_year_student_count:'',
+    final_year_student_count:'',
+    total_year_student_count:'',
+    placement_name:'',
+    placement_mail:'',
+    placement_mobile:'',
+    department_mail:'',
+    department_mobile:'',
+    employee_code:'',
   });
 const [formErrors, setFormErrors] = useState({});
 const validateForm = () => {
   let errors = {};
 
-  if (!formData.college_id) {
+  if (!additionalData.college_id) {
     errors.college_id = 'College  is required';
   }
   if (!additionalData.address) {
@@ -85,48 +116,100 @@ const validateForm = () => {
   } else if (!/^\d{6}$/.test(additionalData.pincode)) {
     errors.pincode = 'Please enter a valid Pincode';
   }
+ 
+  if(!additionalData.zoneId){
+    errors.zoneId = 'zone is required';
 
-  // if (!formData.name) {
-  //   errors.name = 'First name is required';
-  // }
-  // if (!formData.last_name) {
-  //   errors.last_name = 'Last name is required';
-  // }
+  }
+  if(!additionalData.tier_id){
+    errors.tier_id = 'tier is required';
+  }
+  if(!additionalData.rating_with_year_id
+  ){
+    errors.rating_with_year_id = 'rating is required';
+  }
+  if(!additionalData.accreditationId){
+    errors.accreditationId = 'accreditation is required';
+  }
+  if(!additionalData.economic_class_of_students){
+    errors.economic_class_of_students = 'General economic is required';
 
-  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // if (!formData.email_id) {
-  //   errors.email_id = 'Email is required';
-  // } else if (!emailRegex.test(formData.email_id)) {
-  //   errors.email_id = 'Invalid email format';
-  // }
+  }
 
-  // const phoneRegex = /^\+91\d{10}$/;
-  // if (!formData.mobile) {
-  //   errors.mobile = 'Mobile number is required';
-  // } else if (!phoneRegex.test(formData.mobile)) {
-  //   errors.mobile = 'Mobile number must be in the format "+91XXXXXXXXXX"';
-  // }
+  if (!additionalData.first_year_student_count) {
+    errors.first_year_student_count = 'First year student strength is required';
+  }
+  if (!additionalData.second_year_student_count) {
+    errors.second_year_student_count = 'Second year student strength is required';
+  }
+  if (!additionalData.final_year_student_count) {
+    errors.final_year_student_count = 'Finally year student strength is required';
+  }
+  if (!additionalData.total_year_student_count) {
+    errors.total_year_student_count = 'Total year student strength is required';
+  }
+  if (!additionalData.placement_name) {
+    errors.placement_name = 'Placement name is required';
+  }
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
-  // if (!formData.password) {
-  //   errors.password = 'Password is required';
-  // } else if (formData.password.length < 8) {
-  //   errors.password = 'Password must be at least 8 characters long';
-  // }
+  if (!additionalData.department_mail) {
+    errors.department_mail = 'Department mail is required';
+  }
+  else if (!validateEmail(additionalData.department_mail)) {
+    errors.department_mail = 'Please enter a valid email address.';
+  }
 
-  // if (!formData.designation) {
-  //   errors.designation = 'Designation is required';
-  // }
-
-  // if (!formData.state_name) {
-  //   errors.state_name = 'State name is required';
-  // }
-
+  
+  if (!additionalData.department_mobile) {
+    errors.department_mobile = 'Department mobile is required';
+  }
+  else if (!/^\d{10}$/.test(additionalData.department_mobile)) {
+    errors.department_mobile = 'Please enter a valid phone number.';
+  }
+  if (!additionalData.employee_code) {
+    errors.employee_code ="Employee code  is required" ;
+  }
+  if (!additionalData.streamId) {
+    errors.streamId ="Stream  is required" ;
+  }
+  
+  
+  
+console.log('error', errors);
   setFormErrors(errors);
   return Object.keys(errors).length === 0;
 };
   const [error, setError] = useState(null);
-  
-  
+     const [isEmailVerified, setIsEmailVerified] = useState(false);
+      const [isPhoneVerified, setIsPhoneVerified] = useState(false);
+
+// Function to update only the email field
+const updateEmailInParent = (newEmail) => {
+  setAdditionalData((additionalData) => ({
+    ...additionalData,
+    placement_mail: newEmail, // Update only the email field
+  }));
+   // Log the new email value to check if it is passed correctly
+   console.log('Updated email in parent:', newEmail);
+};
+
+// Function to update only the email field
+const updatePhoneInParent = (newPhone) => {
+  setAdditionalData((prevData) => ({
+    ...prevData,
+    placement_mobile: newPhone, // Update only the phone field
+  }));
+   // Log the new phone value to check if it is passed correctly
+   console.log('Updated email in parent:', newPhone);
+};
+
+   // Function to update only the email field
+ 
+
 // Handle additional data input changes
 // const handleAdditionalDataChange = (field, value) => {
 //   setAdditionalData(prevState => ({
@@ -142,53 +225,83 @@ const handleAdditionalDataChange = (event) => {
 const handleSubmit = async (event) => {
   event.preventDefault();
 
+
+    if (!isEmailVerified) {
+        toast.error("Please verify your email OTP.");
+        return;
+      }
+      
+      if (!isPhoneVerified) {
+        toast.error("Please verify your phone OTP.");
+        return;
+      }
+      
+      const stream = additionalData.streamId
+      ? Object.assign(
+          {}, 
+          additionalData.streamId.split(',').map(Number).reduce((acc, val, index) => {
+            acc[`stream[${index}]`] = val;
+            return acc;
+          }, {})
+        )
+      : {};
   // Prepare the payload with specific data
   const payload = {
-    college_id:formData.college_id,
-    // name: `${formData.name} ${formData.last_name}`,
-    // password: formData.password,
-    // mobile: formData.mobile,
-    // designation: formData.designation,
-    // Include specific additional data fields like address
+    college_id:additionalData.college_id,
     address: additionalData.address,
     pincode: additionalData.pincode,
-    // state: additionalData.state,
-    // postal_code: additionalData.postal_code,
+    rating_with_year:additionalData.rating_with_year_id,
+    tier_id:additionalData.tier_id,
+    zone:additionalData.zoneId,
+    economic_class_of_students:additionalData.economic_class_of_students,
+    first_year_student_count:additionalData.final_year_student_count,
+    second_year_student_count:additionalData.second_year_student_count,
+    final_year_student_count:additionalData.final_year_student_count,
+    total_year_student_count:additionalData.total_year_student_count,
+    placement_name:additionalData.placement_name,
+    placement_mail:additionalData.placement_mail,
+    placement_mobile:additionalData.placement_mobile,
+    department_mail:additionalData.department_mail,
+    department_mobile:additionalData.department_mobile,
+    ...stream,
+    streamName:additionalData.streamId,
+    employee_code:additionalData.employee_code,
   };
   console.log("complete datas:",payload);
 
   // Validate the form
-  if (!validateForm()) {
+  if (validateForm()) {
     try {
+      const token = getcollegeUserData();
+      console.log(token);
       // Create the URL with query parameters
       const url = process.env.REACT_APP_COLLEGE_COMPT_POST_API;
       const params = new URLSearchParams(payload).toString();
       // Log the params to the console
       console.log("Query Parameters:", params);
       const fullUrl = `${url}?${params}`;
-
-      // Submit the form data to the API
-      const response = await fetch(fullUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      console.log("Full URL for form submission:", fullUrl);
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const response = await axios.post(url, payload, { headers });
 
       // Handle the response
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('access_token', data.access_token);
+      if (response.status === 200) {
+        // const data = await response.json();
+        // console.log("register data" ,data);
+          // storecollegeUserData(data.access_token);
+        // localStorage.setItem('access_token', data.access_token);
         // localStorage.setItem('form_data', JSON.stringify(formData));
-        localStorage.setItem('additional_data', JSON.stringify(additionalData)); // Store additional data
+        // localStorage.setItem('additional_data', JSON.stringify(additionalData)); // Store additional data
 
         // Show success message and reset the form
-        toast.success(data.message || 'Form submitted successfully!', {
+        toast.success(response.message || 'Form submitted successfully!', {
           position: 'top-right',
           className: 'toast-success',
         });
-
+        navigate('/college-dashboard');
          // Reset form fields using document.querySelector
          document.querySelector('form').reset();
       } else {
@@ -214,7 +327,10 @@ const handleSubmit = async (event) => {
     });
   }
 };
-
+//  if(isAuthenticated()){
+//     return <Navigate  to="/college-dashboard" />
+//     }
+     
 
 
   return (
@@ -262,13 +378,13 @@ const handleSubmit = async (event) => {
                     <p className='college-data-txt'>Institution Type</p>
                   </div>
                   <div className='college-data-item'>
-                    <p className='college-data-txt'></p>
+                    <p className='college-data-txt'>{additionalData.college_type}</p>
                   </div>
                   <div className='college-data-item'>
                     <p className='college-data-txt'>Name of the Institution</p>
                   </div>
                   <div className='college-data-item'>
-                    <p className='college-data-txt'></p>
+                    <p className='college-data-txt' >{additionalData.collegeName}</p>
                   </div>
                 </div>
                 <div className="borderless-form-box">
@@ -290,6 +406,64 @@ const handleSubmit = async (event) => {
                      name="pincode"
                      />
                   </div>
+               </div>
+
+               <div className="register-row">
+                  <div className="register-col">
+                     <StreamInput
+                     additionalData={additionalData}
+                     handleChange={handleAdditionalDataChange}
+                     formErrors={formErrors}
+                     name="address"
+                     />
+                  </div>
+                  <div className="register-col">
+                     <Zone
+                     additionalData={additionalData}
+                     handleChange={handleAdditionalDataChange}
+                     formErrors={formErrors}
+                 
+                     />
+                  </div>
+               </div>
+
+               <div className="register-row">
+                  <div className="register-col">
+                     <Tier
+                     additionalData={additionalData}
+                     handleChange={handleAdditionalDataChange}
+                     formErrors={formErrors}
+                    
+                     />
+                  </div>
+                  <div className="register-col">
+                     <GeneralEconomicClassStudent
+                     additionalData={additionalData}
+                     handleChange={handleAdditionalDataChange}
+                     formErrors={formErrors}
+                   name="economic_class_of_students"
+                     />
+                  </div>
+               </div>
+
+               <div className="register-row">
+               <div className="register-col">
+                     <Accreditation
+                     additionalData={additionalData}
+                     handleChange={handleAdditionalDataChange}
+                     formErrors={formErrors}
+                     
+                     />
+                  </div>
+                  <div className="register-col">
+                     <Rating
+                     additionalData={additionalData}
+                     handleChange={handleAdditionalDataChange}
+                     formErrors={formErrors}
+                     name="rating_with_year"
+                     />
+                  </div>
+                 
                </div>
 
 
@@ -375,6 +549,25 @@ const handleSubmit = async (event) => {
                           /> 
                       </div>
                   </div>
+                
+                          <PlacementOfficeEmail
+                           additionalData={additionalData}
+                           handleChange={handleAdditionalDataChange}
+                           formErrors={formErrors}
+                           name="placement_mail"
+                           setIsEmailVerified={setIsEmailVerified}
+                           setEmailInParent={updateEmailInParent}
+                          /> 
+
+                          <PlacementOfficeMobile
+                           additionalData={additionalData}
+                           handleChange={handleAdditionalDataChange}
+                           formErrors={formErrors}
+                           name="placement_mobile"
+                           setIsPhoneVerified={setIsPhoneVerified}
+                           setPhoneInParent={updatePhoneInParent}// Pass the function to the child
+                          /> 
+                    
                  
                   <div className="register-row">
                      <div className="register-col">

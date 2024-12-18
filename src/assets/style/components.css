@@ -1420,11 +1420,24 @@ color: rgba(0, 0, 0, 0.621);
   border-radius: 16px;
   margin: 5px;
 }
-/* Hide the remove button for the first selected value */
-.css-b8xa4z-multiValue :nth-child(1)  {
+.tag-input-container {
+  padding: 5px;
+}
+.custom__multi-value:nth-child(1)
+{
   display: none;
 }
-
+.radio-sub-txt{
+  font-family: Montserrat;
+font-size: 11px;
+font-weight: 500;
+line-height: 18px;
+text-align: left;
+color: rgba(0, 0, 0, 0.671);
+margin-top: -10px;
+padding-left: 10px;
+padding-bottom: 10px;
+}
 @media (max-width: 900px) {
   /* On smaller screens (900px or less), use 2 columns */
   .college-data-container {

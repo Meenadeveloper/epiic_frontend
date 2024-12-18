@@ -2,7 +2,7 @@ import GST from "./corporate/GST"
 import NoOfEmployees from "./corporate/NoOfEmployees"
 import TurnOverOrganization from "./corporate/TurnOverOrganization"
 import NatureOfIndustry from './corporate/NatureOfIndustry';
-import ClassificationOfIndustry from "./Candidate/ClassificationOfIndustry";
+import ClassificationOfIndustry from "./corporate/ClassificationOfIndustry";
 import SubSector from "./Candidate/SubSector";
 import Specialization from "./corporate/Specialization";
 import CreatableTags from "./corporate/CreatableTags";
@@ -108,9 +108,7 @@ function AdditionalInformation(
              formErrors={formErrors}
              handleTagsChange={handleTagsChange}
             />
-             <textarea  className="textarea-input"
-                  rows="4"  placeholder='Lorem ipsum'>
-                            </textarea>   
+               
           
            </div>
         </div>

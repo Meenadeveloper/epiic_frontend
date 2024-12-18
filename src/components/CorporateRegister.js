@@ -79,6 +79,7 @@ useEffect(() => {
 }, []); // Empty dependency array to run on mount only
 useEffect(() => {
   if (userEmail !== null) {
+    setIsprefilledEmail(true);
     console.log('Updated userEmail state:', userEmail);
   }
 }, [userEmail]); // Runs every time userEmail changes
@@ -111,6 +112,7 @@ useEffect(() => {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // New state for phone verification
   const [isAddressFilled, setIsAddressFilled] = useState(false); // New state for address verification
+  const[ispreFilledEmail, setIsprefilledEmail] = useState(false);
 // State to store address data
 const [addressData, setAddressData] = useState([]);
 
@@ -249,7 +251,7 @@ const handleAddressDataChange = (addresses) => {
     errors.turnover = "Turn Over Organization is required.";
     isValid = false;
   }
-  if (!formData.natureofindustry.trim()) {
+  if (!formData.natureofindustry) {
     errors.natureofindustry = "Nature of Industry is required.";
     isValid = false;
   }
@@ -320,48 +322,27 @@ const handleSubmit = async (e) => {
     tag: address.tag,
   }));
 
-  console.log("Submitting Data:", dataToSubmit);
+  const dataArraySubmit = addressData.reduce((acc, address, index) => {
+    acc[`address[${index}]`] = {
+      state: address.stateId,        // Use stateId instead of state name
+      district: address.districtId,  // Use districtId instead of district name
+      pincode: address.pincode,      // Submit pincode if required
+      address: address.address,      // Submit address if required
+      tag: address.tag,
+    };
+    return acc;
+  }, {});
+
+  // console.log("Submitting Data:", dataToSubmit);
 // Update the submittedData array by adding new data
 setAddressData(prevData => {
   const updatedData = [...prevData, dataToSubmit];
 
   // Log the format of the updated array
-  console.log("Updated Submitted Data Array:", updatedData);
+  // console.log("Updated Submitted Data Array:", updatedData);
   // Return the updated array to update the state
   return updatedData;
 });
-
-const payload = {
-  name: `${formData.firstName} ${formData.lastName}`,
-  email: formData.email,
-  mobile: formData.mobile,
-  organization_name: formData.organisation, 
-  designation: formData.designation,
-  countryName:selectedCountryName,      
-  country_id:selectedCountryId,          // Fixed to map correctly to 'country' field
-  website: formData.website,                  // Fixed to map correctly to 'website' field
-  about_us: formData.aboutus,                 // Correct mapping for 'about_us'
-  gst: formData.gst,                          // Correct mapping for 'gst'
-  no_of_employee: formData.noofemployeesId,     // Corrected from duplicated 'designation'
-  turnover: formData.turnover,                // Correct mapping for 'turnover'
-  classfication_industry_id:formData.classfication_industry_id,
-  specialisation:formData.specialization,
-  tags:formData.tags,
-  nature_industry:formData.turnover,
-  company_logo:formData.logo,
-  subsectorId:formData.subsectorId,
-
- // Add updated address data here
-  address:  addressData.map((address) => ({
-    state: address.stateId,        // Use stateId instead of state name
-    district: address.districtId,  // Use districtId instead of district name
-    pincode: address.pincode,      // Submit pincode if required
-    address: address.address,      // Submit address if required
-    tag: address.tag,
-  })),
-};
-
-console.log("form datata",payload)
 
   const token = localStorage.getItem("access_token");
 console.log("check token",token);
@@ -380,7 +361,15 @@ console.log("check token",token);
 
   if (!validateForm()) {
     try {
-
+      const nature_industry = formData.natureofindustryId
+      ? Object.assign(
+          {}, 
+          formData.natureofindustryId.split(',').map(Number).reduce((acc, val, index) => {
+            acc[`nature_industry[${index}]`] = val;
+            return acc;
+          }, {})
+        )
+      : {};
       const payload = {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
@@ -388,7 +377,8 @@ console.log("check token",token);
         organization_name: formData.organisation, 
         designation: formData.designation,
         countryName:selectedCountryName,      
-        country_id:selectedCountryId,                // Fixed to map correctly to 'country' field
+        country_id:selectedCountryId,   
+        website:formData.website,             // Fixed to map correctly to 'country' field
         about_us: formData.aboutus,                 // Correct mapping for 'about_us'
   gst: formData.gst,                          // Correct mapping for 'gst'
   no_of_employee: formData.noofemployeesId,     // Corrected from duplicated 'designation'
@@ -396,22 +386,21 @@ console.log("check token",token);
   classfication_industry_id:formData.classfication_industry_id,
   specialisation:formData.specializationId,
   tags:formData.tags,
-  nature_industry:formData.natureofindustryId,
   company_logo:formData.logo,
   subsectorId:formData.subsectorId,
   subsector:formData.subsector,
        // Add updated address data here
-        address: dataToSubmit, 
+        ...dataArraySubmit, 
+        ...nature_industry,
       };
       console.log("form datata",payload)
 
       const token = localStorage.getItem("access_token");
-       alert(token);
-      // if (!token) {
-      //   toast.error("Session expired. Please log in again.");
-      //   navigate("/corporate-login"); // Redirect user to login page if token is missing
-      //   return;
-      // }
+      if (!token) {
+        toast.error("Session expired. Please log in again.");
+        navigate("/corporate-login"); // Redirect user to login page if token is missing
+        return;
+      }
 
       // Use the environment variable for the API URL
       const apiUrl = process.env.REACT_APP_CORPORATE_COMPLETE_REGISTER_API;
@@ -509,7 +498,7 @@ const handleTagsChange = (tags) => {
                   setPhoneInParent={updatePhoneInParent}// Pass the function to the child
                   useremail = {userEmail}
                   userMobile={userMobile}
-                
+                  setIsprefilledEmail={setIsprefilledEmail}
                         onCountrySelect={handleCountrySelect}
                         selectedCountryName={selectedCountryName}
                         selectedCountryId={selectedCountryId}
