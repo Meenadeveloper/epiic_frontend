@@ -76,19 +76,9 @@ useEffect(() => {
       console.error("Error fetching data:", error);
       toast.error("Failed to prefill form data.");
     });
-}, []); // Empty dependency array to run on mount only
-useEffect(() => {
-  if (userEmail !== null) {
-    setIsprefilledEmail(true);
-    console.log('Updated userEmail state:', userEmail);
-  }
-}, [userEmail]); // Runs every time userEmail changes
+  }, []);
 
-useEffect(() => {
-  if (userMobile !== null) {
-    console.log('Updated userMobile state:', userMobile);
-  }
-}, [userMobile]); // This will run whenever userMobile changes
+
 
   const [formErrors, setFormErrors] = useState({
    firstName: "",
@@ -113,6 +103,22 @@ useEffect(() => {
   const [isPhoneVerified, setIsPhoneVerified] = useState(false); // New state for phone verification
   const [isAddressFilled, setIsAddressFilled] = useState(false); // New state for address verification
   const[ispreFilledEmail, setIsprefilledEmail] = useState(false);
+ 
+  useEffect(() => {
+    if (userEmail !== null) {
+      setIsprefilledEmail(true);
+      console.log('Updated userEmail state:', userEmail);
+    }
+  }, []); // Runs every time userEmail changes
+  
+  useEffect(() => {
+    if (userMobile !== null) {
+      console.log('Updated userMobile state:', userMobile);
+    }
+  }, []); // This will run whenever userMobile changes
+
+
+
 // State to store address data
 const [addressData, setAddressData] = useState([]);
 
@@ -121,8 +127,7 @@ const handleAddressDataChange = (addresses) => {
   setAddressData(addresses);
   console.log("Updated Address Data in Parent:", addresses);
 };
-  const [userData, setUserData] = useState(null);
-  const [token, setToken] = useState(null);
+ 
 
   const gstPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[0-9A-Z]{1}$/;
   const [gstsuccessMessage, setGstsuccessMessage] = useState(false);
@@ -222,11 +227,11 @@ const handleAddressDataChange = (addresses) => {
     errors.designation = "Designation is required.";
     isValid = false;
   }
-  if (!formData.website.trim()) {
+  if (!formData.website) {
     errors.website = "Website is required.";
     isValid = false;
   }
-  if (!formData.classfication_industry_id.trim()) {
+  if (!formData.classfication_industry_id) {
     errors.country = "Country is required.";
     isValid = false;
   }
@@ -234,7 +239,7 @@ const handleAddressDataChange = (addresses) => {
     errors.aboutus = "About us is required.";
     isValid = false;
   }
-  if (!formData.noofemployees.trim()) {
+  if (!formData.noofemployees) {
     errors.noofemployees = "No of employees is required.";
     isValid = false;
 }
@@ -247,7 +252,7 @@ const handleAddressDataChange = (addresses) => {
     errors.gst = "Invalid GST No. Please enter a valid GST number.";
     isValid = false;
   }
-  if (!formData.turnover.trim()) {
+  if (!formData.turnover) {
     errors.turnover = "Turn Over Organization is required.";
     isValid = false;
   }
@@ -255,16 +260,16 @@ const handleAddressDataChange = (addresses) => {
     errors.natureofindustry = "Nature of Industry is required.";
     isValid = false;
   }
-  if (!formData.classifiedindustry.trim()) {
+  if (!formData.classifiedindustry) {
     errors.classifiedindustry = "Classified Industry is required.";
     isValid = false;
   }
 
-  if (!formData.subsector.trim()) {
+  if (!formData.subsector) {
     errors.subsector = "Sub sector is required.";
     isValid = false;
   }
-  if (!formData.specialization.trim()) {
+  if (!formData.specialization) {
     errors.specialization = "Specialization is required.";
     isValid = false;
   }
@@ -276,17 +281,18 @@ const handleAddressDataChange = (addresses) => {
 
   // If there are any errors, set them
   setFormErrors(errors);
+  console.log("errors",errors);
   return isValid;
 };
 
-useEffect(() => {
-  // Retrieve the token and form data from localStorage
-  const token = localStorage.getItem('access_token');
-  //const formData = JSON.parse(localStorage.getItem('form_data'));
-  if (token) {
-    setToken(token);
-  }
-}, []);
+// useEffect(() => {
+//   // Retrieve the token and form data from localStorage
+//   const token = localStorage.getItem('access_token');
+//   //const formData = JSON.parse(localStorage.getItem('form_data'));
+//   if (token) {
+//     setToken(token);
+//   }
+// }, []);
 
 // Function to update only the email field
 const updateEmailInParent = (newEmail) => {
@@ -370,6 +376,29 @@ console.log("check token",token);
           }, {})
         )
       : {};
+
+      // selected values convert to  array format
+      const subsector = formData.subsectorId
+      ? Object.assign(
+          {}, 
+          formData.subsectorId.split(',').map(Number).reduce((acc, val, index) => {
+            acc[`subsector[${index}]`] = val;
+            return acc;
+          }, {})
+        )
+      : {};
+
+      // selected values convert to  array format
+      const specialisation = formData.specializationId
+      ? Object.assign(
+          {}, 
+          formData.specializationId.split(',').map(Number).reduce((acc, val, index) => {
+            acc[`specialisation[${index}]`] = val;
+            return acc;
+          }, {})
+        )
+      : {};
+
       const payload = {
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
@@ -388,19 +417,21 @@ console.log("check token",token);
   tags:formData.tags,
   company_logo:formData.logo,
   subsectorId:formData.subsectorId,
-  subsector:formData.subsector,
+  subsector:formData.subsectorId,
        // Add updated address data here
         ...dataArraySubmit, 
         ...nature_industry,
+        ...subsector,
+        ...specialisation,
       };
       console.log("form datata",payload)
 
       const token = localStorage.getItem("access_token");
-      if (!token) {
-        toast.error("Session expired. Please log in again.");
-        navigate("/corporate-login"); // Redirect user to login page if token is missing
-        return;
-      }
+      // if (!token) {
+      //   toast.error("Session expired. Please log in again.");
+      //   navigate("/corporate-login"); // Redirect user to login page if token is missing
+      //   return;
+      // }
 
       // Use the environment variable for the API URL
       const apiUrl = process.env.REACT_APP_CORPORATE_COMPLETE_REGISTER_API;

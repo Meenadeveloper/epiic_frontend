@@ -21,7 +21,6 @@ function NoOfEmployees({
       
         useEffect(() => {
           const apiUrl = process.env.REACT_APP_COMMON_API_URL;
-              console.log('API URL:', apiUrl); // This should now log the correct URL
           fetch(apiUrl)
             .then((response) => {
               if (!response.ok) {
@@ -40,10 +39,10 @@ function NoOfEmployees({
             });
         }, []);
         
-        useEffect(() => {
-          console.log('Selected Option:', selectedOption);
-          console.log('Input Value:', inputValue);
-        }, [selectedOption, inputValue]);
+        // useEffect(() => {
+        //   console.log('Selected Option:', selectedOption);
+        //   console.log('Input Value:', inputValue);
+        // }, [selectedOption, inputValue]);
         
         // Handle changes in the select input
         const handleSelectChange = (option) => {
