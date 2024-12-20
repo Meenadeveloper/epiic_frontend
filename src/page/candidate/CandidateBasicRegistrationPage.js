@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import Blue from "../../assets/images/college_basic_blue.png";
 import Yellow from "../../assets/images/college_basic_yellow.png";
 import Purple from "../../assets/images/college_basic_purple.png";
-import CandidateBasicRegisterForm from "../../components/CandidateBasicRegisterForm";
+import CandidateBasicRegisterForm from "../../components/Candidate/CandidateBasicRegisterForm";
 function CandidateBasicRegistrationPage() {
     const BlueBox = {
         top: "52.27px",

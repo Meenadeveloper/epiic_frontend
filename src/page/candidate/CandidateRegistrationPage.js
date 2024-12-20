@@ -1,8 +1,8 @@
 import Header from "../../components/Header";
-import Blue from "../assets/images/college_basic_blue.png";
-import Yellow from "../assets/images/college_basic_yellow.png";
-import Purple from "../assets/images/college_basic_purple.png";
-import CandidateRegisterForm from "../../components/CandidateRegisterForm";
+import Blue from "../../assets/images/college_basic_blue.png";
+import Yellow from "../../assets/images/college_basic_yellow.png";
+import Purple from "../../assets/images/college_basic_purple.png";
+import CandidateCompleteRegisterForm from "../../components/Candidate/CandidateCompleteRegisterForm";
 function CandidateRegistrationPage() {
     const BlueBox = {
         top: "600.42px",
@@ -63,7 +63,7 @@ function CandidateRegistrationPage() {
 
         <div className="page-wrapper" style={{overflowY:'unset'}}>
           <Header />
-          <CandidateRegisterForm/>
+          <CandidateCompleteRegisterForm/>
         </div>
       </div>
     </>

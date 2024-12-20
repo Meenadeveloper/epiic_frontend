@@ -10,9 +10,9 @@ import CorporateBasicRegistrationPage from './page/CorporateBasicRegistrationPag
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CandidateBasicRegistrationPage from './page/CandidateBasicRegistrationPage';
-import CandidateRegistrationPage from './page/CandidateRegistrationPage';
-import CandidateLoginPage from './page/CandidateLoginPage';
+import CandidateBasicRegistrationPage from './page/candidate/CandidateBasicRegistrationPage';
+import CandidateRegistrationPage from './page/candidate/CandidateRegistrationPage';
+import CandidateLoginPage from './page/candidate/CandidateLoginPage';
 import axios from 'axios';
 import CorporateDashboard from './page/corporate/CorporateDashboard';
 import CollegeLoginPage from './page/college/CollegeLoginPage';

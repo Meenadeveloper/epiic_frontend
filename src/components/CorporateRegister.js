@@ -350,8 +350,6 @@ setAddressData(prevData => {
   return updatedData;
 });
 
-  const token = localStorage.getItem("access_token");
-console.log("check token",token);
   if (!isEmailVerified) {
     toast.error("Please verify your email OTP.");
     return;
@@ -365,7 +363,7 @@ console.log("check token",token);
     return;
   }
 
-  if (!validateForm()) {
+  if (validateForm()) {
     try {
       const nature_industry = formData.natureofindustryId
       ? Object.assign(

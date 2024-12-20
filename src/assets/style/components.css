@@ -1438,6 +1438,20 @@ margin-top: -10px;
 padding-left: 10px;
 padding-bottom: 10px;
 }
+.stydy-course-box{
+  border: 1px solid rgba(0, 0, 0, 1);
+  border-radius: 20px;
+  padding: 10px;
+}
+.study-course-heading-txt{
+  color: rgba(0, 0, 0, 1);
+  font-family: Montserrat;
+font-size: 18px;
+font-weight: 700;
+padding-left: 10px;
+padding-top: 10px;
+padding-bottom: 20px;
+}
 @media (max-width: 900px) {
   /* On smaller screens (900px or less), use 2 columns */
   .college-data-container {

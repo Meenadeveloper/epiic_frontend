@@ -1,8 +1,8 @@
-import Header from "../components/Header";
-import Blue from "../assets/images/blue.png";
-import Yellow from "../assets/images/yellow.png";
-import Purple from "../assets/images/purple.png";
-import CandidateLoginForm from "../components/CandidateLoginForm";
+import Header from "../../components/Header";
+import Blue from "../../assets/images/blue.png";
+import Yellow from "../../assets/images/yellow.png";
+import Purple from "../../assets/images/purple.png";
+import CandidateLoginForm from "../../components/CandidateLoginForm";
 function CandidateLoginPage() {
 
   const BlueBox = {

@@ -3,7 +3,7 @@ import NoOfEmployees from "./corporate/NoOfEmployees"
 import TurnOverOrganization from "./corporate/TurnOverOrganization"
 import NatureOfIndustry from './corporate/NatureOfIndustry';
 import ClassificationOfIndustry from "./corporate/ClassificationOfIndustry";
-import SubSector from "./Candidate/SubSector";
+import SubSector from "./corporate/SubSector";
 import Specialization from "./corporate/Specialization";
 import CreatableTags from "./corporate/CreatableTags";
 
