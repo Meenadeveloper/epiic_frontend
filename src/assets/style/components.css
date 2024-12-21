@@ -1455,6 +1455,137 @@ padding-bottom: 20px;
   border-radius: 20px;
   padding: 10px;
 }
+.institute-radio-box{
+  flex-wrap: nowrap;
+}
+
+/* candidate registration */
+.candidate-register{
+   max-width: 1130px;
+   width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+
+}
+.candidate-register-form-box{
+ background: rgba(255, 255, 255, 0.75);
+   border: 1px solid rgba(0, 0, 0, 0.603);
+   border-radius: 20px;
+   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+}
+.reg-form-content-box{
+  border: 1px solid rgba(0, 0, 0, 0.514);
+  max-width: 1056px;
+  width:100%;
+  margin: 0 auto;
+  border-radius: 20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  padding: 20px 20px;
+
+}
+.form-step-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
+  margin: 0 auto;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.form-step {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  background-color: #d1d1d1;
+  border-radius: 5px;
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+  font-size: 24px;
+  z-index: 1;
+  position: relative;
+  transition: all 0.5s ease;
+}
+.form-step:hover{
+  background-color: #fcfcfc;
+  cursor: pointer;
+}
+
+.form-step-line {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  right: 30px;
+  height: 2px;
+  background-color: #ccc;
+  z-index: 0;
+}
+.form-step:nth-child(1) + .form-step-line {
+  left: 20px;
+  right: calc(100% - 115px); /* Adjusted to touch step 2 */
+}
+
+.form-step:nth-child(2) + .form-step-line {
+  left: 20px;
+  right: calc(100% - 150px); /* Adjusted to perfectly touch step 3 */
+}
+.inline-txt{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-bottom: 20px ;
+}
+.technical-skillset-container{
+  border: 1px solid rgba(0, 0, 0, 0.603);
+  border-radius: 20px;
+  padding:25px  20px;
+}
+.heading-sub-txt{
+    font-family: Montserrat;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    color: rgba(0, 0, 0, 0.664);
+    margin-bottom: 10px;
+}
+.auto-fit-row{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.auto-fit-column {
+  margin: 10px;
+  flex: 1 1 calc(33.333% - 20px); /* 3 columns layout with margins */
+  min-width: 280px; /* Ensures it doesn't get too small */
+}
+.skill-select-box{
+  max-width: 150px;
+}
+@media (max-width: 768px) {
+  .form-step-container {
+      width: 100%;
+      padding: 0 10px;
+  }
+
+  .form-step {
+      width: 30px;
+      height: 30px;
+      font-size: 14px;
+  }
+
+  .form-step-line {
+      left: 35px;
+      right: 35px;
+  }
+}
 @media (max-width: 900px) {
   /* On smaller screens (900px or less), use 2 columns */
   .college-data-container {
@@ -1464,6 +1595,9 @@ padding-bottom: 20px;
     font-size: 16px;
     color: #333;
     text-wrap-mode: wrap;
+  }
+  .institute-radio-box{
+    flex-wrap: wrap;
   }
 }
 
@@ -1509,6 +1643,13 @@ padding-bottom: 20px;
     transform: translate(-50%, -200%);
     border: 10px solid transparent;
   }
+  .reg-form-content-box{
+    border: none;
+    padding: 5px;
+  }
+  .technical-skillset-container{
+    padding: 5px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -1520,4 +1661,5 @@ padding-bottom: 20px;
     padding: 0px  10px ;
     
   }
+  
 }

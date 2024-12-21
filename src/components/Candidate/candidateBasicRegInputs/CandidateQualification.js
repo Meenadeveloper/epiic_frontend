@@ -4,22 +4,27 @@ import { components } from 'react-select';
 import { ReactComponent as DownArrow } from '../../../assets/images/Sort Right.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/images/Search.svg'; // Import search icon
 
-function InstituteNameInput({ formData, formErrors, handleChange, name, districtId }) {
-  // States for selected option, input value, and API data
+function CandidateQualification({
+    name,
+    formData,
+    formErrors,
+    handleChange,
+}) {
+  
+     // States for selected option, input value, and API data
   const [selectedOption, setSelectedOption] = useState(
-    formData.subsector ? { label: formData.subsector, value: formData.subsectorId } : null
+    formData.qualification ? { label: formData.qualification, value: formData.qualificationId } : null
   );
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false); // Track focus state
-  const [turnoverRanges, setTurnoverRanges] = useState([]); // State for college data from API
+  const [qualifications, setQualifications] = useState([]); // State for college data from API
   
 
   useEffect(() => {
-    const apiUrl = process.env.REACT_APP_COLLEGE_API_URL;
-    const fullUrl = `${apiUrl}?district_id=${districtId}`;
-    console.log('Fetching college data from:', fullUrl);
+    const apiUrl = process.env.REACT_APP_CANDIDATE_GET_DATA_API;
+    console.log('Fetching college data from:', apiUrl);
 
-    fetch(fullUrl)
+    fetch(apiUrl)
       .then((response) => {
         if (!response.ok) {
           console.error('Network response was not ok:', response.statusText);
@@ -28,13 +33,12 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
         return response.json();
       })
       .then((data) => {
-        console.log('Fetched college data:', data);
-        setTurnoverRanges(data.colleges); // Update state with fetched data
+        setQualifications(data.qualification); // Update state with fetched data
       })
       .catch((error) => {
         console.error('Error fetching college data:', error);
       });
-  }, [districtId]);
+  }, []);
 
   // Handle changes in the select input
   const handleSelectChange = (option) => {
@@ -44,20 +48,20 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
       // Clear the selection
       setSelectedOption(null);
       handleChange({
-        target:{ name: 'collegeName', value: '' },
+        target:{ name: {name}, value: '' },
       });
       handleChange({
-        target: { name: 'college_id', value: '' },
+        target: { name: 'qualificationId', value: '' },
       });
       return;
     }
 
     setSelectedOption(option);
     handleChange({
-      target: { name:'collegeName', value: option.label }, // Update the displayed name
+      target: { name:{name}, value: option.label }, // Update the displayed name
     });
     handleChange({
-      target: { name: 'college_id', value: option.value }, // Set college ID
+      target: { name: 'qualificationId', value: option.value }, // Set college ID
     });
   };
 
@@ -120,28 +124,31 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
     }),
   };
 
-  const selectOptions = turnoverRanges.map((range) => ({
+  const selectOptions = qualifications.map((range) => ({
     value: String(range.id), // Ensure value is a string
-    label: range.name2, // Display name
+    label: range.department_name, // Display name
   }));
 
+
   return (
-    <div className="register-form-control">
-      <label className="register-label">Name Of the Institution</label>
+    <>
+      <div className="register-form-control">
+      <label className="register-label">Qualification</label>
       <Select
         isClearable
         value={selectedOption}
         options={selectOptions}
         onChange={handleSelectChange}
         onInputChange={handleInputChange}
-        placeholder="Name Of the Institution"
+        placeholder="Qualification"
         styles={customStyles}
         components={{ DropdownIndicator: CustomDropdownIndicator }}
       />
 
-      {formErrors.college_id && <p className="error">{formErrors.college_id}</p>}
+{formErrors[name] && <p className="error">{formErrors[name]}</p>}  
     </div>
-  );
+    </>
+  )
 }
 
-export default InstituteNameInput;
+export default CandidateQualification

@@ -1,17 +1,26 @@
+
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select'; // Use Select instead of CreatableSelect
 import { components } from 'react-select';
 import { ReactComponent as DownArrow } from '../../../assets/images/Sort Right.svg';
 import { ReactComponent as SearchIcon } from '../../../assets/images/Search.svg'; // Import search icon
 
-function InstituteNameInput({ formData, formErrors, handleChange, name, districtId }) {
-  // States for selected option, input value, and API data
+function CandidateInsitituteName({
+    formData,
+    formErrors, 
+    handleChange, 
+    name,
+    institute_type,
+    districtId,
+}) {
+
+     // States for selected option, input value, and API data
   const [selectedOption, setSelectedOption] = useState(
-    formData.subsector ? { label: formData.subsector, value: formData.subsectorId } : null
+    formData.instituteName ? { label: formData.instituteName, value: formData.instituteId } : null
   );
   const [inputValue, setInputValue] = useState('');
   const [isFocused, setIsFocused] = useState(false); // Track focus state
-  const [turnoverRanges, setTurnoverRanges] = useState([]); // State for college data from API
+  const [collegeNames, setcollegeNames] = useState([]); // State for college data from API
   
 
   useEffect(() => {
@@ -28,8 +37,7 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
         return response.json();
       })
       .then((data) => {
-        console.log('Fetched college data:', data);
-        setTurnoverRanges(data.colleges); // Update state with fetched data
+        setcollegeNames(data.colleges); // Update state with fetched data
       })
       .catch((error) => {
         console.error('Error fetching college data:', error);
@@ -44,20 +52,20 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
       // Clear the selection
       setSelectedOption(null);
       handleChange({
-        target:{ name: 'collegeName', value: '' },
+        target:{ name: {name}, value: '' },
       });
       handleChange({
-        target: { name: 'college_id', value: '' },
+        target: { name: 'instituteId', value: '' },
       });
       return;
     }
 
     setSelectedOption(option);
     handleChange({
-      target: { name:'collegeName', value: option.label }, // Update the displayed name
+      target: { name:{name}, value: option.label }, // Update the displayed name
     });
     handleChange({
-      target: { name: 'college_id', value: option.value }, // Set college ID
+      target: { name: 'instituteId', value: option.value }, // Set college ID
     });
   };
 
@@ -120,13 +128,15 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
     }),
   };
 
-  const selectOptions = turnoverRanges.map((range) => ({
+  const selectOptions = collegeNames.map((range) => ({
     value: String(range.id), // Ensure value is a string
     label: range.name2, // Display name
   }));
 
+
   return (
-    <div className="register-form-control">
+    <>
+        <div className="register-form-control">
       <label className="register-label">Name Of the Institution</label>
       <Select
         isClearable
@@ -139,9 +149,10 @@ function InstituteNameInput({ formData, formErrors, handleChange, name, district
         components={{ DropdownIndicator: CustomDropdownIndicator }}
       />
 
-      {formErrors.college_id && <p className="error">{formErrors.college_id}</p>}
-    </div>
-  );
+      {formErrors.instituteName && <p className="error">{formErrors.instituteName}</p>}
+    </div>  
+    </>
+  )
 }
 
-export default InstituteNameInput;
+export default CandidateInsitituteName

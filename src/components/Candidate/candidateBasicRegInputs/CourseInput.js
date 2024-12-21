@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CandidateStateInput from './CandidateStateInput';
 import CandidateDistrictInput from './CandidateDistrictInput';
+import CandidateInstituteType from './CandidateInstituteType';
+import CandidateInsitituteName from './CandidateInsitituteName';
+import CandidateQualification from './CandidateQualification';
+import CandidateCourseNameInput from './CandidateCourseNameInput';
+import CandidateSpecialization from './CandidateSpecialization';
 
 function CourseInput({ 
   formData,
@@ -15,6 +20,9 @@ function CourseInput({
    onDistrictSelect,
    selectedDistrictId,
    selectedDistrictName,
+
+   districtId,
+   institute_type,
    }) {
   return (
     <>
@@ -90,8 +98,62 @@ function CourseInput({
                       stateId={stateId}
                       />
                     </div>
-                    </div>
-</div>
+                     </div>
+
+                     <div className="register-row">
+                       <div className="register-col">
+                         <CandidateInstituteType
+                          name="institute_type"
+                        formData={formData}
+                        formErrors={formErrors}
+                        handleChange={handleChange}
+                         />
+                       </div>
+
+                       <div className="register-col">
+                         <CandidateInsitituteName
+                          name="instituteName"
+                        formData={formData}
+                        formErrors={formErrors}
+                        handleChange={handleChange}
+                        districtId={districtId}
+                        institute_type={institute_type}
+                         />
+                       </div>
+                     </div>
+
+                     <div className="register-row">
+                       <div className="register-col">
+                         <CandidateQualification
+                          name="qualification"
+                        formData={formData}
+                        formErrors={formErrors}
+                        handleChange={handleChange}
+                         />
+                       </div>
+
+                       <div className="register-col">
+                         <CandidateCourseNameInput
+                          name="courseName"
+                        formData={formData}
+                        formErrors={formErrors}
+                        handleChange={handleChange}
+                      
+                         />
+                       </div>
+                     </div>
+
+                     <div className="register-row">
+                       <div className="register-col">
+                          <CandidateSpecialization
+                             name="Specialization"
+                        formData={formData}
+                        formErrors={formErrors}
+                        handleChange={handleChange}
+                          />
+                       </div>
+                       </div>
+               </div>
 )}                   
       </section>
     </>

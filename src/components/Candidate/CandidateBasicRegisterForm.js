@@ -38,10 +38,14 @@ const [formData, setFormData] = useState({
     districtName:'',
     districtId:'',
     institute_type:'',
-    institute_name:'',
+    instituteName:'',
+    instituteId:'',
     qualification:'',
-    course:'',
-    Specialization:'',
+    qualificationId:'',
+    courseName:'',
+    courseId:'',
+    specialization:'',
+    specializationId:'',
    
   });
 
@@ -157,10 +161,20 @@ const updatePhoneInParent = (newPhone) => {
             stateName:formData.stateName,
             district:formData.districtId,
             districtName:formData.districtName,
+            institute_type:formData.institute_type,
+            instituteName:formData.instituteName,
+            instituteId:formData.instituteId,
+            qualification:formData.qualification,
+            qualificationId:formData.qualificationId,
+            courseName:formData.courseName,
+            courseId:formData.courseId,
+            Specialization:formData.specialization,
+            SpecializationId:formData.specializationId,
+
            
           };
            // Log the payload for debugging
-          //  console.log(payload);
+           console.log(payload);
   
           const url = process.env.REACT_APP_CANDIDATE_POST_REG_API;
           const params = new URLSearchParams(payload).toString();
@@ -359,6 +373,9 @@ const updatePhoneInParent = (newPhone) => {
                        selectedDistrictName={formData.districtName}
                        selectedDistrictId={formData.districtId}
                        stateId={formData.stateId}  // Pass stateId from formData here
+                       districtId={formData.districtId}
+                       institute_type={formData.institute_type}
+
                      
                        />
                                 

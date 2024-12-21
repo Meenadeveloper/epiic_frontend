@@ -19,6 +19,7 @@ import CollegeLoginPage from './page/college/CollegeLoginPage';
 import CollegeBasicRegistrationPage from './page/college/CollegeBasicRegistrationPage';
 import CollegeRegistrationPage from './page/college/CollegeRegistrationPage';
 import CollegeDashboard from './components/College/CollegeDashboard';
+import CandidateStepOneRegPage from './page/candidate/CandidateStepOneRegPage';
 function App() {
   return (
     <>
@@ -41,7 +42,9 @@ function App() {
 
 
         <Route path="/candidate-login" element={<CandidateLoginPage />} />
-        <Route path="/candidate-basic-register" element={<CandidateBasicRegistrationPage />} />  
+        <Route path="/candidate-basic-register" element={<CandidateBasicRegistrationPage />} /> 
+        <Route path="/candidate-basic-register" element={<CandidateBasicRegistrationPage />} /> 
+        <Route path="/candidate-qualification-register" element={<CandidateStepOneRegPage />} /> 
         <Route path="/candidate-registeration" element={<CandidateRegistrationPage />} />        
       
      
