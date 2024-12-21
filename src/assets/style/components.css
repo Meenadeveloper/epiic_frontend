@@ -1438,10 +1438,8 @@ margin-top: -10px;
 padding-left: 10px;
 padding-bottom: 10px;
 }
-.stydy-course-box{
-  border: 1px solid rgba(0, 0, 0, 1);
-  border-radius: 20px;
-  padding: 10px;
+.study-course-box{
+ 
 }
 .study-course-heading-txt{
   color: rgba(0, 0, 0, 1);
@@ -1451,6 +1449,11 @@ font-weight: 700;
 padding-left: 10px;
 padding-top: 10px;
 padding-bottom: 20px;
+}
+.study-course-border{
+  border: 1px solid rgba(0, 0, 0, 1);
+  border-radius: 20px;
+  padding: 10px;
 }
 @media (max-width: 900px) {
   /* On smaller screens (900px or less), use 2 columns */

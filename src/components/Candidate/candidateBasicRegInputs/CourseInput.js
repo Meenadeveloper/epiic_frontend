@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CandidateStateInput from './CandidateStateInput';
+import CandidateDistrictInput from './CandidateDistrictInput';
 
 function CourseInput({ 
   formData,
    formErrors, 
    handleChange, 
-   handleStateSelect,
+   onStateSelect,
    selectedStateName,
    selectedStateId,
    name,
+
+   stateId,
+   onDistrictSelect,
+   selectedDistrictId,
+   selectedDistrictName,
    }) {
   return (
     <>
-    <section className='stydy-course-box'>
+    <section className={`study-course-box ${formData[name] === "1" ? 'study-course-border' : ''}`}>
      <div className='register-row'>
      <div className='register-col'>
      <div className="register-form-control">
@@ -54,20 +60,39 @@ function CourseInput({
       </div>
       </div>
 
-      <div className=''><p className='study-course-heading-txt'>Details of the College / University and Course Details</p></div>
+ {/* Conditionally render the course input box when "Yes" is selected (formData[name] === "1") */}
+ {formData[name] === "1" && (
+<div className='course-input-box'>
+      <div className=''>
+        <p className='study-course-heading-txt'>Details of the College / University and Course Details</p>
+        </div>
       
               <div className="register-row">
                     <div className="register-col">
                       <CandidateStateInput
                         formData={formData}  // Passing formData to the child
                       formErrors={formErrors}  // Passing formErrors to the child
-                      onStateSelect={handleStateSelect}  // Passing the callback function
+                      onStateSelect={onStateSelect}  // Passing the callback function
                       selectedStateName={selectedStateName}  // Passing the selected state name (edit mode)
                       selectedStateId={selectedStateId}  // Passing the selected state ID (edit mode)
                       name="state_name"  // Name for the hidden input
                       />
                     </div>
+
+                    <div className="register-col">
+                      <CandidateDistrictInput
+                        formData={formData}  // Passing formData to the child
+                      formErrors={formErrors}  // Passing formErrors to the child
+                      onDistrictSelect={onDistrictSelect}  // Passing the callback function
+                      selectedDistrictName={selectedDistrictName}  // Passing the selected state name (edit mode)
+                      selectedDistrictId={selectedDistrictId}  // Passing the selected state ID (edit mode)
+                      name="districtName"  // Name for the hidden input
+                      stateId={stateId}
+                      />
                     </div>
+                    </div>
+</div>
+)}                   
       </section>
     </>
   )

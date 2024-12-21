@@ -35,7 +35,8 @@ const [formData, setFormData] = useState({
     study_course:'',
     stateId: '',
     stateName: '',
-    district:'',
+    districtName:'',
+    districtId:'',
     institute_type:'',
     institute_name:'',
     qualification:'',
@@ -65,8 +66,6 @@ const updatePhoneInParent = (newPhone) => {
    console.log('Updated email in parent:', newPhone);
 };
 
-const [selectedStateId, setSelectedStateId] = useState('');
-  const [selectedStateName, setSelectedStateName] = useState('');
 
   // This function is called by StateInput when a state is selected
   const handleStateSelect = (stateId, stateName) => {
@@ -154,6 +153,10 @@ const [selectedStateId, setSelectedStateId] = useState('');
             gender:formData.gender,
             password:formData.password,
             study_course:formData.study_course,
+            state:formData.stateId,
+            stateName:formData.stateName,
+            district:formData.districtId,
+            districtName:formData.districtName,
            
           };
            // Log the payload for debugging
@@ -351,6 +354,12 @@ const [selectedStateId, setSelectedStateId] = useState('');
                         onStateSelect={handleStateSelect} // Passing the callback function
                       selectedStateName={formData.stateName}  // Passing the selected state name (edit mode)
                       selectedStateId={formData.stateId}  // Passing the selected state ID (edit mode)
+
+                      onDistrictSelect={handleDistrictSelect} 
+                       selectedDistrictName={formData.districtName}
+                       selectedDistrictId={formData.districtId}
+                       stateId={formData.stateId}  // Pass stateId from formData here
+                     
                        />
                                 
 
