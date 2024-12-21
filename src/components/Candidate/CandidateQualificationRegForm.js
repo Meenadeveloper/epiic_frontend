@@ -1,7 +1,18 @@
 import CandidateQualificationStep from "./CandidateQualificationStep";
+import TechnicalSkillBranch from "./CandidateStepOneInputs/TechnicalSkillBranch";
+import React, { useState } from 'react';
 
 
 function CandidateQualificationRegForm() {
+const [formData, setFormData] = useState({
+    qualification:'',
+})
+  
+  const [formErrors, setFormErrors] = useState({});
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
   return (
     <>
          <div className='register-container'>
@@ -44,7 +55,11 @@ function CandidateQualificationRegForm() {
                       <div className="auto-fit-row">
                         <div className="auto-fit-column">
                            <div className="skill-select-box">
-                              
+                              <TechnicalSkillBranch
+                               formData={formData}
+                        formErrors={formErrors}
+                        handleChange={handleChange}
+                              />
                            </div>
                         </div>
                         <div className="auto-fit-column">
