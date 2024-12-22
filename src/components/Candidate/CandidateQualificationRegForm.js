@@ -1,18 +1,82 @@
 import CandidateQualificationStep from "./CandidateQualificationStep";
-import TechnicalSkillBranch from "./CandidateStepOneInputs/TechnicalSkillBranch";
 import React, { useState } from 'react';
+import TechnicalSkillSetManager from "./CandidateStepOneInputs/TechnicalSkillSetManager";
+import QualificationManager from "./CandidateStepOneInputs/QualificationManager";
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import CertificateInput from "./CandidateStepOneInputs/CertificateInput";
 
 
 function CandidateQualificationRegForm() {
 const [formData, setFormData] = useState({
+     technical_skill:'',
+     technical_skill_id:'',
+    skill_set_id:'',
+    skill_set:'',
+    certifications:'',
+    certificationsId:'',
     qualification:'',
+    type:'',
+
+    
+
 })
   
   const [formErrors, setFormErrors] = useState({});
-  const handleChange = (event) => {
+
+   // Manage multiple input groups
+   const [inputGroups, setInputGroups] = useState([
+    { 
+      technical_skill: '', 
+      technical_skill_id:'',
+      skill_set: '' ,
+      skill_set_id:'',
+    }
+  ]);
+
+
+
+  const handleChange = (event, index) => {
     const { name, value } = event.target;
+
     setFormData({ ...formData, [name]: value });
+
+    const updatedGroups = [...inputGroups];
+    updatedGroups[index][name] = value;
+    setInputGroups(updatedGroups);
+    // Log the selected value's label
+    // console.log(`Selected ${name} at index ${index}:`, value);
   };
+
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const payload = {
+        technical_skill:formData.technical_skill,
+        technical_skill_id:formData.technical_skill_id,
+        skill_set_id:formData.skill_set_id,
+        certifications:formData.certifications,
+        certificationsId:formData.certificationsId,
+        qualification:formData.qualification,
+        type:formData.type,
+
+
+      }
+       // Log the payload for debugging
+       console.log(payload);
+
+    }catch (error) {
+       console.error('Error submitting form:', error);
+       toast.error('An error occurred while submitting the form. Please try again later.', {
+      position: 'top-right',
+     className: 'toast-error',
+     });
+   }
+  }
+ 
   return (
     <>
          <div className='register-container'>
@@ -45,35 +109,31 @@ const [formData, setFormData] = useState({
                   <div className='register-heading'>
                   <h2>QUALIFICATION</h2>
                   </div>
+                  <form className='register-form' onSubmit={handleSubmit}>
+                  <QualificationManager
+                  formData={formData}
+                  formErrors={formErrors}
+                  handleChange={handleChange}
+                  
+                  />
 
-                  <section className="technical-skillset-container">
-                      <div className="inline-txt">
-                      <label class="register-label">General Economic class of students</label>
-                      <p class="heading-sub-txt">(This would help us in bringing applicable CSR opportunities to colleges)</p>
-                      </div>
-
-                      <div className="auto-fit-row">
-                        <div className="auto-fit-column">
-                           <div className="skill-select-box">
-                              <TechnicalSkillBranch
-                               formData={formData}
-                        formErrors={formErrors}
-                        handleChange={handleChange}
-                              />
-                           </div>
-                        </div>
-                        <div className="auto-fit-column">
-                            
-                            </div>
-
-                            <div className="auto-fit-column">
-                            
-                            </div>
-                      </div>
-
-                  </section>
+                  <CertificateInput
+                   formData={formData}
+                   formErrors={formErrors}
+                   handleChange={handleChange}
+                  />
 
 
+                 <TechnicalSkillSetManager
+                 formData={formData}
+                 formErrors={formErrors}
+                 handleChange={handleChange}
+                 inputGroups={inputGroups}
+                 setInputGroups={setInputGroups}
+                 />
+              <div class="d-center"><button type="submit" class="save-btn">Submit</button></div>
+
+                 </form>
                 </div>
                 </div> 
             </div>
