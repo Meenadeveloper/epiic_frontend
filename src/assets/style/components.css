@@ -1673,6 +1673,16 @@ font-weight: 600;
   color: #000;
   margin-bottom: 0px;
 }
+.candidate-step-two{
+  max-width: 1250px;
+}
+.reg-form-content-two{
+  max-width: 1200px;
+}
+.register-row-three{
+  display: grid;
+  gap: 20px; 
+}
 @media (max-width: 768px) {
   .form-step-container {
       width: 100%;
@@ -1693,6 +1703,15 @@ font-weight: 600;
   }
   .auto-fit-column {
     width: 100%;
+  }
+  .register-row-three {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
+  }
+}
+/* For smaller screens, switch to 2 columns */
+@media (max-width: 767px) and (min-width: 500px) {
+  .register-row-three {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
   }
 }
 @media (max-width: 900px) {
@@ -1769,6 +1788,9 @@ font-weight: 600;
   .college-data-item {
     padding: 0px  10px ;
     
+  }
+  .register-row-three {
+    grid-template-columns: 1fr; /* 1 column for small screens */
   }
   
 }

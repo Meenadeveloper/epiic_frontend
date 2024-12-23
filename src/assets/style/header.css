@@ -199,6 +199,78 @@ align-items: center !important;
     opacity: 1;
     visibility: visible;
 }
+
+/* dashboard header */
+.dashboard-menu-toggle{
+    background: transparent;
+    border: none;
+}
+.dashboard-menu-toggle span{
+    font-size: 30px;
+    font-weight: 600;
+}
+.dashboard-menu{
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 1);
+}
+.dashboard-menu{
+    display: flex;
+    gap: 6px;
+}
+
+.dashboard-link{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.profile-img-box{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.profile-img-box img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+.profile-name-container p{
+    font-size: 12px;
+    font-weight: 500;
+}
+.profile-name-container span{
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.dashboard-asidebar{
+    position: fixed;
+    top: 0px;
+    z-index: 30;
+    inset-inline-start: 0px;
+    width: 230px;
+    padding: 10px;
+}
+.inner-section-aside{
+    background: rgb(23 23 23 / 42%);
+    box-shadow: 2px 2px 15px 0px rgba(0, 0, 0, 0.25);
+    width: 230px;
+    padding: 10px;
+    height: 100vh;
+    overflow-y: auto;
+    border-radius: 20px;
+}
+.dashboard-asidebar.hide{
+    inset-inline-start: -105%;
+}
+.dashboard-main{
+    margin-inline-start: 230px;
+    height: 100%;
+}
+.dashboard-main.left-change{
+    margin-inline-start: 0px;
+}
 @media screen and (min-width:901px) {
     .mobile-main-menu-container{
         display: none;

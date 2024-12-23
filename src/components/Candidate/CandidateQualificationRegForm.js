@@ -14,8 +14,8 @@ const [formData, setFormData] = useState({
     skill_set_id:'',
     skill_set:'',
     certifications:'',
-    certificationsId:'',
-    qualification:'',
+    qualification: { qualificationName: '', qualificationId: '' },
+    course:{courseName:'',courseId:''},
     type:'',
 
     
@@ -48,8 +48,29 @@ const [formData, setFormData] = useState({
     // console.log(`Selected ${name} at index ${index}:`, value);
   };
 
-
+// Function to handle value passed from grandchild
+const handleSelectChange = (name, option) => {
+  setFormData({
+    ...formData,
+    [name]: {
+      [`${name}Name`]: option.label,  // Set label for the specific field
+      [`${name}Id`]: option.value     // Set value for the specific field
+    }
+  });
+};
   
+ // Function to update certifications field in formData
+ const handleTagInputChange = (value) => {
+  setFormData(prevData => {
+      const updatedFormData = { ...prevData, certifications: value };
+      // Log only the certifications field
+      // console.log("Updated Certifications:", updatedFormData.certifications);
+      return updatedFormData;
+  });
+};
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,8 +80,9 @@ const [formData, setFormData] = useState({
         technical_skill_id:formData.technical_skill_id,
         skill_set_id:formData.skill_set_id,
         certifications:formData.certifications,
-        certificationsId:formData.certificationsId,
-        qualification:formData.qualification,
+        qualification:formData.qualification.qualificationName,
+        qualificationId:formData.qualification.qualificationId,
+        course:formData.course.courseId,
         type:formData.type,
 
 
@@ -113,14 +135,15 @@ const [formData, setFormData] = useState({
                   <QualificationManager
                   formData={formData}
                   formErrors={formErrors}
-                  handleChange={handleChange}
+                  onSelectChange={handleSelectChange}
                   
                   />
 
                   <CertificateInput
                    formData={formData}
                    formErrors={formErrors}
-                   handleChange={handleChange}
+                   handleChange={handleTagInputChange}
+                   name="certifications"
                   />
 
 

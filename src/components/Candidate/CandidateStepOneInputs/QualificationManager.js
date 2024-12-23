@@ -1,10 +1,11 @@
 import QualificationInput from "./QualificationInput"
 import PursingInput from "./PursingInput"
+import CourseInput from "./CourseInput"
 
 function QualificationManager({
     formData,
     formErrors,
-    handleChange,
+    onSelectChange,
 }) {
   return (
     <>
@@ -16,7 +17,7 @@ function QualificationManager({
                 formData={formData}
                 formErrors={formErrors}
                 name="qualification"
-                handleChange={handleChange}
+                onSelectChange={onSelectChange}
               />
          </div>
          <div className='register-col'>
@@ -24,7 +25,26 @@ function QualificationManager({
               formData={formData}
               formErrors={formErrors}
               name="type"
-              handleChange={handleChange}
+              onSelectChange={onSelectChange}
+             />
+         </div>
+      </div>
+
+       <div className='register-row'>
+        <div className='register-col'>
+              <CourseInput
+                formData={formData}
+                formErrors={formErrors}
+                name="course"
+                onSelectChange={onSelectChange}
+              />
+         </div>
+         <div className='register-col'>
+             <PursingInput
+              formData={formData}
+              formErrors={formErrors}
+              name="type"
+              onSelectChange={onSelectChange}
              />
          </div>
       </div>                 

@@ -10,9 +10,13 @@ function SkillSetInput({
   formErrors,
   handleChange,
 }) {
-  const [selectedOptions, setSelectedOptions] = useState(
-    formData.qualification ? formData.skill_set.map(skill => ({ label: skill, value: skill })) : []
-  );
+  // const [selectedOptions, setSelectedOptions] = useState(
+  //   formData.qualification ? formData.skill_set.map(skill => ({ label: skill, value: skill })) : []
+  // );
+  // States for selected option, input value, and API data
+    const [selectedOptions, setSelectedOptions] = useState(
+      formData.skill_set ? { label: formData.skill_set, value: formData.skill } : null
+    );
   
   const [inputValue, setInputValue] = useState('');
   const [qualifications, setQualifications] = useState([]); // State for fetched data

@@ -20,6 +20,9 @@ import CollegeBasicRegistrationPage from './page/college/CollegeBasicRegistratio
 import CollegeRegistrationPage from './page/college/CollegeRegistrationPage';
 import CollegeDashboard from './components/College/CollegeDashboard';
 import CandidateStepOneRegPage from './page/candidate/CandidateStepOneRegPage';
+import CandidateDashboard from './page/candidate/Dashboard/CandidateDashboard';
+import CandidatePersonalInformationForm from './components/Candidate/CandidatePersonalInformationForm';
+import CandidatePersonalInformationPage from './page/candidate/CandidatePersonalInformationPage';
 function App() {
   return (
     <>
@@ -45,7 +48,10 @@ function App() {
         <Route path="/candidate-basic-register" element={<CandidateBasicRegistrationPage />} /> 
         <Route path="/candidate-basic-register" element={<CandidateBasicRegistrationPage />} /> 
         <Route path="/candidate-qualification-register" element={<CandidateStepOneRegPage />} /> 
-        <Route path="/candidate-registeration" element={<CandidateRegistrationPage />} />        
+        <Route path="/candidate-personal-information" element={<CandidatePersonalInformationPage />} /> 
+        <Route path="/candidate-registeration" element={<CandidateRegistrationPage />} />  
+        <Route path="/candidate-dashboard" element={<CandidateDashboard />} />        
+      
       
      
      
