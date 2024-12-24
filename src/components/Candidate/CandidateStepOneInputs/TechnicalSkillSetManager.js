@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SkillSetInput from "./SkillSetInput";
 import TechnicalSkillBranch from "./TechnicalSkillBranch";
+import TechnicalSkillSetInput from './TechnicalSkillSetInput';
 function TechnicalSkillSetManager({
     formData,
     formErrors,
@@ -41,10 +42,17 @@ function TechnicalSkillSetManager({
 
                           <div className="auto-fit-column">
                             <div className="skill-set-multiple-box">
-                              <SkillSetInput
+                              {/* <SkillSetInput
                                 formData={formData}
                                 formErrors={formErrors}
                                 handleChange={(e) => handleChange(e, index)}
+                                name="skill_set"
+                              /> */}
+
+                              <TechnicalSkillSetInput
+                                 formData={formData}
+                                 formErrors={formErrors}
+                                  handleChange={(e) => handleChange(e, index)}
                                 name="skill_set"
                               />
                             </div>

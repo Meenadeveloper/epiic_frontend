@@ -2,7 +2,8 @@ import Header from "../../components/Header";
 import Blue from "../../assets/images/college_basic_blue.png";
 import Yellow from "../../assets/images/college_basic_yellow.png";
 import Purple from "../../assets/images/college_basic_purple.png";
-import CandidateQualificationRegForm from "../../components/Candidate/CandidateQualificationRegForm";
+import CandidateQualificationForm from "../../components/Candidate/CandidateQualificationForm";
+import { QualificationProvider } from "../../components/Candidate/QualificationInputs/QualificationContext"; 
 function CandidateStepOneRegPage() {
     const BlueBox = {
         top: "600.42px",
@@ -62,7 +63,9 @@ function CandidateStepOneRegPage() {
 
         <div className="page-wrapper" style={{overflowY:'unset'}}>
           <Header />
-          <CandidateQualificationRegForm/>
+          <QualificationProvider> {/* Wrap the components needing the context */}
+         <CandidateQualificationForm/>
+         </QualificationProvider>
         </div>
       </div>
     </>

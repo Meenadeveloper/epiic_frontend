@@ -1,11 +1,16 @@
 import CandidateQualificationStep from "./CandidateQualificationStep";
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import TechnicalSkillSetManager from "./CandidateStepOneInputs/TechnicalSkillSetManager";
 import QualificationManager from "./CandidateStepOneInputs/QualificationManager";
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import CertificateInput from "./CandidateStepOneInputs/CertificateInput";
 
+const FormContext = createContext();
+
+export function useFormContext() {
+  return useContext(FormContext);
+}
 
 function CandidateQualificationRegForm() {
 const [formData, setFormData] = useState({
@@ -100,73 +105,47 @@ const handleSelectChange = (name, option) => {
   }
  
   return (
-    <>
-         <div className='register-container'>
-           <div className='custom-container'>
-             <div className='register-box'>
-              <div className='back-btn-box'>
-              <button
-                className='back-btn'
-                onClick={() => {
-                  if (window.history.length > 1) {
-                    window.history.back();
-                  } else {
-                    window.location.href = '/'; // Replace '/' with your fallback URL
-                  }
-                }}
-              >
+    <FormContext.Provider value={{
+      formData,
+      formErrors,
+      handleChange,
+      handleSelectChange,
+      handleTagInputChange,
+      inputGroups,
+      setInputGroups,
+    }}>
+      <div className='register-container'>
+        <div className='custom-container'>
+          <div className='register-box'>
+            <div className='back-btn-box'>
+              <button className='back-btn' onClick={() => window.history.back()}>
                 Back
               </button>
             </div>
-
-            <div className='register-form-container '>
-              <div className=' candidate-register'>
-
-              {/* form steps */}
-               
-                 <CandidateQualificationStep/>
-
+            <div className='register-form-container'>
+              <div className='candidate-register'>
+                <CandidateQualificationStep />
                 <div className="candidate-register-form-box">
-                <div className='reg-form-content-box'>
-                  <div className='register-heading'>
-                  <h2>QUALIFICATION</h2>
+                  <div className='reg-form-content-box'>
+                    <div className='register-heading'>
+                      <h2>QUALIFICATION</h2>
+                    </div>
+                    <form className='register-form' onSubmit={handleSubmit}>
+                      <QualificationManager />
+                     
+                      <TechnicalSkillSetManager />
+                      <div className="d-center">
+                        <button type="submit" className="save-btn">Submit</button>
+                      </div>
+                    </form>
                   </div>
-                  <form className='register-form' onSubmit={handleSubmit}>
-                  <QualificationManager
-                  formData={formData}
-                  formErrors={formErrors}
-                  onSelectChange={handleSelectChange}
-                  
-                  />
-
-                  <CertificateInput
-                   formData={formData}
-                   formErrors={formErrors}
-                   handleChange={handleTagInputChange}
-                   name="certifications"
-                  />
-
-
-                 <TechnicalSkillSetManager
-                 formData={formData}
-                 formErrors={formErrors}
-                 handleChange={handleChange}
-                 inputGroups={inputGroups}
-                 setInputGroups={setInputGroups}
-                 />
-              <div class="d-center"><button type="submit" class="save-btn">Submit</button></div>
-
-                 </form>
                 </div>
-                </div> 
+              </div>
             </div>
-            </div>      
-
-
-           </div>
-       </div>
-    </div>
-    </>
+          </div>
+        </div>
+      </div>
+    </FormContext.Provider>
   )
 }
 
